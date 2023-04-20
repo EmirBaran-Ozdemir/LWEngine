@@ -150,11 +150,18 @@
     <ClInclude Include="src\LWEngine\Application.h" />
     <ClInclude Include="src\LWEngine\Core.h" />
     <ClInclude Include="src\LWEngine\EntryPoint.h" />
+    <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\LWEngine\Events\Event.h" />
+    <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
+    <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\LWEngine\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp" />
     <ClCompile Include="src\LWEngine\Log.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

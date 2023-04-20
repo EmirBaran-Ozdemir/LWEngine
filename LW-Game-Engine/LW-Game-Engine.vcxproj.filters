@@ -19,6 +19,10 @@
     <ClInclude Include="src\LWEngine\Log.h">
       <Filter>LWEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Events\Event.h" />
+    <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
+    <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp">
@@ -27,5 +31,8 @@
     <ClCompile Include="src\LWEngine\Log.cpp">
       <Filter>LWEngine</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
