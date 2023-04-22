@@ -30,7 +30,7 @@ namespace LWEngine
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent " << m_KeyCode << " (" << m_repeatCount << " times)";
+			ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_repeatCount << " times)";
 			return ss.str();
 		}
 		
@@ -47,7 +47,7 @@ namespace LWEngine
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyReleasedEvent " << m_KeyCode;
+			ss << "KeyReleasedEvent: " << m_KeyCode;
 			return ss.str();
 		}
 

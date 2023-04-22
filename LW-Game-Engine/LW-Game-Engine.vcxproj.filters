@@ -4,6 +4,15 @@
     <Filter Include="LWEngine">
       <UniqueIdentifier>{7EE53D71-6AB2-987C-93CB-86247FF7CD0A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LWEngine\Events">
+      <UniqueIdentifier>{A2B7E601-0E43-54C6-1754-D7BA835EB0C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LWEngine\Platform">
+      <UniqueIdentifier>{4a4216a0-9bcc-41cb-a6fa-913f83f22e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LWEngine\Platform\Windows">
+      <UniqueIdentifier>{fe5a0716-a2bd-4b2d-9622-239272fc7463}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LWEngine.h" />
@@ -16,13 +25,28 @@
     <ClInclude Include="src\LWEngine\EntryPoint.h">
       <Filter>LWEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h">
+      <Filter>LWEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Events\Event.h">
+      <Filter>LWEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Events\KeyEvent.h">
+      <Filter>LWEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Events\MouseEvent.h">
+      <Filter>LWEngine\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Log.h">
       <Filter>LWEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Events\Event.h" />
-    <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
-    <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\LWEngine\Window.h">
+      <Filter>LWEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lwpch.h" />
+    <ClInclude Include="src\LWEngine\Platform\Windows\WindowsWindow.h">
+      <Filter>LWEngine\Platform\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp">
@@ -31,8 +55,9 @@
     <ClCompile Include="src\LWEngine\Log.cpp">
       <Filter>LWEngine</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
+    <ClCompile Include="src\lwpch.cpp" />
+    <ClCompile Include="src\LWEngine\Platform\Windows\WindowsWindow.cpp">
+      <Filter>LWEngine\Platform\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

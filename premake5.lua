@@ -9,6 +9,14 @@ workspace "LW-Game-Engine"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.ststem}-%{cfg.architecture}"
+
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "LW-Game-Engine/vendor/GLFW/include"
+
+include "LW-Game-Engine/vendor/GLFW"
+
+
 project "LW-Game-Engine"
 	location "LW-Game-Engine"
 	kind "SharedLib"
@@ -17,6 +25,9 @@ project "LW-Game-Engine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
+	pchheader "lwpch.h"
+	pchsource "LW-Game-Engine/src/lwpch.h"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -25,9 +36,17 @@ project "LW-Game-Engine"
 	
 	includedirs
 	{
-		"LW-Game-Engine/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
 	}
 	
+	links
+	{
+		"GLFW",
+		"opengl32.lib",
+		"dwmapi.lib"
+	}
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -44,6 +63,7 @@ project "LW-Game-Engine"
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
 
+
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"
 		symbols "On"
@@ -55,6 +75,7 @@ project "LW-Game-Engine"
 	filter "configurations:Dist"
 		defines "LWE_DIST"
 		optimize "On"
+
 
 project "Sandbox"
 	location "Sandbox"
@@ -76,7 +97,6 @@ project "Sandbox"
 		"LW-Game-Engine/vendor/spdlog/include",
 		"LW-Game-Engine/src"
 	}
-	
 	links
 	{
 		"LW-Game-Engine"

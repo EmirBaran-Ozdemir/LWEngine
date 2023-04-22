@@ -1,17 +1,25 @@
+#include "lwpch.h"
 #include "Application.h"
+
+#include "LWEngine/Events/ApplicationEvent.h"
+#include "LWEngine/Log.h"
 
 namespace LWEngine {
 
-	LWEngine::Application::Application()
+	Application::Application()
 	{
+		m_Window = std::unique_ptr<Window>(Window::Create());	
 	}
 
-	LWEngine::Application::~Application()
+	Application::~Application()
 	{
 	}
 	void Application::Run()
 	{
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
 	}
 
 }
