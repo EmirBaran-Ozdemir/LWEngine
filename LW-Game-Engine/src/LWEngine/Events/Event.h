@@ -34,8 +34,8 @@ namespace LWEngine {
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override {return category;}
 
 	class LWE_API Event {
-
-		friend class EventDispatcher;
+	public:
+		bool Handled = false;
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
@@ -47,8 +47,6 @@ namespace LWEngine {
 			return GetCategoryFlags() & category;
 		}
 
-	protected:
-		bool m_Handled = false;
 	};
 
 
@@ -66,7 +64,7 @@ namespace LWEngine {
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;

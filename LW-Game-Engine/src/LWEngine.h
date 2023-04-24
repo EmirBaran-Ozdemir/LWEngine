@@ -5,6 +5,7 @@
 
 //. FOR USE BY LWENGINE APPLICATIONS
 #include "LWEngine/Application.h"
+#include "LWEngine/Layer.h"
 #include "LWEngine/Log.h"
 
 //. ----------Entry Point----------

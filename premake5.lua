@@ -66,14 +66,17 @@ project "LW-Game-Engine"
 
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "LWE_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "LWE_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -114,12 +117,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "LWE_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "LWE_DIST"
+		buildoptions "/MD"
 		optimize "On"
