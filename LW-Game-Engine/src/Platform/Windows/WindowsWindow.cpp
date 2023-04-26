@@ -4,6 +4,7 @@
 #include "LWEngine/Events/ApplicationEvent.h"
 #include "LWEngine/Events/KeyEvent.h"
 #include "LWEngine/Events/MouseEvent.h"
+#include <glad/glad.h>
 
 namespace LWEngine {
 
@@ -42,7 +43,7 @@ namespace LWEngine {
 		if (!s_GLFWInitialized)
 		{
 			int success = glfwInit();
-			LWE_CORE_ASSERT(success, "Could not initialize GLFW");
+			LWE_CORE_ASSERT(success, "GLFW::INITIALIZATION_FAILED");
 
 			//! Set error callback which doesn't setted in glfw
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -52,6 +53,10 @@ namespace LWEngine {
 		//! Set window properties and VSync
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		//! Glad initialization
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		LWE_CORE_ASSERT(status, "GLAD::INITIALIZATION_FAILED")
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 

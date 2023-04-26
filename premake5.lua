@@ -13,8 +13,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.ststem}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "LW-Game-Engine/vendor/GLFW/include"
+IncludeDir["Glad"] = "LW-Game-Engine/vendor/Glad/include"
+IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
+
 
 include "LW-Game-Engine/vendor/GLFW"
+include "LW-Game-Engine/vendor/Glad"
+include "LW-Game-Engine/vendor/imgui"
 
 
 project "LW-Game-Engine"
@@ -38,12 +43,16 @@ project "LW-Game-Engine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 	
 	links
 	{
 		"GLFW",
+		"Glad",
+		"ImGui",
 		"opengl32.lib",
 		"dwmapi.lib"
 	}

@@ -11,12 +11,12 @@ namespace LWEngine {
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
-		
+
 		//! Default paramaters
 		WindowProps(const std::string& title = "LW Engine",
-					unsigned int width = 1280,
-					unsigned int height = 720)
-			: Title(title), Width(width), Height(height){}
+			unsigned int width = 1280,
+			unsigned int height = 720)
+			: Title(title), Width(width), Height(height) {}
 	};
 	
 	//. Interface a desktop system based Window class (nust be implemented per platform)
