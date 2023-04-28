@@ -7,16 +7,12 @@
 
 namespace LWEngine {
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
-
-	Application* Application::s_Instance = nullptr;
-
 	Application::Application()
 	{
 		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!")
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(LWE_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -39,7 +35,7 @@ namespace LWEngine {
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(LWE_BIND_EVENT_FN(Application::OnWindowClose));
 
 		LWE_CORE_TRACE("{0}",e);
 
@@ -58,6 +54,7 @@ namespace LWEngine {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 			m_Window->OnUpdate();
+			glClear(GL_COLOR_BUFFER_BIT);
 		}
 	}
 

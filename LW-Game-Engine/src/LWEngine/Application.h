@@ -19,13 +19,13 @@ namespace LWEngine{
 		void Run();
 		
 		//! Events
-		void OnEvent(Event& e);
+		void OnEvent(Event& e); 
 		
 		//! Layers
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline static Application& Get() { return *s_Instance; }
+		inline static Application& Get() { return *s_Instance; } 
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -34,7 +34,7 @@ namespace LWEngine{
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:
-		static Application* s_Instance;
+		inline static Application* s_Instance = nullptr;
 	};
 
 	//. Functions
