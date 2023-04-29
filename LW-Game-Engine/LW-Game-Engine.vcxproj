@@ -168,18 +168,16 @@
     <ClInclude Include="src\LWEngine\LayerStack.h" />
     <ClInclude Include="src\LWEngine\Log.h" />
     <ClInclude Include="src\LWEngine\Window.h" />
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLLoader.h" />
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\lwpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\Application.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\LWEngine\Layer.cpp" />
     <ClCompile Include="src\LWEngine\LayerStack.cpp" />
     <ClCompile Include="src\LWEngine\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\lwpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

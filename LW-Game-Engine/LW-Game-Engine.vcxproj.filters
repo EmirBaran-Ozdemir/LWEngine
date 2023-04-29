@@ -58,12 +58,6 @@
     <ClInclude Include="src\LWEngine\Window.h">
       <Filter>LWEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLLoader.h">
-      <Filter>Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>Platform\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
@@ -85,12 +79,12 @@
     <ClCompile Include="src\LWEngine\Log.cpp">
       <Filter>LWEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>Platform\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\lwpch.cpp" />
+    <ClCompile Include="ImGuiBuild.cpp">
+      <Filter>LWEngine\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
