@@ -6,7 +6,7 @@
 
 #include "LWEngine/Events/Event.h"
 #include "LWEngine/Events/ApplicationEvent.h"
-
+#include "LWEngine/ImGui/ImGuiLayer.h"
 
 namespace LWEngine{
 	class LWE_API Application
@@ -31,9 +31,11 @@ namespace LWEngine{
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:
+
 		inline static Application* s_Instance = nullptr;
 	};
 

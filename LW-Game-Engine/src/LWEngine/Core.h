@@ -10,6 +10,10 @@
 	#error LWEngine only supports Windows
 #endif
 
+#ifdef LWE_DEBUG
+	#define LWE_ENABLE_ASSERTS
+#endif
+
 #ifdef LWE_ENABLE_ASSERTS
 	#define LWE_ASSERT(x, ...) {if (!(x)) {LWE_ERROR("ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
 	#define LWE_CORE_ASSERT(x, ...) {if (!(x)) {LWE_CORE_ERROR("ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
