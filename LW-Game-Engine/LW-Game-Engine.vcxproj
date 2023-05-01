@@ -161,9 +161,11 @@
     <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\LWEngine\KeyCodes.h" />
     <ClInclude Include="src\LWEngine\Layer.h" />
     <ClInclude Include="src\LWEngine\LayerStack.h" />
     <ClInclude Include="src\LWEngine\Log.h" />
+    <ClInclude Include="src\LWEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\LWEngine\Window.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />

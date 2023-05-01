@@ -41,7 +41,7 @@ namespace LWEngine {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(LWE_BIND_EVENT_FN(Application::OnWindowClose));
 
-		LWE_CORE_TRACE("{0}",e);
+		// LWE_CORE_TRACE("{0}",e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -62,8 +62,7 @@ namespace LWEngine {
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
 
-			auto [x, y] = Input::GetMousePosition();
-			LWE_CORE_TRACE("{0},{1}", x, y);
+			
 			m_ImGuiLayer->End();
 			m_Window->OnUpdate();
 			glClear(GL_COLOR_BUFFER_BIT);
