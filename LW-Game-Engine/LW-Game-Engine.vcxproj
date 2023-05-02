@@ -167,6 +167,7 @@
     <ClInclude Include="src\LWEngine\Log.h" />
     <ClInclude Include="src\LWEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\LWEngine\Window.h" />
+    <ClInclude Include="src\Menus\FixedMenus.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\lwpch.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\LWEngine\Layer.cpp" />
     <ClCompile Include="src\LWEngine\LayerStack.cpp" />
     <ClCompile Include="src\LWEngine\Log.cpp" />
+    <ClCompile Include="src\Menus\FixedMenus.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\lwpch.cpp">

@@ -7,7 +7,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "LWEngine/Application.h"
 
-
+#include "Menus/FixedMenus.h"
 
 //. TEMPORARY
 #include <GLFW/glfw3.h>
@@ -61,9 +61,11 @@ namespace LWEngine {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
+
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-		
+		FixedMenus::TopMenuBar();
+		FixedMenus::BottomMenuBar(); 
+		ImGui::ShowDemoWindow(&show);		
 	}
 
 	void ImGuiLayer::Begin()

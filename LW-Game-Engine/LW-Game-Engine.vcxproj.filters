@@ -62,6 +62,7 @@
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\LWEngine\KeyCodes.h" />
     <ClInclude Include="src\LWEngine\MouseButtonCodes.h" />
+    <ClInclude Include="src\Menus\FixedMenus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp">
@@ -88,5 +89,6 @@
     <ClCompile Include="src\lwpch.cpp" />
     <ClCompile Include="src\LWEngine\Input.h" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Menus\FixedMenus.cpp" />
   </ItemGroup>
 </Project>

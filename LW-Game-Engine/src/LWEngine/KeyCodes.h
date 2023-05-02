@@ -2,7 +2,7 @@
 
 #define LWE_KEY_UNKNOWN            -1
 
-//. from glfw3.h 
+//. from glfw3.h  
 #define LWE_KEY_SPACE              32
 #define LWE_KEY_APOSTROPHE         39  /* ' */
 #define LWE_KEY_COMMA              44  /* , */

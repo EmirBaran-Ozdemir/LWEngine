@@ -8,6 +8,7 @@
 #include <functional>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 //. Data structures
 #include <vector>
