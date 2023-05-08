@@ -2,12 +2,11 @@
 #include "ImGuiLayer.h"
 
 
-#include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "LWEngine/Application.h"
 
-#include "Menus/FixedMenus.h"
+#include "Panels/StaticPanel.h"
 
 //. TEMPORARY
 #include <GLFW/glfw3.h>
@@ -59,13 +58,42 @@ namespace LWEngine {
 		ImGui::DestroyContext();
 	}
 
+	//. ---------WINDOW ELEMENTS---------
+
 	void ImGuiLayer::OnImGuiRender()
 	{
-
+		
 		static bool show = true;
-		FixedMenus::TopMenuBar();
-		FixedMenus::BottomMenuBar(); 
-		ImGui::ShowDemoWindow(&show);		
+		StaticPanel::TopMenuBar();
+		StaticPanel::TabMenuBar();
+		StaticPanel::BottomMenuBar();
+
+
+
+
+		
+
+
+
+
+#ifdef LWE_DEBUG
+		static bool showDebug = false;
+		if (ImGui::BeginMenu("Demo Window"))
+		{
+			if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
+			{
+				showDebug *= -1;	
+			}
+			
+			ImGui::EndMenu();
+		}
+		
+		if (showDebug)
+		{
+			ImGui::ShowDemoWindow();
+			
+		}
+#endif // _DEBUG		
 	}
 
 	void ImGuiLayer::Begin()

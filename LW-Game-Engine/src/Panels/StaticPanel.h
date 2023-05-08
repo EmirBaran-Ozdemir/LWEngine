@@ -5,11 +5,11 @@
 
 namespace LWEngine {
 
-	class LWE_API FixedMenus {
+	class LWE_API StaticPanel {
 	public:
 		static void TopMenuBar();
-		static bool BottomMenuBarImpl();
 		static void BottomMenuBar();
-		
+		static void TabMenuBar();
+		static void RightMenuBar();
 	};
 }
