@@ -13,8 +13,8 @@
     <Filter Include="src\LWEngine\ImGui">
       <UniqueIdentifier>{5F216C37-4B05-2D8D-B465-27E0A068170F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Menus">
-      <UniqueIdentifier>{04B366B3-701D-1B2A-B95B-CCCF2505F97E}</UniqueIdentifier>
+    <Filter Include="src\Panels">
+      <UniqueIdentifier>{DFE6F326-CB9E-3574-34A6-0ED0207DD064}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
@@ -94,7 +94,7 @@
       <Filter>src\LWEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\Panels\StaticPanel.h">
-      <Filter>src\Menus</Filter>
+      <Filter>src\Panels</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1374,7 +1374,7 @@
       <Filter>src\LWEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\Panels\StaticPanel.cpp">
-      <Filter>src\Menus</Filter>
+      <Filter>src\Panels</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>

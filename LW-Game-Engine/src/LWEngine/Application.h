@@ -34,6 +34,10 @@ namespace LWEngine{
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		unsigned int m_VertexArray;
+		unsigned int m_VertexBuffer;
+		unsigned int m_IndexBuffer;
+	
 	private:
 
 		inline static Application* s_Instance = nullptr;

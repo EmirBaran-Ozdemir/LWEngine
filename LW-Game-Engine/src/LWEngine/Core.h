@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef LWE_PLATFORM_WINDOWS
+#if LWE_DYNAMIC_LINK
 	#ifdef LWE_BUILD_DLL
 		#define LWE_API __declspec(dllexport)
 	#else		
 		#define LWE_API __declspec(dllimport)
 	#endif
+#else
+	#define LWE_API
+#endif
 #else
 	#error LWEngine only supports Windows
 #endif

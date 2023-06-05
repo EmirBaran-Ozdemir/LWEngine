@@ -6,11 +6,13 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "LWEngine/Application.h"
 
+#include "imgui_internal.h"
 #include "Panels/StaticPanel.h"
 
 //. TEMPORARY
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+
 #define IMPL_OPENGL_LOADER_CUSTOM
 
 namespace LWEngine {
@@ -36,11 +38,12 @@ namespace LWEngine {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		io.ConfigFlags |= ImGuiWindowFlags_NoSavedSettings;
 		
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			style.WindowRounding = 0.0f;
+			style.WindowRounding = 5.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 		Application& app = Application::Get();
@@ -64,17 +67,25 @@ namespace LWEngine {
 	{
 		
 		static bool show = true;
+		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+		//// Create the main window
+		//ImGui::Begin("Main Window");
+
+		//// Add content to the main window
+		//ImGui::Text("This is the main window");
+
+		//ImGui::End(); // End the main window
+
+		//// Create a dockable frame
+		//ImGui::SetNextWindowDockID(ImGui::GetID("Dockable Frame"), ImGuiDockNodeFlags_PassthruCentralNode);
+		
+
+		
 		StaticPanel::TopMenuBar();
 		StaticPanel::TabMenuBar();
 		StaticPanel::BottomMenuBar();
-
-
-
-
+		StaticPanel::RightMenuBar();
 		
-
-
-
 
 #ifdef LWE_DEBUG
 		static bool showDebug = false;
@@ -82,7 +93,7 @@ namespace LWEngine {
 		{
 			if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
 			{
-				showDebug *= -1;	
+				showDebug = -showDebug;	
 			}
 			
 			ImGui::EndMenu();
@@ -107,7 +118,7 @@ namespace LWEngine {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
 		//! Rendering
 		ImGui::Render();

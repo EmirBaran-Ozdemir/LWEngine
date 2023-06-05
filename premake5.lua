@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "LW-Game-Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "LW-Game-Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
+IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
 
 
 include "LW-Game-Engine/vendor/GLFW"
@@ -24,9 +25,10 @@ include "LW-Game-Engine/vendor/imgui"
 
 project "LW-Game-Engine"
 	location "LW-Game-Engine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -37,7 +39,9 @@ project "LW-Game-Engine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 	
 	includedirs
@@ -46,7 +50,8 @@ project "LW-Game-Engine"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 	
 	links
@@ -58,43 +63,38 @@ project "LW-Game-Engine"
 		"dwmapi.lib"
 	}
 	filter "system:windows"
-		cppdialect "C++17"
+		
 		systemversion "latest"
 
 		defines
 		{
 			"LWE_PLATFORM_WINDOWS",
-			"LWE_BUILD_DLL"
+			"LWE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "LWE_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 	
 	filter "configurations:Dist"
 		defines "LWE_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
-	staticruntime "off"
-
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -108,15 +108,16 @@ project "Sandbox"
 	includedirs
 	{
 		"LW-Game-Engine/vendor/spdlog/include",
-		"LW-Game-Engine/src"
+		"LW-Game-Engine/src",
+		"%{IncludeDir.glm}"
 	}
+
 	links
 	{
 		"LW-Game-Engine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -127,14 +128,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "LWE_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 	
 	filter "configurations:Dist"
 		defines "LWE_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

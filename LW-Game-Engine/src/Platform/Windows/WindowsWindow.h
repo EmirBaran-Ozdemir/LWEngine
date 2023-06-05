@@ -1,8 +1,10 @@
 #pragma once
 
 #include "LWEngine/Window.h"
+#include "LWEngine/Renderer/GraphicsContext.h"
 
 #include "GLFW/glfw3.h"
+
 
 namespace LWEngine {
 
@@ -27,6 +29,7 @@ namespace LWEngine {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{
