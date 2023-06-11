@@ -10,6 +10,7 @@
 
 #include "LWEngine/Renderer/Shader.h"
 #include "LWEngine/Renderer/Buffer.h"
+#include "LWEngine/Renderer/VertexArray.h"
 
 namespace LWEngine{
 	class LWE_API Application
@@ -39,10 +40,15 @@ namespace LWEngine{
 		LayerStack m_LayerStack;
 
 		//! OpenGL Vars
-		unsigned int m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<VertexArray> m_VertexArray;
+
+		std::shared_ptr<Shader> m_SquareShader;
+
+		std::shared_ptr<VertexArray> m_SquareVA;
+
 	private:
 
 		inline static Application* s_Instance = nullptr;
