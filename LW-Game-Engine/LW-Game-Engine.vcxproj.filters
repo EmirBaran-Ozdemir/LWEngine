@@ -13,11 +13,17 @@
     <Filter Include="src\LWEngine\ImGui">
       <UniqueIdentifier>{5F216C37-4B05-2D8D-B465-27E0A068170F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\LWEngine\Renderer">
+      <UniqueIdentifier>{BB7F7C62-27EC-375D-F0DF-CFBA5C0B5AC5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Panels">
       <UniqueIdentifier>{DFE6F326-CB9E-3574-34A6-0ED0207DD064}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -90,11 +96,47 @@
     <ClInclude Include="src\LWEngine\MouseButtonCodes.h">
       <Filter>src\LWEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\Buffer.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\OrthographicCamera.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\RenderCommand.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\Renderer.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\RendererAPI.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\Shader.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\VertexArray.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Window.h">
       <Filter>src\LWEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\Panels\StaticPanel.h">
       <Filter>src\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1353,17 +1395,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\LWEngine\Renderer\Shader.h" />
-    <ClInclude Include="src\LWEngine\Renderer\Buffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\LWEngine\Renderer\Renderer.h" />
-    <ClInclude Include="src\LWEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\LWEngine\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\LWEngine\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\LWEngine\Renderer\GraphicsSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp">
@@ -1384,8 +1416,41 @@
     <ClCompile Include="src\LWEngine\Log.cpp">
       <Filter>src\LWEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\RenderCommand.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\Renderer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\RendererAPI.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\Shader.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Panels\StaticPanel.cpp">
       <Filter>src\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
@@ -1396,15 +1461,6 @@
     <ClCompile Include="src\lwpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\Shader.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\LWEngine\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\LWEngine\Renderer\GraphicsSettings.cpp" />
   </ItemGroup>
 </Project>

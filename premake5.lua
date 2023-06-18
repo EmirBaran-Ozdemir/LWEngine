@@ -109,7 +109,8 @@ project "Sandbox"
 	{
 		"LW-Game-Engine/vendor/spdlog/include",
 		"LW-Game-Engine/src",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links

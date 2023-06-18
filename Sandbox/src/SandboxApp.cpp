@@ -11,8 +11,8 @@ public:
 		
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_TAB))
 			LWE_CORE_INFO("KEY_TAB is pressed");
-	
-	
+		
+		
 	}
 	
 	void OnEvent(LWEngine::Event& event) override

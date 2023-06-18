@@ -10,6 +10,7 @@
 #else
 	#define LWE_API
 #endif
+
 #else
 	#error LWEngine only supports Windows
 #endif

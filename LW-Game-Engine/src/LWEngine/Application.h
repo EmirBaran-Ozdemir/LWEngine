@@ -12,6 +12,9 @@
 #include "LWEngine/Renderer/Buffer.h"
 #include "LWEngine/Renderer/VertexArray.h"
 
+#include "LWEngine/Renderer/OrthographicCamera.h"
+
+
 namespace LWEngine{
 	class LWE_API Application
 	{
@@ -51,6 +54,7 @@ namespace LWEngine{
 
 		std::shared_ptr<VertexArray> m_TestVA;
 
+		OrthographicCamera m_Camera;
 	private:
 
 		inline static Application* s_Instance = nullptr;

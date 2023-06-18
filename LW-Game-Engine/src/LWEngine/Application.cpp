@@ -4,13 +4,16 @@
 #include "LWEngine/Log.h"
 #include "glad/glad.h"
 #include "LWEngine/Renderer/Renderer.h"
-
+#include "LWEngine/Renderer/GraphicsSettings.h"
 #include "Input.h"
+
 
 namespace LWEngine {
 
 	Application::Application()
+		: m_Camera(-1.0f,1.0f,-1.0f,1.0f)
 	{
+		
 		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!")
 			s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
@@ -47,6 +50,8 @@ namespace LWEngine {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
@@ -54,7 +59,7 @@ namespace LWEngine {
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -100,13 +105,14 @@ namespace LWEngine {
 			
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			
-
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -117,7 +123,6 @@ namespace LWEngine {
 			
 			in vec3 v_Position;
 			
-
 			void main()
 			{
 				color = vec4(v_Position / 0.5 + 0.5, 1.0);
@@ -126,88 +131,86 @@ namespace LWEngine {
 
 		m_SquareShader.reset(new Shader(squareVertexSrc, squareFragmentSrc));
 
-		//m_TestVA.reset(VertexArray::Create());
-		//float testVertices[4 * 5] = {
-		//	-0.5f,	-0.5f,	0.0f, -0.5f, -0.5f,
-		//	 0.5f,	-0.5f,	0.0f,  0.5f, -0.5f,
-		//	 0.5f,	 0.5f,	0.0f,  0.5f,  0.5f,
-		//	-0.5f,	 0.5f,	0.0f, -0.5f,  0.5f,
-		//};
-		//std::shared_ptr<VertexBuffer> testVB;
-		//testVB.reset(VertexBuffer::Create(testVertices, sizeof(testVertices)));
-		//BufferLayout testLayout = {
-		//	{ShaderDataType::Float3, "a_Position"},
-		//	{ShaderDataType::Float2, "fragCoord"},
-		//};
-		//testVB->SetLayout(testLayout);
-		//m_TestVA->AddVertexBuffer(testVB);
+		m_TestVA.reset(VertexArray::Create());
+		float testVertices[4 * 5] = {
+			-1.5f,	-1.5f,	0.0f, -0.5f, -0.5f,
+			 1.5f,	-1.5f,	0.0f,  0.5f, -0.5f,
+			 1.5f,	 1.5f,	0.0f,  0.5f,  0.5f,
+			-1.5f,	 1.5f,	0.0f, -0.5f,  0.5f,
+		};
+		std::shared_ptr<VertexBuffer> testVB;
+		testVB.reset(VertexBuffer::Create(testVertices, sizeof(testVertices)));
+		BufferLayout testLayout = {
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float2, "fragCoord"},
+		};
+		testVB->SetLayout(testLayout);
+		m_TestVA->AddVertexBuffer(testVB);
 
-		//uint32_t testIndices[6] = { 0, 1, 2, 2, 3,0 };
+		uint32_t testIndices[6] = { 0, 1, 2, 2, 3,0 };
 
-		//std::shared_ptr<IndexBuffer> testIB;
-		//testIB.reset(IndexBuffer::Create(testIndices, sizeof(testIndices) / sizeof(uint32_t)));
-		//m_TestVA->SetIndexBuffer(testIB);
+		std::shared_ptr<IndexBuffer> testIB;
+		testIB.reset(IndexBuffer::Create(testIndices, sizeof(testIndices) / sizeof(uint32_t)));
+		m_TestVA->SetIndexBuffer(testIB);
+		
+		std::string testVertexSrc = R"(
+			#version 330 core			
 
-		//std::string testVertexSrc = R"(
-		//	#version 330 core			
+			layout(location = 0) in vec3 a_Position;
+			
+			void main()
+			{
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
 
-		//	layout(location = 0) in vec3 a_Position;
-		//	
-		//	
-		//	void main()
-		//	{
-		//		
-		//		gl_Position = vec4(a_Position, 1.0);
-		//	}
-		//)";
+		std::string testFragmentSrc = R"(
+			#version 330 core
 
-		//std::string testFragmentSrc = R"(
-		//	#version 330 core
+			out vec4 fragColor;
 
-		//	out vec4 fragColor;
+			uniform vec2 iResolution;
+			uniform float iTime;
 
-		//	uniform vec2 iResolution;
-		//	uniform float iTime;
+			vec3 palette(float t) {
+				vec3 a = vec3(0.5, 0.5, 0.5);
+				vec3 b = vec3(0.5, 0.5, 0.5);
+				vec3 c = vec3(1.0, 1.0, 1.0);
+				vec3 d = vec3(0.263, 0.416, 0.557);
 
-		//	vec3 palette(float t) {
-		//		vec3 a = vec3(0.5, 0.5, 0.5);
-		//		vec3 b = vec3(0.5, 0.5, 0.5);
-		//		vec3 c = vec3(1.0, 1.0, 1.0);
-		//		vec3 d = vec3(0.263, 0.416, 0.557);
+				return a + b * cos(6.28318 * (c * t + d));
+			}
 
-		//		return a + b * cos(6.28318 * (c * t + d));
-		//	}
+			void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+				vec2 uv = (fragCoord * 2.0 - iResolution.xy) / iResolution.y;
+				vec2 uv0 = uv;
+				vec3 finalColor = vec3(0.0);
 
-		//	void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-		//		vec2 uv = (fragCoord * 2.0 - iResolution.xy) / iResolution.y;
-		//		vec2 uv0 = uv;
-		//		vec3 finalColor = vec3(0.0);
+				for (float i = 0.0; i < 4.0; i++) {
+					uv = fract(uv * 1.5) - 0.5;
 
-		//		for (float i = 0.0; i < 4.0; i++) {
-		//			uv = fract(uv * 1.5) - 0.5;
+					float d = length(uv) * exp(-length(uv0));
 
-		//			float d = length(uv) * exp(-length(uv0));
+					vec3 col = palette(length(uv0) + i * 0.4 + iTime * 0.4);
 
-		//			vec3 col = palette(length(uv0) + i * 0.4 + iTime * 0.4);
+					d = sin(d * 8.0 + iTime) / 8.0;
+					d = abs(d);
 
-		//			d = sin(d * 8.0 + iTime) / 8.0;
-		//			d = abs(d);
+					d = pow(0.01 / d, 1.2);
 
-		//			d = pow(0.01 / d, 1.2);
+					finalColor += col * d;
+				}
 
-		//			finalColor += col * d;
-		//		}
+				fragColor = vec4(finalColor, 1.0);
+			}
 
-		//		fragColor = vec4(finalColor, 1.0);
-		//	}
+			void main() {
+				vec2 fragCoord = gl_FragCoord.xy;
+				mainImage(fragColor, fragCoord);
+			}
+		)";
 
-		//	void main() {
-		//		vec2 fragCoord = gl_FragCoord.xy;
-		//		mainImage(fragColor, fragCoord);
-		//	}
-		//)";
-
-		//m_TestShader.reset(new Shader(testVertexSrc, testFragmentSrc));
+		m_TestShader.reset(new Shader(testVertexSrc, testFragmentSrc));
 	}
 
 	Application::~Application()
@@ -244,18 +247,24 @@ namespace LWEngine {
 
 	void Application::Run()
 	{
+		auto startTime = std::chrono::high_resolution_clock::now();
 		while (m_Running)
 		{
+			
+			auto currentTime = std::chrono::high_resolution_clock::now();
+			float elapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			m_Camera.SetRotation(15.0f);
 
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
-
-			m_SquareShader->Bind();
-			Renderer::Submit(m_SquareVA);
+			Renderer::BeginScene(m_Camera);
+			Renderer::Submit(m_Shader,m_VertexArray);
+			Renderer::Submit(m_SquareShader,m_SquareVA);
+			
+			//Renderer::Submit(m_TestShader, m_TestVA);
+			//m_TestShader->UploadUniformVec2("iResolution", { m_Window->GetWidth(), m_Window->GetHeight() });
+			//m_TestShader->UploadUniformFloat("iTime", elapsedTime);
 
 			Renderer::EndScene();
 

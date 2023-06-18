@@ -11,7 +11,7 @@
 #include "LWEngine/Input.h"
 #include "LWEngine/KeyCodes.h"
 #include "LWEngine/MouseButtonCodes.h"
-
+#include "LWEngine/Renderer/GraphicsSettings.h"
 
 #include "LWEngine/ImGui/ImGuiLayer.h"
 //. ----------Entry Point----------
