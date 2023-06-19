@@ -9,6 +9,12 @@ namespace LWEngine {
 	{
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
+	
+	std::ostream& operator<<(std::ostream& os, const glm::vec3& camera)
+	{
+		os << camera.x << ", " << camera.y << ", " << camera.z << std::endl;
+		return os;
+	}
 
 	void OrthographicCamera::RecalculateViewMatrix()
 	{

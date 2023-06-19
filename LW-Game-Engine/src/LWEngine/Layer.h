@@ -2,6 +2,7 @@
 
 #include "LWEngine/Core.h"
 #include "LWEngine/Events/Event.h"
+#include "LWEngine/Core/Timestep.h"
 
 namespace LWEngine {
 	
@@ -13,7 +14,7 @@ namespace LWEngine {
 
 		virtual void OnAttach(){}
 		virtual void OnDetach(){}
-		virtual void OnUpdate(){}
+		virtual void OnUpdate(Timestep ts){}
 		virtual void OnImGuiRender(){}
 		virtual void OnEvent(Event& event){}
 		

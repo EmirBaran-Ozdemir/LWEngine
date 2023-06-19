@@ -146,6 +146,7 @@
     <ClInclude Include="src\LWEngine.h" />
     <ClInclude Include="src\LWEngine\Application.h" />
     <ClInclude Include="src\LWEngine\Core.h" />
+    <ClInclude Include="src\LWEngine\Core\Timestep.h" />
     <ClInclude Include="src\LWEngine\EntryPoint.h" />
     <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\LWEngine\Events\Event.h" />

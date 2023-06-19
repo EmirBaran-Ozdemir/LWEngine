@@ -2,18 +2,18 @@
 
 #include "Core.h"
 #include "Window.h"
-#include "LWEngine/LayerStack.h"
 
+#include "LWEngine/LayerStack.h"
 #include "LWEngine/Events/Event.h"
 #include "LWEngine/Events/ApplicationEvent.h"
-#include "LWEngine/ImGui/ImGuiLayer.h"
 
-#include "LWEngine/Renderer/Shader.h"
-#include "LWEngine/Renderer/Buffer.h"
-#include "LWEngine/Renderer/VertexArray.h"
+//#include "LWEngine/Renderer/Shader.h"
+//#include "LWEngine/Renderer/Buffer.h"
+//#include "LWEngine/Renderer/VertexArray.h"
 
 #include "LWEngine/Renderer/OrthographicCamera.h"
-
+#include "LWEngine/Core/Timestep.h"
+#include "LWEngine/ImGui/ImGuiLayer.h"
 
 namespace LWEngine{
 	class LWE_API Application
@@ -36,25 +36,13 @@ namespace LWEngine{
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		float m_Duration{10};
-		//! OpenGL Vars
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_SquareShader;
-
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		std::shared_ptr<Shader> m_TestShader;
-
-		std::shared_ptr<VertexArray> m_TestVA;
-
-		OrthographicCamera m_Camera;
+		float m_LastFrameTime = 0.0f;
 	private:
 
 		inline static Application* s_Instance = nullptr;
