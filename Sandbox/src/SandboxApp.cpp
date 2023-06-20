@@ -199,27 +199,33 @@ public:
 	}
 	void OnUpdate(LWEngine::Timestep ts) override
 	{
-		LWE_CLIENT_TRACE("DeltaTime: {0}", ts.GetSeconds());
-		
+		LWE_CLIENT_TRACE("DeltaTime: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMiliseconds());
+
+		float time = ts;
+
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_RIGHT) || LWEngine::Input::IsKeyPressed(LWE_KEY_D))
-			m_CameraPosition.x += m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.x += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT) || LWEngine::Input::IsKeyPressed(LWE_KEY_A))
-			m_CameraPosition.x -= m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.x -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
+		
 		
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_UP) || LWEngine::Input::IsKeyPressed(LWE_KEY_W))
-			m_CameraPosition.z -= m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.z -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_DOWN) || LWEngine::Input::IsKeyPressed(LWE_KEY_S))
-			m_CameraPosition.z += m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.z += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
+		
 		
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_SPACE))
-			m_CameraPosition.y += m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.y += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT_SHIFT))
-			m_CameraPosition.y -= m_CameraMovementSpeed + m_CameraAcceleration;
+			m_CameraPosition.y -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 
+		
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_Q))
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * time;
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_E))
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * time;
+
 
 		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
 		LWEngine::RenderCommand::Clear();
@@ -250,10 +256,10 @@ private:
 	std::shared_ptr<LWEngine::VertexArray> m_TestVA;
 	LWEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMovementSpeed = 0.01f;
-	float m_CameraAcceleration = 0.001f;
+	float m_CameraMovementSpeed = 5.0f;
+	float m_CameraAcceleration = 0.01f;
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 2.0f;
+	float m_CameraRotationSpeed = 60.0f;
 };
 
 class Sandbox :public LWEngine::Application

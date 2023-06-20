@@ -26,5 +26,4 @@ namespace LWEngine {
 		static Input* s_Instance;
 	
 	};
-
 }
