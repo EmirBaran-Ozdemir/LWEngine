@@ -7,6 +7,9 @@
     <Filter Include="src\LWEngine">
       <UniqueIdentifier>{75E8B7A1-614B-4746-0AD1-7FFCF61213C9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\LWEngine\Core">
+      <UniqueIdentifier>{ED9D4D8D-59B4-4B23-A22B-D7440E811CAB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\LWEngine\Events">
       <UniqueIdentifier>{B9DE4E1C-2540-2C2A-AEAD-72DC1A0E63E9}</UniqueIdentifier>
     </Filter>
@@ -60,6 +63,9 @@
     <ClInclude Include="src\LWEngine\Core.h">
       <Filter>src\LWEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Core\Timestep.h">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\EntryPoint.h">
       <Filter>src\LWEngine</Filter>
     </ClInclude>
@@ -102,6 +108,9 @@
     <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\GraphicsSettings.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\OrthographicCamera.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
@@ -133,6 +142,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1395,7 +1407,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Renderer\GraphicsSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Application.cpp">
@@ -1417,6 +1428,9 @@
       <Filter>src\LWEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\GraphicsSettings.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCamera.cpp">
@@ -1449,6 +1463,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1461,6 +1478,5 @@
     <ClCompile Include="src\lwpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\LWEngine\Renderer\GraphicsSettings.cpp" />
   </ItemGroup>
 </Project>

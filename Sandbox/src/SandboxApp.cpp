@@ -1,24 +1,32 @@
 #include <LWEngine.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
+
+extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
+extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1; }
+
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public LWEngine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.0f, 1.0f, -1.0f, 1.0f), m_CameraPosition(0.0f)
+		: Layer("Example"), m_Camera(-1.0f, 1.0f, -1.0f, 1.0f), m_CameraPosition(0.0f), m_ObjectPosition(0.0f)
 	{
 		m_VertexArray.reset(LWEngine::VertexArray::Create());
 
-		float vertices[3 * 7] = {
-			-0.5f,	-0.5f,	0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-			 0.5f,	-0.5f,	0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-			 0.0f,	 0.5f,	0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		float vertices[3 * 4] = {
+			-0.5f,	-0.5f,	0.0f, 
+			 0.5f,	-0.5f,	0.0f, 
+			 0.0f,	 0.5f,	0.0f, 
 		};
 		std::shared_ptr<LWEngine::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(LWEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
 		LWEngine::BufferLayout layout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
-			{LWEngine::ShaderDataType::Float4, "a_Color"},
 		};
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
@@ -33,18 +41,16 @@ public:
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
-			out vec4 v_Color;
 
 			void main()
 			{
 				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -54,22 +60,22 @@ public:
 			layout(location = 0) out vec4 color;
 			
 			in vec3 v_Position;
-			in vec4 v_Color;
+			uniform vec3 u_Color;
 
 			void main()
 			{
-				color = v_Color;
+				color = vec4(u_Color,1.0f);
 			}
 		)";
 
-		m_Shader.reset(new LWEngine::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(LWEngine::Shader::Create(vertexSrc, fragmentSrc));
 
 		m_SquareVA.reset(LWEngine::VertexArray::Create());
 		float squareVertices[4 * 3] = {
-			-0.2f,	-0.2f,	0.4f,
-			 0.2f,	-0.2f,	0.4f,
-			 0.2f,	 0.2f,	0.4f,
-			-0.2f,	 0.2f,	0.4f,
+			-0.2f,	-0.2f,	0.0f,
+			 0.2f,	-0.2f,	0.0f,
+			 0.2f,	 0.2f,	0.0f,
+			-0.2f,	 0.2f,	0.0f,
 		};
 		std::shared_ptr<LWEngine::VertexBuffer> squareVB;
 		squareVB.reset(LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -91,13 +97,13 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
-
+			uniform mat4 u_Transform;
 			out vec3 v_Position;
 			
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -107,14 +113,15 @@ public:
 			layout(location = 0) out vec4 color;
 			
 			in vec3 v_Position;
-			
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(v_Position / 0.5 + 0.5, 1.0);
+				color = vec4(u_Color,1.0f);
 			}
 		)";
 
-		m_SquareShader.reset(new LWEngine::Shader(squareVertexSrc, squareFragmentSrc));
+		m_SquareShader.reset(LWEngine::Shader::Create(squareVertexSrc, squareFragmentSrc));
 
 		m_TestVA.reset(LWEngine::VertexArray::Create());
 		float testVertices[4 * 5] = {
@@ -143,9 +150,11 @@ public:
 
 			layout(location = 0) in vec3 a_Position;
 			
+			uniform mat4 u_Transform;
+			
 			void main()
 			{
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -195,14 +204,15 @@ public:
 			}
 		)";
 
-		m_TestShader.reset(new LWEngine::Shader(testVertexSrc, testFragmentSrc));
+		m_TestShader.reset(LWEngine::Shader::Create(testVertexSrc, testFragmentSrc));
 	}
 	void OnUpdate(LWEngine::Timestep ts) override
 	{
-		LWE_CLIENT_TRACE("DeltaTime: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMiliseconds());
+		LWE_CLIENT_TRACE("DeltaTime: {0}s ({1})", ts.GetSeconds(), 1000 / ts.GetMiliseconds());
 
 		float time = ts;
 
+		//. CAMERA MOVEMENTS
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_RIGHT) || LWEngine::Input::IsKeyPressed(LWE_KEY_D))
 			m_CameraPosition.x += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT) || LWEngine::Input::IsKeyPressed(LWE_KEY_A))
@@ -220,11 +230,21 @@ public:
 		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT_SHIFT))
 			m_CameraPosition.y -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
 
-		
+		//. CAMERA ROTATIONS
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_Q))
 			m_CameraRotation += m_CameraRotationSpeed * time;
 		if (LWEngine::Input::IsKeyPressed(LWE_KEY_E))
 			m_CameraRotation -= m_CameraRotationSpeed * time;
+
+		//. OBJECT MOVEMENTS
+		if (LWEngine::Input::IsKeyPressed(LWE_KEY_J))
+			m_ObjectPosition.x -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
+		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_L))
+			m_ObjectPosition.x += (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
+		if (LWEngine::Input::IsKeyPressed(LWE_KEY_I))
+			m_ObjectPosition.y += (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
+		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_K))
+			m_ObjectPosition.y -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
 
 
 		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
@@ -232,16 +252,43 @@ public:
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
 		
+		
 		LWEngine::Renderer::BeginScene(m_Camera);
+		
+		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f));
+
+
+		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_SquareShader)->Bind();
+		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color",m_SquareColor);
+
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				glm::vec3 pos(i * 0.11f, j * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos + m_ObjectPosition) * scale;
+				LWEngine::Renderer::Submit(m_SquareShader, m_SquareVA, transform);
+			}
+		}
+		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
 		LWEngine::Renderer::Submit(m_Shader, m_VertexArray);
-		LWEngine::Renderer::Submit(m_SquareShader, m_SquareVA);
-		//Renderer::Submit(m_TestShader, m_TestVA);
-		//m_TestShader->UploadUniformVec2("iResolution", { m_Window->GetWidth(), m_Window->GetHeight() });
-		//m_TestShader->UploadUniformFloat("iTime", elapsedTime);
+		//LWEngine::Renderer::Submit(m_TestShader, m_TestVA);
+		//m_TestShader->UploadUniformVec2("iResolution", { LWEngine::m_Window->GetWidth(), LWEngine::m_Window->GetHeight() });
+		//m_TestShader->UploadUniformFloat("iTime", LWEngine::elapsedTime);
+
 		LWEngine::Renderer::EndScene();
 		
 	}
 	
+	virtual void OnImGuiRender() override
+	{
+		//ImGui::Begin("Settings");
+		//ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		//ImGui::End();
+	}
+
 	void OnEvent(LWEngine::Event& event) override
 	{
 
@@ -260,6 +307,15 @@ private:
 	float m_CameraAcceleration = 0.01f;
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 60.0f;
+
+	glm::vec3 m_ObjectPosition;
+	float m_ObjectMovementSpeed = 2.0f;
+	float m_ObjectAcceleration = 0.01f;
+	float m_ObjectRotation = 0.0f;
+	float m_ObjectRotationSpeed = 60.0f;
+
+	glm::vec3 m_SquareColor = { 0.2f,0.3f,0.7f };
+	
 };
 
 class Sandbox :public LWEngine::Application

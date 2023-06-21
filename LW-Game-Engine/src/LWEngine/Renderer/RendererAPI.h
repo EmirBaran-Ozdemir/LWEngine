@@ -10,7 +10,7 @@ namespace LWEngine {
 	public:
 		enum class API
 		{
-			None = 0, OpenGL = 1
+			None = 0, OpenGL = 1, Direct3D = 2, Vulkan = 3
 		};
 	public:
 		virtual void SetClearColor(const glm::vec4& color) = 0;

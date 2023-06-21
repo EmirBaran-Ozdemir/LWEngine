@@ -1,7 +1,8 @@
 #include "lwpch.h"
+#include "StaticPanel.h"
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h"
-#include "StaticPanel.h"
 #include <imgui.cpp>
 #include <direct.h>
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "LWEngine/Core.h"
-#include "LWEngine/Events/Event.h"
 
 namespace LWEngine {
 
