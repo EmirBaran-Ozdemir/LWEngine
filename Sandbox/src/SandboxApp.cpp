@@ -1,7 +1,11 @@
 #include <LWEngine.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
+#define IMGUI_DEFINE_MATH_OPERATORS
 
+//#include "imgui/imgui.h"
+//#include "imgui/imgui.cpp"
+//#include "Panels/StaticPanel.h"
 
 extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1; }
@@ -23,7 +27,7 @@ public:
 			 0.5f,	-0.5f,	0.0f, 
 			 0.0f,	 0.5f,	0.0f, 
 		};
-		std::shared_ptr<LWEngine::VertexBuffer> vertexBuffer;
+		LWEngine::Ref<LWEngine::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(LWEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
 		LWEngine::BufferLayout layout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
@@ -32,7 +36,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<LWEngine::IndexBuffer> indexBuffer;
+		LWEngine::Ref<LWEngine::IndexBuffer> indexBuffer;
 		indexBuffer.reset(LWEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -71,13 +75,13 @@ public:
 		m_Shader.reset(LWEngine::Shader::Create(vertexSrc, fragmentSrc));
 
 		m_SquareVA.reset(LWEngine::VertexArray::Create());
-		float squareVertices[4 * 3] = {
+		float squareVertices[3 * 4] = {
 			-0.2f,	-0.2f,	0.0f,
 			 0.2f,	-0.2f,	0.0f,
 			 0.2f,	 0.2f,	0.0f,
 			-0.2f,	 0.2f,	0.0f,
 		};
-		std::shared_ptr<LWEngine::VertexBuffer> squareVB;
+		LWEngine::Ref<LWEngine::VertexBuffer> squareVB;
 		squareVB.reset(LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		LWEngine::BufferLayout squareLayout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
@@ -87,7 +91,7 @@ public:
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3,0 };
 
-		std::shared_ptr<LWEngine::IndexBuffer> squareIB;
+		LWEngine::Ref<LWEngine::IndexBuffer> squareIB;
 		squareIB.reset((LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -130,7 +134,7 @@ public:
 			 1.5f,	 1.5f,	0.0f,  0.5f,  0.5f,
 			-1.5f,	 1.5f,	0.0f, -0.5f,  0.5f,
 		};
-		std::shared_ptr<LWEngine::VertexBuffer> testVB;
+		LWEngine::Ref<LWEngine::VertexBuffer> testVB;
 		testVB.reset(LWEngine::VertexBuffer::Create(testVertices, sizeof(testVertices)));
 		LWEngine::BufferLayout testLayout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
@@ -141,7 +145,7 @@ public:
 
 		uint32_t testIndices[6] = { 0, 1, 2, 2, 3,0 };
 
-		std::shared_ptr<LWEngine::IndexBuffer> testIB;
+		LWEngine::Ref<LWEngine::IndexBuffer> testIB;
 		testIB.reset(LWEngine::IndexBuffer::Create(testIndices, sizeof(testIndices) / sizeof(uint32_t)));
 		m_TestVA->SetIndexBuffer(testIB);
 
@@ -271,9 +275,13 @@ public:
 				LWEngine::Renderer::Submit(m_SquareShader, m_SquareVA, transform);
 			}
 		}
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
-		LWEngine::Renderer::Submit(m_Shader, m_VertexArray);
+
+		LWEngine::Renderer::Submit(m_SquareShader, m_SquareVA);
+
+		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->Bind();
+		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
+		//LWEngine::Renderer::Submit(m_Shader, m_VertexArray);
+		
 		//LWEngine::Renderer::Submit(m_TestShader, m_TestVA);
 		//m_TestShader->UploadUniformVec2("iResolution", { LWEngine::m_Window->GetWidth(), LWEngine::m_Window->GetHeight() });
 		//m_TestShader->UploadUniformFloat("iTime", LWEngine::elapsedTime);
@@ -295,12 +303,13 @@ public:
 	}
 
 private:
-	std::shared_ptr<LWEngine::Shader> m_Shader;
-	std::shared_ptr<LWEngine::VertexArray> m_VertexArray;
-	std::shared_ptr<LWEngine::Shader> m_SquareShader;
-	std::shared_ptr<LWEngine::VertexArray> m_SquareVA;
-	std::shared_ptr<LWEngine::Shader> m_TestShader;
-	std::shared_ptr<LWEngine::VertexArray> m_TestVA;
+	LWEngine::Ref<LWEngine::Shader> m_Shader;
+	LWEngine::Ref<LWEngine::VertexArray> m_VertexArray;
+	LWEngine::Ref<LWEngine::Shader> m_SquareShader;
+	LWEngine::Ref<LWEngine::VertexArray> m_SquareVA;
+	LWEngine::Ref<LWEngine::Shader> m_TestShader;
+	LWEngine::Ref<LWEngine::VertexArray> m_TestVA;
+
 	LWEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraMovementSpeed = 5.0f;

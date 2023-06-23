@@ -13,8 +13,8 @@ namespace LWEngine {
 	Application::Application()
 	{
 		
-		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!")
-			s_Instance = this;
+		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(LWE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(false);
@@ -24,7 +24,7 @@ namespace LWEngine {
 
 	Application::~Application()
 	{
-
+		
 	}
 
 	void Application::PushLayer(Layer* layer)

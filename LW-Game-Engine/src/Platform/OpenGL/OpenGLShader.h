@@ -22,6 +22,7 @@ namespace LWEngine {
 		void UploadUniformFloat4(const std::string& name, const glm::vec4& values);
 
 		void UploadUniformVec2(const std::string& name, const glm::vec2& values) ;
+		void UploadUniformVec3(const std::string& name, const glm::vec3& values) ;
 
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) ;
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) ;

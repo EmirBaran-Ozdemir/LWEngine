@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+
+
 #ifdef LWE_PLATFORM_WINDOWS
 #if LWE_DYNAMIC_LINK
 	#ifdef LWE_BUILD_DLL
@@ -32,3 +35,17 @@
 
 
 #define LWE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+
+namespace LWEngine {
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T>
+	using WeakRef = std::weak_ptr<T>;
+
+}
