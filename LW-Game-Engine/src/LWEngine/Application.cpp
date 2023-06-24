@@ -4,7 +4,7 @@
 #include "LWEngine/Log.h"
 #include "glad/glad.h"
 #include "LWEngine/Renderer/Renderer.h"
-#include "LWEngine/Renderer/GraphicsSettings.h"
+//#include "LWEngine/Renderer/GraphicsSettings.h"
 
 #include <GLFW/glfw3.h>
 

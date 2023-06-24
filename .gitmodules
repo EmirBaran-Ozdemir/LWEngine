@@ -3,7 +3,7 @@
 	url = https://github.com/gabime/spdlog
 [submodule "LW-Game-Engine/vendor/GLFW"]
 	path = LW-Game-Engine/vendor/GLFW
-	url = https://github.com/TheCherno/glfw
+	url = https://github.com/TheCherno/glfw.git
 [submodule "LW-Game-Engine/vendor/imgui"]
 	path = LW-Game-Engine/vendor/imgui
 	url = https://github.com/ocornut/imgui.git

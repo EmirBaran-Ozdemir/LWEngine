@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "LW-Game-Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "LW-Game-Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
 IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
+IncludeDir["stb_image"] = "LW-Game-Engine/vendor/stb_image"
 
 
 include "LW-Game-Engine/vendor/GLFW"
@@ -40,10 +41,17 @@ project "LW-Game-Engine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
@@ -51,7 +59,8 @@ project "LW-Game-Engine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
 	}
 	
 	links
