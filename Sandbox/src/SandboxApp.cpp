@@ -20,69 +20,37 @@ public:
 		: Layer("Example"), m_Camera(-1.0f, 1.0f, -1.0f, 1.0f), m_CameraPosition(0.0f), m_ObjectPosition(0.0f)
 	{
 		//. Triangle
-		{
-			m_VertexArray.reset(LWEngine::VertexArray::Create());
+		m_VertexArray.reset(LWEngine::VertexArray::Create());
 
-			float vertices[3 * 3] = {
-				-0.5f,	-0.5f,	0.0f,
-				 0.5f,	-0.5f,	0.0f,
-				 0.0f,	 0.5f,	0.0f,
-			};
-			LWEngine::Ref<LWEngine::VertexBuffer> vertexBuffer;
-			vertexBuffer.reset(LWEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
-			LWEngine::BufferLayout layout = {
-				{LWEngine::ShaderDataType::Float3, "a_Position"},
-			};
-			vertexBuffer->SetLayout(layout);
-			m_VertexArray->AddVertexBuffer(vertexBuffer);
+		float vertices[3 * 3] = {
+			-0.5f,	-0.5f,	0.0f,
+			0.5f,	-0.5f,	0.0f,
+			0.0f,	 0.5f,	0.0f,
+		};
+		LWEngine::Ref<LWEngine::VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(LWEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
+		LWEngine::BufferLayout layout = {
+			{LWEngine::ShaderDataType::Float3, "a_Position"},
+		};
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-			uint32_t indices[3] = { 0, 1, 2 };
-			LWEngine::Ref<LWEngine::IndexBuffer> indexBuffer;
-			indexBuffer.reset(LWEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-			m_VertexArray->SetIndexBuffer(indexBuffer);
+		uint32_t indices[3] = { 0, 1, 2 };
+		LWEngine::Ref<LWEngine::IndexBuffer> indexBuffer;
+		indexBuffer.reset(LWEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 
-			std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-
-			std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			
-			in vec3 v_Position;
-			uniform vec3 u_Color;
-
-			void main()
-			{
-				color = vec4(u_Color,1.0f);
-			}
-		)";
-
-			m_Shader.reset(LWEngine::Shader::Create(vertexSrc, fragmentSrc));
-		}
+		m_Shader.reset(LWEngine::Shader::Create("assets/shaders/Texture.glsl"));
+		
 		
 		
 		m_SquareVA.reset(LWEngine::VertexArray::Create());
 		float squareVertices[5 * 4] = {
-			-0.2f,	-0.2f,	0.0f,  0.0f,0.0f, 
-			 0.2f,	-0.2f,	0.0f,  1.0f,0.0f,
-			 0.2f,	 0.2f,	0.0f,  1.0f,1.0f,
-			-0.2f,	 0.2f,	0.0f,  0.0f,1.0f,
+			-0.2f,	-0.2f,	0.0f,  0.0f, 0.0f, 
+			 0.2f,	-0.2f,	0.0f,  1.0f, 0.0f,
+			 0.2f,	 0.2f,	0.0f,  1.0f, 1.0f,
+			-0.2f,	 0.2f,	0.0f,  0.0f, 1.0f,
 		};
 		LWEngine::Ref<LWEngine::VertexBuffer> squareVB;
 		squareVB.reset(LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -99,37 +67,9 @@ public:
 		squareIB.reset((LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		std::string squareVertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
 
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			out vec3 v_Position;
-			
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
 
-		std::string squareFragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			
-			in vec3 v_Position;
-			uniform vec3 u_Color;
-
-			void main()
-			{
-				color = vec4(u_Color,1.0f);
-			}
-		)";
-
-		m_SquareShader.reset(LWEngine::Shader::Create(squareVertexSrc, squareFragmentSrc));
+		m_SquareShader.reset(LWEngine::Shader::Create("assets/shaders/SquareTexture.glsl"));
 
 		std::string textureVertexSrc = R"(
 			#version 330 core

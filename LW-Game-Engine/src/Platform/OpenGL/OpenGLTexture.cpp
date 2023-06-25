@@ -17,13 +17,30 @@ namespace LWEngine{
         m_Width = width;
         m_Height = height;
 
-        GLenum internalFormat = GL_RGBA8;
-        GLenum dataFormat = GL_RGBA;
-        if (channels == 3)
+        GLenum internalFormat = 0;
+        GLenum dataFormat = 0;
+        if (channels == 1)
+        {
+            internalFormat = GL_R8;
+            dataFormat = GL_R;
+        }
+        else if (channels == 1)
+        {
+            internalFormat = GL_RG8;
+            dataFormat = GL_RG;
+        }
+        else if (channels == 3)
         {
             internalFormat = GL_RGB8;
             dataFormat = GL_RGB;
         }
+        else if (channels == 4)
+        {
+            internalFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+        }
+
+        LWE_CORE_ASSERT(internalFormat & dataFormat, "STBI_IMAGE::FORMAT_NOT_SUPPORTED");
 
         glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
         glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
