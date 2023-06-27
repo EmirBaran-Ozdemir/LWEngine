@@ -186,7 +186,7 @@ public:
 
 	}
 
-	virtual void OnImGuiRender() override
+	virtual void OnImGuiRender(LWEngine::Timestep ts) override
 	{
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));

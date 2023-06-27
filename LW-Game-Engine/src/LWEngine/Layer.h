@@ -15,7 +15,7 @@ namespace LWEngine {
 		virtual void OnAttach(){}
 		virtual void OnDetach(){}
 		virtual void OnUpdate(Timestep ts){}
-		virtual void OnImGuiRender(){}
+		virtual void OnImGuiRender(Timestep ts){}
 		virtual void OnEvent(Event& event){}
 		
 		//! Layers has no name normally. Just for debugging

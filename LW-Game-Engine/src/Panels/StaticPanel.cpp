@@ -9,7 +9,7 @@
 namespace LWEngine {
 
 
-	void StaticPanel::TopMenuBar()
+	void StaticPanel::TopMenuBar(LWEngine::Timestep ts)
 	{
 		ImGuiViewportP* viewport = (ImGuiViewportP*)(void*)ImGui::GetMainViewport();
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
@@ -37,6 +37,8 @@ namespace LWEngine {
 				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 				ImGui::EndMenu();
 			}
+
+			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 
 			ImGui::EndMainMenuBar();
 		}

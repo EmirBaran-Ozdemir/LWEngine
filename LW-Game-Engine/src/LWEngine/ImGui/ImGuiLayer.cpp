@@ -63,7 +63,7 @@ namespace LWEngine {
 
 	//. ---------WINDOW ELEMENTS---------
 
-	void ImGuiLayer::OnImGuiRender()
+	void ImGuiLayer::OnImGuiRender(Timestep ts)
 	{
 		
 		static bool show = true;
@@ -81,7 +81,7 @@ namespace LWEngine {
 		
 
 		
-		StaticPanel::TopMenuBar();
+		StaticPanel::TopMenuBar(ts);
 		StaticPanel::TabMenuBar();
 		StaticPanel::BottomMenuBar();
 		StaticPanel::RightMenuBar();
