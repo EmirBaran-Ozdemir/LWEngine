@@ -24,7 +24,7 @@
 
 #include "LWEngine/Renderer/OrthographicCamera.h"
 //#include "LWEngine/Renderer/GraphicsSettings.h"
-
+#include "LWEngine/Window.h"
 
 #include "LWEngine/ImGui/ImGuiLayer.h"
 //. ----------Entry Point----------

@@ -142,7 +142,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\SquareTexture.glsl" />
+    <None Include="assets\shaders\SquareShader.glsl" />
+    <None Include="assets\shaders\TestShader.glsl" />
     <None Include="assets\shaders\Texture.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

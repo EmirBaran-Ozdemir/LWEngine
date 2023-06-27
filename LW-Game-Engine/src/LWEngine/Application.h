@@ -43,6 +43,7 @@ namespace LWEngine{
 		LayerStack m_LayerStack;
 		float m_Duration{10};
 		float m_LastFrameTime = 0.0f;
+		float m_ElapsedTime = 0.0f;
 	private:
 
 		inline static Application* s_Instance = nullptr;

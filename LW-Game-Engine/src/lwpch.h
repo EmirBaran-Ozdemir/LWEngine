@@ -10,10 +10,13 @@
 #include <sstream>
 #include <fstream>
 #include <chrono>
+#include <filesystem>
+
 //. Data structures
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <array>
 
 //. Headers
 #include "LWEngine/Log.h"

@@ -21,9 +21,15 @@ namespace LWEngine {
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// Get file name from filepath
+		std::filesystem::path path = filepath;
+		m_Name = path.stem().string();
+
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_Name(name)
 	{
 		std::unordered_map < GLuint, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -87,8 +93,10 @@ namespace LWEngine {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
-
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		LWE_CORE_ASSERT(shaderSources.size() <= 2, "SHADER_ERROR::MAX_SHADER_TYPE_CAN_BE_2")
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIDIndex = 0;
+		//glShaderIDs.reserve(shaderSources.size());
 
 		for (auto& key : shaderSources)
 		{
@@ -99,7 +107,6 @@ namespace LWEngine {
 
 			const GLchar* sourceCStr = source.c_str();
 			glShaderSource(shader, 1, &sourceCStr, 0);
-
 			// Compile the vertex shader
 			glCompileShader(shader);
 
@@ -123,7 +130,7 @@ namespace LWEngine {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		glLinkProgram(program);

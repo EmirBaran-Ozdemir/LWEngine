@@ -63,11 +63,12 @@ namespace LWEngine {
 		while (m_Running)
 		{
 			float time = (float)glfwGetTime();
-			Timestep timestep = time - m_LastFrameTime;
+			auto currentTime = std::chrono::high_resolution_clock::now();
+			m_ElapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+			Timestep timestep(time - m_LastFrameTime, m_ElapsedTime);
 			m_LastFrameTime = time;
 
-			//auto currentTime = std::chrono::high_resolution_clock::now();
-			//float elapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
