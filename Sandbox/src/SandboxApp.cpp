@@ -17,7 +17,7 @@ class ExampleLayer : public LWEngine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.0f, 1.0f, -1.0f, 1.0f), m_CameraPosition(0.0f), m_ObjectPosition(0.0f)
+		: Layer("Example"), m_CameraController((float)1920/1080), m_ObjectPosition(0.0f)
 	{
 		////. Triangle
 		//m_VertexArray.reset(LWEngine::VertexArray::Create());
@@ -101,51 +101,14 @@ public:
 	void OnUpdate(LWEngine::Timestep ts) override
 	{
 		//LWE_CLIENT_TRACE("DeltaTime: {0}s ({1})", ts.GetSeconds(), 1000 / ts.GetMiliseconds());
-
-		float time = ts;
-
-		//. CAMERA MOVEMENTS
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_RIGHT) || LWEngine::Input::IsKeyPressed(LWE_KEY_D))
-			m_CameraPosition.x += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT) || LWEngine::Input::IsKeyPressed(LWE_KEY_A))
-			m_CameraPosition.x -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-
-
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_UP) || LWEngine::Input::IsKeyPressed(LWE_KEY_W))
-			m_CameraPosition.z -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_DOWN) || LWEngine::Input::IsKeyPressed(LWE_KEY_S))
-			m_CameraPosition.z += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-
-
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_SPACE))
-			m_CameraPosition.y += (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_LEFT_SHIFT))
-			m_CameraPosition.y -= (m_CameraMovementSpeed + m_CameraAcceleration) * time;
-
-		//. CAMERA ROTATIONS
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_Q))
-			m_CameraRotation += m_CameraRotationSpeed * time;
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_E))
-			m_CameraRotation -= m_CameraRotationSpeed * time;
-
-		//. OBJECT MOVEMENTS
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_J))
-			m_ObjectPosition.x -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
-		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_L))
-			m_ObjectPosition.x += (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
-		if (LWEngine::Input::IsKeyPressed(LWE_KEY_I))
-			m_ObjectPosition.y += (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
-		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_K))
-			m_ObjectPosition.y -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * time;
-
+		m_CameraController.OnUpdate(ts);
 
 		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
 		LWEngine::RenderCommand::Clear();
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
 
 
-		LWEngine::Renderer::BeginScene(m_Camera);
+
+		LWEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		m_Texture2D->Bind();
 
@@ -170,19 +133,29 @@ public:
 
 		LWEngine::Application& app = LWEngine::Application::Get();
 
-		auto window = &app.GetWindow();
+		m_Window = &app.GetWindow();
 
 
 		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->Bind();
 		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
 		//LWEngine::Renderer::Submit(m_Shader, m_VertexArray);
-		LWEngine::Renderer::Submit(m_TestShader, m_TestVA);
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_TestShader)->UploadUniformVec2("iResolution",
-			{ window->GetWidth() , window->GetHeight()});
-		
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_TestShader)->UploadUniformFloat("iTime", ts.GetElapsedTime());
+		//LWEngine::Renderer::Submit(m_TestShader, m_TestVA);
+		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_TestShader)->UploadUniformVec2("iResolution",
+		//	{ m_Window->GetWidth() , m_Window->GetHeight()});
+		//
+		//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(m_TestShader)->UploadUniformFloat("iTime", ts.GetElapsedTime());
 
 		LWEngine::Renderer::EndScene();
+
+		//. OBJECT MOVEMENTS
+		if (LWEngine::Input::IsKeyPressed(LWE_KEY_J))
+			m_ObjectPosition.x -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * ts;
+		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_L))
+			m_ObjectPosition.x += (m_ObjectMovementSpeed + m_ObjectAcceleration) * ts;
+		if (LWEngine::Input::IsKeyPressed(LWE_KEY_I))
+			m_ObjectPosition.y += (m_ObjectMovementSpeed + m_ObjectAcceleration) * ts;
+		else if (LWEngine::Input::IsKeyPressed(LWE_KEY_K))
+			m_ObjectPosition.y -= (m_ObjectMovementSpeed + m_ObjectAcceleration) * ts;
 
 	}
 
@@ -195,7 +168,7 @@ public:
 
 	void OnEvent(LWEngine::Event& event) override
 	{
-
+		m_CameraController.OnEvent(event);
 	}
 
 private:
@@ -207,12 +180,9 @@ private:
 	LWEngine::Ref<LWEngine::VertexArray> m_TestVA;
 
 	LWEngine::Ref<LWEngine::Texture2D> m_Texture2D;
-	LWEngine::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMovementSpeed = 5.0f;
-	float m_CameraAcceleration = 0.01f;
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 60.0f;
+	LWEngine::OrthographicCameraController m_CameraController;
+
+	LWEngine::Window* m_Window;
 
 	glm::vec3 m_ObjectPosition;
 	float m_ObjectMovementSpeed = 2.0f;

@@ -22,8 +22,8 @@
 #include "LWEngine/Renderer/Texture.h"
 #include "LWEngine/Renderer/VertexArray.h"
 
-#include "LWEngine/Renderer/OrthographicCamera.h"
-//#include "LWEngine/Renderer/GraphicsSettings.h"
+#include <LWEngine/Renderer/OrthographicCameraController.h>
+
 #include "LWEngine/Window.h"
 
 #include "LWEngine/ImGui/ImGuiLayer.h"
