@@ -19,7 +19,7 @@ namespace LWEngine {
 			: Title(title), Width(width), Height(height) {}
 	};
 	
-	//. Interface a desktop system based Window class (nust be implemented per platform)
+	//. Desktop system based Window class (nust be implemented per platform)
 	class LWE_API Window
 	{
 	public:
