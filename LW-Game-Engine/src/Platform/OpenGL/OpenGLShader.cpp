@@ -218,7 +218,11 @@ namespace LWEngine {
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform3f(location, values.x, values.y, values.z);
 	}
-
+	void OpenGLShader::UploadUniformVec4(const std::string& name, const glm::vec4& values)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform4f(location, values.x, values.y, values.z, values.w);
+	}
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
