@@ -126,6 +126,9 @@
     <ClInclude Include="src\LWEngine\Renderer\Renderer.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\Renderer2D.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\RendererAPI.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
@@ -1452,6 +1455,9 @@
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Renderer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\Renderer2D.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\RendererAPI.cpp">

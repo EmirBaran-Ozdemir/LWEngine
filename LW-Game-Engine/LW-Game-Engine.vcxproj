@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>lwpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_PLATFORM_WINDOWS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>lwpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_PLATFORM_WINDOWS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -122,7 +122,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>lwpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_PLATFORM_WINDOWS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LWE_BUILD_DLL;GLFW_INCLUDE_NONE;LWE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -166,6 +166,7 @@
     <ClInclude Include="src\LWEngine\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\LWEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\LWEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\LWEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\LWEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\LWEngine\Renderer\Shader.h" />
     <ClInclude Include="src\LWEngine\Renderer\Texture.h" />
@@ -610,6 +611,7 @@
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\LWEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Texture.cpp" />

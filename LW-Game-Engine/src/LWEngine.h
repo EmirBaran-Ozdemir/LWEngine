@@ -17,6 +17,7 @@
 
 //? RENDERER
 #include "LWEngine/Renderer/Renderer.h"
+#include "LWEngine/Renderer/Renderer2D.h"
 #include "LWEngine/Renderer/RenderCommand.h"
 #include "LWEngine/Renderer/Buffer.h"
 #include "LWEngine/Renderer/Shader.h"
