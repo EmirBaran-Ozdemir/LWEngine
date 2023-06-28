@@ -2,7 +2,7 @@
 
 #include "lwpch.h"
 
-#include "LWEngine/Core.h"
+#include "LWEngine/Core/Core.h"
 #include "LWEngine/Events/Event.h"
 
 namespace LWEngine {

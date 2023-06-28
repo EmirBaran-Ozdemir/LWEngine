@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LWEngine/Input.h"
+#include "LWEngine/Core/Input.h"
 
 namespace LWEngine {
 

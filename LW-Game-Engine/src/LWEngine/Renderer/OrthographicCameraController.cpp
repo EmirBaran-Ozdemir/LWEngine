@@ -1,8 +1,8 @@
 #include "lwpch.h"
 #include "OrthographicCameraController.h"
 
-#include "LWEngine/Input.h"
-#include "LWEngine/KeyCodes.h"
+#include "LWEngine/Core/Input.h"
+#include "LWEngine/Core/KeyCodes.h"
 
 namespace LWEngine {
 	

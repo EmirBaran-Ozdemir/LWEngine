@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LWEngine/Core.h"
+#include "LWEngine/Core/Core.h"
 
 #include <string>
 #include <functional>

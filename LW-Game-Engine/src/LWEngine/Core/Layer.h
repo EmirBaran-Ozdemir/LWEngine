@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LWEngine/Core.h"
+#include "LWEngine/Core/Core.h"
 #include "LWEngine/Events/Event.h"
 #include "LWEngine/Core/Timestep.h"
 

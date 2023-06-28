@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LWEngine/Renderer/Texture.h"
-#include "LWEngine/Log.h"
+#include "LWEngine/Core/Log.h"
 
 namespace LWEngine {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lwpch.h"
-#include "LWEngine/Core.h"
+#include "LWEngine/Core/Core.h"
 
 namespace LWEngine {
 

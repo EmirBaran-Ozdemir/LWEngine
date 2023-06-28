@@ -19,7 +19,7 @@
 #include <array>
 
 //. Headers
-#include "LWEngine/Log.h"
+#include "LWEngine/Core/Log.h"
 
 #ifdef LWE_PLATFORM_WINDOWS
 	#include <Windows.h>

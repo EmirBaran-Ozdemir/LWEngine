@@ -144,21 +144,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\LWEngine.h" />
-    <ClInclude Include="src\LWEngine\Application.h" />
-    <ClInclude Include="src\LWEngine\Core.h" />
+    <ClInclude Include="src\LWEngine\Core\Application.h" />
+    <ClInclude Include="src\LWEngine\Core\Core.h" />
+    <ClInclude Include="src\LWEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\LWEngine\Core\Input.h" />
+    <ClInclude Include="src\LWEngine\Core\KeyCodes.h" />
+    <ClInclude Include="src\LWEngine\Core\Layer.h" />
+    <ClInclude Include="src\LWEngine\Core\LayerStack.h" />
+    <ClInclude Include="src\LWEngine\Core\Log.h" />
+    <ClInclude Include="src\LWEngine\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\LWEngine\Core\Timestep.h" />
-    <ClInclude Include="src\LWEngine\EntryPoint.h" />
+    <ClInclude Include="src\LWEngine\Core\Window.h" />
     <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\LWEngine\Events\Event.h" />
     <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\LWEngine\Input.h" />
-    <ClInclude Include="src\LWEngine\KeyCodes.h" />
-    <ClInclude Include="src\LWEngine\Layer.h" />
-    <ClInclude Include="src\LWEngine\LayerStack.h" />
-    <ClInclude Include="src\LWEngine\Log.h" />
-    <ClInclude Include="src\LWEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\LWEngine\Renderer\OrthographicCamera.h" />
@@ -169,7 +170,6 @@
     <ClInclude Include="src\LWEngine\Renderer\Shader.h" />
     <ClInclude Include="src\LWEngine\Renderer\Texture.h" />
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\LWEngine\Window.h" />
     <ClInclude Include="src\Panels\StaticPanel.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -599,12 +599,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\LWEngine\Application.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Application.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Layer.cpp" />
+    <ClCompile Include="src\LWEngine\Core\LayerStack.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Log.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\LWEngine\Layer.cpp" />
-    <ClCompile Include="src\LWEngine\LayerStack.cpp" />
-    <ClCompile Include="src\LWEngine\Log.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCameraController.cpp" />

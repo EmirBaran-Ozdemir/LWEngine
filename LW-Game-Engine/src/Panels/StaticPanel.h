@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "LWEngine/Core.h"
+#include "LWEngine/Core/Core.h"
 #include "LWEngine/Core/Timestep.h"
 namespace LWEngine {
 

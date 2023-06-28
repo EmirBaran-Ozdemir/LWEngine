@@ -1,7 +1,7 @@
 #include "lwpch.h"
 #include "WindowsInput.h"
 
-#include "LWEngine/Application.h"
+#include "LWEngine/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace LWEngine {

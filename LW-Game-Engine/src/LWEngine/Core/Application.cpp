@@ -1,7 +1,7 @@
 #include "lwpch.h"
 #include "Application.h"
 
-#include "LWEngine/Log.h"
+#include "LWEngine/Core/Log.h"
 #include "glad/glad.h"
 #include "LWEngine/Renderer/Renderer.h"
 //#include "LWEngine/Renderer/GraphicsSettings.h"
