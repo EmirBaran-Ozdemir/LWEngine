@@ -25,7 +25,3 @@
 #include <LWEngine/Renderer/OrthographicCameraController.h>
 
 #include "LWEngine/ImGui/ImGuiLayer.h"
-
-//. ----------Entry Point----------
-#include "LWEngine/Core/EntryPoint.h"
-//. -------------------------------

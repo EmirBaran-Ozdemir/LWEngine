@@ -2,16 +2,24 @@
 
 #include <memory>
 
-
-#ifdef LWE_PLATFORM_WINDOWS
-#if LWE_DYNAMIC_LINK
-	#ifdef LWE_BUILD_DLL
-		#define LWE_API __declspec(dllexport)
-	#else		
-		#define LWE_API __declspec(dllimport)
+#ifdef _WIN32
+	#ifdef _WIN64
+		#define LWE_PLATFORM_WINDOWS
+	#else
+#error 'ERROR::BUILD::x64_IS_NOT_SUPPORTED'
 	#endif
-#else
-	#define LWE_API
+#endif
+
+//. DLL support
+#ifdef LWE_PLATFORM_WINDOWS
+	#if LWE_DYNAMIC_LINK
+		#ifdef LWE_BUILD_DLL
+			#define LWE_API __declspec(dllexport)
+		#else		
+			#define LWE_API __declspec(dllimport)
+		#endif
+	#else
+		#define LWE_API
 #endif
 
 #else
@@ -23,8 +31,8 @@
 #endif
 
 #ifdef LWE_ENABLE_ASSERTS
-	#define LWE_ASSERT(x, ...) {if (!(x)) {LWE_ERROR("ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
-	#define LWE_CORE_ASSERT(x, ...) {if (!(x)) {LWE_CORE_ERROR("ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
+	#define LWE_ASSERT(x, ...) {if (!(x)) {LWE_ERROR("ERROR::ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
+	#define LWE_CORE_ASSERT(x, ...) {if (!(x)) {LWE_CORE_ERROR("ERROR::ASSERTION_FAILED:{0}", __VA_ARGS__); __debugbreak(); } }
 #else
 	#define LWE_ASSERT(x, ...)
 	#define LWE_CORE_ASSERT(x, ...)

@@ -14,8 +14,8 @@ namespace LWEngine {
 
 		//! Default paramaters
 		WindowProps(const std::string& title = "LW Engine",
-			unsigned int width = 500,
-			unsigned int height = 500)
+			unsigned int width = 1280,
+			unsigned int height = 720)
 			: Title(title), Width(width), Height(height) {}
 	};
 	

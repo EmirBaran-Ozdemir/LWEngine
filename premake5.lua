@@ -77,7 +77,6 @@ project "LW-Game-Engine"
 
 		defines
 		{
-			"LWE_PLATFORM_WINDOWS",
 			"LWE_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}

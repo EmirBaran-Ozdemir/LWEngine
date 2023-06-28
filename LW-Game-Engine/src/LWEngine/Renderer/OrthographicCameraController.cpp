@@ -17,19 +17,32 @@ namespace LWEngine {
 	{
 		//. CAMERA MOVEMENTS
 		if (Input::IsKeyPressed(LWE_KEY_RIGHT) || Input::IsKeyPressed(LWE_KEY_D))
-			m_CameraPosition.x += (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		{
+			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
+
 		else if (Input::IsKeyPressed(LWE_KEY_LEFT) || Input::IsKeyPressed(LWE_KEY_A))
-			m_CameraPosition.x -= (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		{
+			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
 
 		if (Input::IsKeyPressed(LWE_KEY_UP) || Input::IsKeyPressed(LWE_KEY_W))
-			m_CameraPosition.z -= (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		{
+			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
 		else if (Input::IsKeyPressed(LWE_KEY_DOWN) || Input::IsKeyPressed(LWE_KEY_S))
-			m_CameraPosition.z += (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		{
+			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
 
-		if (Input::IsKeyPressed(LWE_KEY_SPACE))
-			m_CameraPosition.y += (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
-		else if (Input::IsKeyPressed(LWE_KEY_LEFT_SHIFT))
-			m_CameraPosition.y -= (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		//if (Input::IsKeyPressed(LWE_KEY_SPACE))
+		//	m_CameraPosition.y += (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
+		//else if (Input::IsKeyPressed(LWE_KEY_LEFT_SHIFT))
+		//	m_CameraPosition.y -= (m_CameraTranslationSpeed + m_CameraAcceleration) * ts;
 		
 		m_Camera.SetPosition(m_CameraPosition);
 
@@ -39,6 +52,10 @@ namespace LWEngine {
 			m_CameraRotation += m_CameraRotationSpeed * ts;
 		if (Input::IsKeyPressed(LWE_KEY_E))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
+		if (m_CameraRotation > 180.0f)
+			m_CameraRotation -= 360.0f;
+		else if (m_CameraRotation <= -180.0f)
+			m_CameraRotation += 360.0f;
 
 		m_Camera.SetRotation(m_CameraRotation);
 

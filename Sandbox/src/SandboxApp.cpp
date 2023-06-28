@@ -1,23 +1,35 @@
+//? Put these ptahs into your .h file
 #include <LWEngine.h>
+//? -----------------------------------
 
+//. ----------Entry Point----------
+#include <LWEngine/Core/EntryPoint.h>
+//. -------------------------------
+#include "Sandbox2D.h"
+
+ 
+//? Put these paths into your .cpp file
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+//? -----------------------------------
 
 extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1; }
 
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public LWEngine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_CameraController((float)1920/1080), m_ObjectPosition(0.0f)
+		: Layer("Example"), m_CameraController((float)1280/720), m_ObjectPosition(0.0f)
 	{
 		////. Triangle
 		//m_VertexArray.reset(LWEngine::VertexArray::Create());
@@ -40,7 +52,7 @@ public:
 		//m_Shader = LWEngine::Shader::Create("assets/shaders/Texture.glsl");
 
 
-		m_SquareVA.reset(LWEngine::VertexArray::Create());
+		m_SquareVA = LWEngine::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.2f,	-0.2f,	0.0f,  0.0f, 0.0f,
 			 0.2f,	-0.2f,	0.0f,  1.0f, 0.0f,
@@ -65,14 +77,12 @@ public:
 
 
 		auto textureShader = m_ShaderLib.Load("assets/shaders/Texture.glsl");
-
 		m_Texture2D = LWEngine::Texture2D::Create("assets/textures/awesomeface.png");
-
 		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(textureShader)->Bind();
 		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture2D", 0);
 
 
-		m_TestVA.reset(LWEngine::VertexArray::Create());
+		m_TestVA = LWEngine::VertexArray::Create();
 		float testVertices[4 * 5] = {
 			-1.5f,	-1.5f,	0.0f, -0.5f, -0.5f,
 			 1.5f,	-1.5f,	0.0f,  0.5f, -0.5f,
@@ -201,7 +211,9 @@ public:
 	Sandbox()
 		: Application()
 	{
-		PushLayer(new ExampleLayer());
+		// PushLayer(new ExampleLayer());
+		
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox()
 	{
