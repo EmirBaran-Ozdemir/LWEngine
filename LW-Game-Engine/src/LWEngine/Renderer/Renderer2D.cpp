@@ -5,7 +5,6 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "RenderCommand.h"
-#include <Platform/OpenGL/OpenGLShader.h>
 
 namespace LWEngine {
 
@@ -53,9 +52,9 @@ namespace LWEngine {
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->quadShader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->quadShader)->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->quadShader)->UploadUniformMat4("u_Transform", glm::mat4(1.0f));
+		s_Data->quadShader->Bind();
+		s_Data->quadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data->quadShader->SetMat4("u_Transform", glm::mat4(1.0f));
 
 	}
 	
@@ -71,8 +70,8 @@ namespace LWEngine {
 	
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->quadShader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->quadShader)->UploadUniformFloat4("u_Color", color);
+		s_Data->quadShader->Bind();
+		s_Data->quadShader->SetFloat4("u_Color", color);
 
 
 		s_Data->quadVA->Bind();
