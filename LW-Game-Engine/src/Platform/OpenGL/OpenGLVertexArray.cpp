@@ -51,7 +51,7 @@ namespace LWEngine {
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		LWE_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "VertexBuffer has no layout");
+		LWE_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "ERROR::VERTEX_BUFFER::VB_HAS_NO_LAYOUT");
 
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();

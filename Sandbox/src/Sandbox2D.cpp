@@ -39,7 +39,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 	LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f }, { m_Texture2D->GetWidth() * sizeMultiplier, 
 		m_Texture2D->GetHeight() * sizeMultiplier}, m_Texture2D);
 	LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f , -0.01f}, { m_Background->GetWidth() * sizeMultiplier, 
-		m_Background->GetHeight() * sizeMultiplier }, m_Background);
+		m_Background->GetHeight() * sizeMultiplier }, m_Background, glm::vec4(0.7f,0.1f,0.1f,1.0f));
 
 	LWEngine::Renderer2D::EndScene();
 

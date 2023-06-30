@@ -11,9 +11,10 @@ namespace LWEngine {
 
 	struct Renderer2DStorage
 	{
-		Ref<LWEngine::Shader> quadShader;
-		Ref<LWEngine::Shader> quadTexture;
+		Ref<LWEngine::Shader> quadTextureShader;
 		Ref<LWEngine::VertexArray> quadVA;
+		Ref<LWEngine::Texture2D> whiteTexture;
+
 	};
 
 	static Renderer2DStorage* s_Data;
@@ -46,10 +47,13 @@ namespace LWEngine {
 		squareIB.reset((LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
 		s_Data->quadVA->SetIndexBuffer(squareIB);
 
-		s_Data->quadShader = Shader::Create("assets/shaders/SquareShader.glsl");
-		s_Data->quadTexture = Shader::Create("assets/shaders/Texture.glsl");
-		s_Data->quadTexture->Bind();
-		s_Data->quadTexture->SetInt("u_Texture2D", 0);
+		s_Data->whiteTexture = Texture2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		s_Data->whiteTexture->SetData(&whiteTextureData, sizeof(whiteTextureData));
+
+		s_Data->quadTextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		s_Data->quadTextureShader->Bind();
+		s_Data->quadTextureShader->SetInt("u_Texture2D", 0);
 	}
 
 	void Renderer2D::Shutdown()
@@ -60,11 +64,9 @@ namespace LWEngine {
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 
-		s_Data->quadShader->Bind();
-		s_Data->quadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data->quadTextureShader->Bind();
+		s_Data->quadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
-		s_Data->quadTexture->Bind();
-		s_Data->quadTexture->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
 	}
 
@@ -80,11 +82,11 @@ namespace LWEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		s_Data->quadShader->Bind();
-		s_Data->quadShader->SetFloat4("u_Color", color);
-
+		s_Data->quadTextureShader->SetFloat4("u_Color", color);
+		// White shader 
+		s_Data->whiteTexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
-		s_Data->quadShader->SetMat4("u_Transform", transform);
+		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->quadVA->Bind();
 		RenderCommand::DrawIndexed(s_Data->quadVA);
@@ -97,12 +99,28 @@ namespace LWEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
 	{
-		s_Data->quadTexture->Bind();
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
-		s_Data->quadTexture->SetMat4("u_Transform", transform);
+		s_Data->quadTextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
 
 		texture->Bind();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
+		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+
+		s_Data->quadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data->quadVA);
+	}
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
+	{
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
+	}
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
+	{
+		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
+
+		texture->Bind();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
+		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->quadVA->Bind();
 		RenderCommand::DrawIndexed(s_Data->quadVA);
