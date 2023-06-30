@@ -15,8 +15,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-
-
+	m_Texture2D = LWEngine::Texture2D::Create("assets/textures/awesomeface.png");
+	m_Background = LWEngine::Texture2D::Create("assets/textures/Lake.jpg");
 }
 
 void Sandbox2D::OnDetach()
@@ -33,7 +33,14 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 
 	LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	LWEngine::Renderer2D::DrawQuad({ 0.0f,0.0f }, { 1.0f,1.0f }, m_SquareColor);
+	LWEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
+	LWEngine::Renderer2D::DrawQuad({ 0.5f ,-0.5f }, { 0.5f, 0.75f }, {1.0f,0.0f,1.0f,1.0f});
+
+	LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f }, { m_Texture2D->GetWidth() * sizeMultiplier, 
+		m_Texture2D->GetHeight() * sizeMultiplier}, m_Texture2D);
+	LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f , -0.01f}, { m_Background->GetWidth() * sizeMultiplier, 
+		m_Background->GetHeight() * sizeMultiplier }, m_Background);
+
 	LWEngine::Renderer2D::EndScene();
 
 	//std::dynamic_pointer_cast<LWEngine::OpenGLShader>(squareShader)->Bind();

@@ -21,7 +21,8 @@ private:
 	LWEngine::ShaderLibrary m_ShaderLib;
 	LWEngine::Ref<LWEngine::Shader> m_Shader;
 	LWEngine::Ref<LWEngine::VertexArray> m_SquareVA;
-	LWEngine::Ref<LWEngine::Texture2D> m_Texture2D;
+	LWEngine::Ref<LWEngine::Texture2D> m_Texture2D, m_Background;
+	const float sizeMultiplier = 0.01;
 	//? Temp
 
 	LWEngine::OrthographicCameraController m_CameraController;
