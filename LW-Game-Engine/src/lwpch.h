@@ -20,6 +20,7 @@
 
 //. Headers
 #include "LWEngine/Core/Log.h"
+#include "LWEngine/Dev/Instrumentor.h"
 
 #ifdef LWE_PLATFORM_WINDOWS
 	#include <Windows.h>

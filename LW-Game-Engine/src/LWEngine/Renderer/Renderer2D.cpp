@@ -72,7 +72,7 @@ namespace LWEngine {
 
 	void Renderer2D::EndScene()
 	{
-
+		s_Data->quadTextureShader->Unbind();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -109,10 +109,12 @@ namespace LWEngine {
 		s_Data->quadVA->Bind();
 		RenderCommand::DrawIndexed(s_Data->quadVA);
 	}
+	
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
 	}
+
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
 	{
 		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
