@@ -15,6 +15,8 @@ namespace LWEngine {
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 
 	{
+		LWE_PROFILE_FUNCTION();
+
 		//. CAMERA MOVEMENTS
 		if (Input::IsKeyPressed(LWE_KEY_RIGHT) || Input::IsKeyPressed(LWE_KEY_D))
 		{
@@ -65,6 +67,8 @@ namespace LWEngine {
 	
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseScrolledEvent>(LWE_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(LWE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
@@ -73,6 +77,8 @@ namespace LWEngine {
 	
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		m_ZoomLevel -= e.GetYOffset() * 0.1f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
@@ -81,6 +87,8 @@ namespace LWEngine {
 	
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;

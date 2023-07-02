@@ -16,12 +16,16 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
+	LWE_PROFILE_FUNCTION();
+
 	m_Texture2D = LWEngine::Texture2D::Create("assets/textures/awesomeface.png");
 	m_Background = LWEngine::Texture2D::Create("assets/textures/Lake.jpg");
 }
 
 void Sandbox2D::OnDetach()
 {
+	LWE_PROFILE_FUNCTION();
+
 }
 
 void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
@@ -29,10 +33,9 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 	LWE_PROFILE_FUNCTION();
 
 	// Update
-	{
-		LWE_PROFILE_SCOPE("CameraController::OnUpdate");
-		m_CameraController.OnUpdate(ts);
-	}
+	
+	m_CameraController.OnUpdate(ts);
+	
 
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
@@ -62,6 +65,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 
 void Sandbox2D::OnImGuiRender(LWEngine::Timestep ts)
 {
+	LWE_PROFILE_FUNCTION();
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();

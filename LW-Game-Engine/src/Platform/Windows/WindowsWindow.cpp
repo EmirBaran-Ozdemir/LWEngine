@@ -23,17 +23,19 @@ namespace LWEngine {
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		LWE_PROFILE_FUNCTION();
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		//! Destroy window 
+		LWE_PROFILE_FUNCTION();
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		LWE_PROFILE_FUNCTION();
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -44,8 +46,10 @@ namespace LWEngine {
 		//! Check GLFWInitialization
 		if (!s_GLFWInitialized)
 		{
+			LWE_PROFILE_SCOPE("glfwInit");
+
 			int success = glfwInit();
-			LWE_CORE_ASSERT(success, "GLFW::INITIALIZATION_FAILED");
+			LWE_CORE_ASSERT(success, "ERROR::GLFW::INITIALIZATION_FAILED");
 
 			//! Set error callback which doesn't setted in glfw
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -53,10 +57,12 @@ namespace LWEngine {
 		}
 
 		//! Set window properties and VSync
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr); //glfwGetPrimaryMonitor()
+		{
+			LWE_PROFILE_SCOPE("glfwCreateWindow");
 
-		m_Context = new OpenGLContext(m_Window);
-
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr); //glfwGetPrimaryMonitor()
+			m_Context = new OpenGLContext(m_Window);
+		}
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -153,17 +159,20 @@ namespace LWEngine {
 
 	void WindowsWindow::Shutdown()
 	{
+		LWE_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		LWE_PROFILE_FUNCTION();
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		LWE_PROFILE_SCOPE("glfwSwapInterval");
 		if (enabled)
 			glfwSwapInterval(1);
 		else

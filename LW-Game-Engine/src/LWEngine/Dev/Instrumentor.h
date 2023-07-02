@@ -127,7 +127,7 @@ namespace LWEngine {
 	#define LWE_PROFILE_BEGIN_SESSION(name, filepath)				::LWEngine::Instrumentor::Get().BeginSession(name, filepath)
 	#define LWE_PROFILE_END_SESSION()								::LWEngine::Instrumentor::Get().EndSession()
 	#define LWE_PROFILE_SCOPE(name)									::LWEngine::InstrumentationTimer timer##__LINE__(name);
-	#define LWE_PROFILE_FUNCTION() LWE_PROFILE_SCOPE(__FUNCSIG__)
+	#define LWE_PROFILE_FUNCTION() LWE_PROFILE_SCOPE(__FUNCTION__)
 #else
 	#define LWE_PROFILE_BEGIN_SESSION(name, filepath)
 	#define LWE_PROFILE_END_SESSION()

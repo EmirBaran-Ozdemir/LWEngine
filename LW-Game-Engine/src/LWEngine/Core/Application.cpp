@@ -12,6 +12,7 @@ namespace LWEngine {
 
 	Application::Application()
 	{
+		LWE_PROFILE_FUNCTION();
 		
 		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!");
 		s_Instance = this;
@@ -27,23 +28,31 @@ namespace LWEngine {
 
 	Application::~Application()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(LWE_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(LWE_BIND_EVENT_FN(Application::OnWindowResize));
@@ -60,9 +69,13 @@ namespace LWEngine {
 
 	void Application::Run()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		auto startTime = std::chrono::high_resolution_clock::now();
 		while (m_Running)
 		{
+			LWE_PROFILE_SCOPE("AppLoop");
+
 			float time = (float)glfwGetTime();
 			auto currentTime = std::chrono::high_resolution_clock::now();
 			m_ElapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
@@ -71,6 +84,8 @@ namespace LWEngine {
 
 			if (!m_Minimized)
 			{
+				LWE_PROFILE_SCOPE("Layer update");
+
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdate(timestep);
 			}
@@ -92,6 +107,8 @@ namespace LWEngine {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;

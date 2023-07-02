@@ -40,6 +40,23 @@ namespace LWEngine {
 
 			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 
+#ifdef LWE_DEBUG
+			bool showDebug = false;
+			if (ImGui::BeginMenu("Demo Window"))
+			{
+				if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
+				{
+					showDebug = -showDebug;
+				}
+
+				ImGui::EndMenu();
+			}
+
+			if (showDebug)
+			{
+				ImGui::ShowDemoWindow();
+			}
+#endif // _DEBUG	
 			ImGui::EndMainMenuBar();
 		}
 

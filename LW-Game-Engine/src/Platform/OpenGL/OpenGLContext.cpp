@@ -14,6 +14,7 @@ namespace LWEngine {
 
 	void OpenGLContext::Init()
 	{
+		LWE_PROFILE_FUNCTION();
 		glfwMakeContextCurrent(m_windowHandle);
 		//! Glad initialization
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -39,7 +40,7 @@ namespace LWEngine {
 
 	void OpenGLContext::SwapBuffers()
 	{
-		
+		LWE_PROFILE_FUNCTION();
 		glfwSwapBuffers(m_windowHandle);
 
 	}

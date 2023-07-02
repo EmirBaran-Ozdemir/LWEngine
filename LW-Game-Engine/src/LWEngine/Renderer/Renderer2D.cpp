@@ -21,6 +21,8 @@ namespace LWEngine {
 
 	void Renderer2D::Init()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		s_Data = new Renderer2DStorage();
 
 		s_Data->quadVA = LWEngine::VertexArray::Create();
@@ -58,30 +60,37 @@ namespace LWEngine {
 
 	void Renderer2D::Shutdown()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		delete s_Data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		LWE_PROFILE_FUNCTION();
 
 		s_Data->quadTextureShader->Bind();
 		s_Data->quadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-
-
 	}
 
 	void Renderer2D::EndScene()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		s_Data->quadTextureShader->Unbind();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		s_Data->quadTextureShader->SetFloat4("u_Color", color);
 		// White shader 
 		s_Data->whiteTexture->Bind();
@@ -99,6 +108,8 @@ namespace LWEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		s_Data->quadTextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
 
 		texture->Bind();
@@ -117,6 +128,8 @@ namespace LWEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
 	{
+		LWE_PROFILE_FUNCTION();
+
 		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
 
 		texture->Bind();

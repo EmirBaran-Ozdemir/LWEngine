@@ -29,6 +29,8 @@ namespace LWEngine {
 
 	void ImGuiLayer::OnAttach()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
@@ -56,6 +58,8 @@ namespace LWEngine {
 
 	void ImGuiLayer::OnDetach()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -78,37 +82,17 @@ namespace LWEngine {
 
 		//// Create a dockable frame
 		//ImGui::SetNextWindowDockID(ImGui::GetID("Dockable Frame"), ImGuiDockNodeFlags_PassthruCentralNode);
-		
 
-		
 		StaticPanel::TopMenuBar(ts);
 		StaticPanel::TabMenuBar();
 		StaticPanel::BottomMenuBar();
-		StaticPanel::RightMenuBar();
-		
-
-#ifdef LWE_DEBUG
-		static bool showDebug = false;
-		if (ImGui::BeginMenu("Demo Window"))
-		{
-			if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
-			{
-				showDebug = -showDebug;	
-			}
-			
-			ImGui::EndMenu();
-		}
-		
-		if (showDebug)
-		{
-			ImGui::ShowDemoWindow();
-			
-		}
-#endif // _DEBUG		
+		StaticPanel::RightMenuBar();	
 	}
 
 	void ImGuiLayer::Begin()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -116,6 +100,8 @@ namespace LWEngine {
 
 	void ImGuiLayer::End()
 	{
+		LWE_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), app.GetWindow().GetHeight());

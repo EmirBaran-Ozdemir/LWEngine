@@ -3,6 +3,9 @@
 bin/
 bin-int/
 
+# Profiling
+*.json
+
 # Files
 *.user
 *.ini

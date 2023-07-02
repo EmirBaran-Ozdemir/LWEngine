@@ -10,6 +10,7 @@ namespace LWEngine {
 
 	void Renderer::Init()
 	{
+		LWE_PROFILE_FUNCTION();
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
