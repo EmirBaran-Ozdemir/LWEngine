@@ -111,6 +111,7 @@ namespace LWEngine {
 		LWE_PROFILE_FUNCTION();
 
 		s_Data->quadTextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_Data->quadTextureShader->SetFloat("u_TilingFactor", 1.0f);
 
 		texture->Bind();
 
@@ -121,20 +122,45 @@ namespace LWEngine {
 		RenderCommand::DrawIndexed(s_Data->quadVA);
 	}
 	
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tint, tilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
 	{
 		LWE_PROFILE_FUNCTION();
 
 		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
+		s_Data->quadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
 
 		texture->Bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
+		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+
+		s_Data->quadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data->quadVA);
+	}
+	void Renderer2D::DrawQuadRotated(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
+	{
+		DrawQuadRotated({ position.x, position.y, 0.0f }, size, rotation, texture, tint, tilingFactor);
+	}
+	void Renderer2D::DrawQuadRotated(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
+	{
+		LWE_PROFILE_FUNCTION();
+
+		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
+		s_Data->quadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
+		
+
+		texture->Bind();
+
+		glm::mat4 transform = 
+			  glm::translate(glm::mat4(1.0f), position) 
+			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f , 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
+
 		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->quadVA->Bind();

@@ -75,13 +75,15 @@ namespace LWEngine {
 		while (m_Running)
 		{
 			LWE_PROFILE_SCOPE("AppLoop");
-
-			float time = (float)glfwGetTime();
-			auto currentTime = std::chrono::high_resolution_clock::now();
-			m_ElapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
-			Timestep timestep(time - m_LastFrameTime, m_ElapsedTime);
-			m_LastFrameTime = time;
-
+			Timestep timestep;
+			{
+				LWE_PROFILE_SCOPE("Timestep Calculations");
+				float time = (float)glfwGetTime();
+				auto currentTime = std::chrono::high_resolution_clock::now();
+				m_ElapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+				timestep = Timestep(time - m_LastFrameTime, m_ElapsedTime);
+				m_LastFrameTime = time;
+			}
 			if (!m_Minimized)
 			{
 				LWE_PROFILE_SCOPE("Layer update");

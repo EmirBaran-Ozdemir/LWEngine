@@ -50,10 +50,25 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 		LWEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
 		LWEngine::Renderer2D::DrawQuad({ 0.5f ,-0.5f }, { 0.5f, 0.75f }, { 1.0f,0.0f,1.0f,1.0f });
 
-		LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f }, { m_Texture2D->GetWidth() * sizeMultiplier,
-			m_Texture2D->GetHeight() * sizeMultiplier }, m_Texture2D);
-		LWEngine::Renderer2D::DrawQuad({ 0.5f , 0.2f , -0.01f }, { m_Background->GetWidth() * sizeMultiplier,
-			m_Background->GetHeight() * sizeMultiplier }, m_Background, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f));
+		float rotation = ts.GetElapsedTime() / 20;
+		LWEngine::Renderer2D::DrawQuadRotated(
+			{ 0.5f , 0.2f },
+			{ m_Texture2D->GetWidth() * sizeMultiplier,
+			m_Texture2D->GetHeight() * sizeMultiplier },
+			rotation,
+			m_Texture2D,
+			glm::vec4(1.0f),
+			1.0f
+		);
+		
+		LWEngine::Renderer2D::DrawQuad(
+			{ 0.5f , 0.2f , -0.01f },
+			{ m_Background->GetWidth() * sizeMultiplier,
+			m_Background->GetHeight() * sizeMultiplier },
+			m_Background,
+			glm::vec4(0.7f, 0.1f, 0.1f, 1.0f),
+			1.0f
+		);
 
 		LWEngine::Renderer2D::EndScene();
 	}
@@ -69,6 +84,9 @@ void Sandbox2D::OnImGuiRender(LWEngine::Timestep ts)
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();
+
+
+
 }
 
 void Sandbox2D::OnEvent(LWEngine::Event& e)

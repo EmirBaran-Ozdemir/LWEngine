@@ -140,10 +140,19 @@ namespace LWEngine {
 						}
 						else
 							LWE_CLIENT_ERROR("Log file does not found");
-
 					}
+					
 					ImGui::EndMenu();
 				}
+
+				if (ImGui::BeginMenu("Performance profiling"))
+				{
+					static bool enableProfile = false;
+					if (ImGui::Button("Start code profile"))
+						enableProfile = !enableProfile;
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndMenuBar();
 			}
 			ImGui::End();
