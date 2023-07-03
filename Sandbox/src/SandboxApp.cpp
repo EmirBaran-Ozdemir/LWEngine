@@ -60,7 +60,7 @@ public:
 			-0.2f,	 0.2f,	0.0f,  0.0f, 1.0f,
 		};
 		LWEngine::Ref<LWEngine::VertexBuffer> squareVB;
-		squareVB.reset(LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB = LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		LWEngine::BufferLayout squareLayout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
 			{LWEngine::ShaderDataType::Float2, "a_TexCoord"},
@@ -71,7 +71,7 @@ public:
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3,0 };
 
 		LWEngine::Ref<LWEngine::IndexBuffer> squareIB;
-		squareIB.reset((LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
+		squareIB = (LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 		auto squareShader = m_ShaderLib.Load("assets/shaders/SquareShader.glsl");
 
@@ -90,7 +90,7 @@ public:
 			-1.5f,	 1.5f,	0.0f, -0.5f,  0.5f,
 		};
 		LWEngine::Ref<LWEngine::VertexBuffer> testVB;
-		testVB.reset(LWEngine::VertexBuffer::Create(testVertices, sizeof(testVertices)));
+		testVB = LWEngine::VertexBuffer::Create(testVertices, sizeof(testVertices));
 		LWEngine::BufferLayout testLayout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
 			{LWEngine::ShaderDataType::Float2, "fragCoord"},
@@ -101,7 +101,7 @@ public:
 		uint32_t testIndices[6] = { 0, 1, 2, 2, 3,0 };
 
 		LWEngine::Ref<LWEngine::IndexBuffer> testIB;
-		testIB.reset(LWEngine::IndexBuffer::Create(testIndices, sizeof(testIndices) / sizeof(uint32_t)));
+		testIB = LWEngine::IndexBuffer::Create(testIndices, sizeof(testIndices) / sizeof(uint32_t));
 		m_TestVA->SetIndexBuffer(testIB);
 
 		m_TestShader = LWEngine::Shader::Create("assets/shaders/TestShader.glsl");

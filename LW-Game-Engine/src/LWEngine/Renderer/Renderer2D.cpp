@@ -9,70 +9,126 @@
 
 namespace LWEngine {
 
-	struct Renderer2DStorage
+	struct QuadVertex
 	{
-		
-		Ref<LWEngine::Shader> quadTextureShader;
-		Ref<LWEngine::VertexArray> quadVA;
-		Ref<LWEngine::Texture2D> whiteTexture;
-
+		glm::vec3 Position;
+		glm::vec2 TexCoord;
+		glm::vec4 Color;
+		float TexIndex;
 	};
 
-	static Renderer2DStorage* s_Data;
+	struct Renderer2DData
+	{
+		const uint32_t MaxQuads = 1000;
+		const uint32_t MaxVertices = MaxQuads * 4;
+		const uint32_t MaxIndices = MaxQuads * 6;
+		static const uint32_t MaxTextureSlots = 32; //!TODO Check GPU for max available slots
+		
+		Ref<Shader> QuadTextureShader;
+		Ref<VertexArray> QuadVA;
+		Ref<VertexBuffer> QuadVB;
+		Ref<Texture2D> WhiteTexture;
+
+		uint32_t QuadIndexCount = 0;
+		QuadVertex* QuadVertexBufferBase = nullptr;
+		QuadVertex* QuadVertexBufferPtr = nullptr;
+
+		//! TODO Create asset handler for unique asset indexes	
+		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots; // Holding assets for reusability
+		uint32_t TextureSlotIndex = 1; // 0 is white texture 
+	};
+
+	static Renderer2DData s_Data;
 
 	void Renderer2D::Init()
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data = new Renderer2DStorage();
 
-		s_Data->quadVA = LWEngine::VertexArray::Create();
+		s_Data.QuadVA = VertexArray::Create();
+		s_Data.QuadVB = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
 
+		s_Data.QuadVB->SetLayout({
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float2, "a_TexCoord"},
+			{ShaderDataType::Float4, "a_Color"},
+			{ShaderDataType::Float, "a_TexIndex"},
+		});
 
-		LWEngine::Ref<LWEngine::VertexBuffer> squareVB;
-		squareVB.reset(LWEngine::VertexBuffer::Create();
-		LWEngine::BufferLayout squareLayout = {
-			{LWEngine::ShaderDataType::Float3, "a_Position"},
-			{LWEngine::ShaderDataType::Float2, "a_TexCoord"},
-		};
-		squareVB->SetLayout(squareLayout);
-		s_Data->quadVA->AddVertexBuffer(squareVB);
+		s_Data.QuadVA->AddVertexBuffer(s_Data.QuadVB);
 
-		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3,0 };
+		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
 
-		Ref<LWEngine::IndexBuffer> squareIB;
-		squareIB.reset((LWEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
-		s_Data->quadVA->SetIndexBuffer(squareIB);
+		//! NOTE THIS HAS TO BE IN SAME THREAD
+		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
 
-		s_Data->whiteTexture = Texture2D::Create(1, 1);
-		uint32_t whiteTextureData = 0xffffffff;
-		s_Data->whiteTexture->SetData(&whiteTextureData, sizeof(whiteTextureData));
+		uint32_t offset = 0;
+		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6)
+		{
+			quadIndices[i + 0] = offset + 0;
+			quadIndices[i + 1] = offset + 1;
+			quadIndices[i + 2] = offset + 2;
 
-		s_Data->quadTextureShader = Shader::Create("assets/shaders/Texture.glsl");
-		s_Data->quadTextureShader->Bind();
-		s_Data->quadTextureShader->SetInt("u_Texture2D", 0);
+			quadIndices[i + 3] = offset + 2;
+			quadIndices[i + 4] = offset + 3;
+			quadIndices[i + 5] = offset + 0;
+
+			offset += 4;
+		}
+		Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
+		s_Data.QuadVA->SetIndexBuffer(quadIB);
+		delete[] quadIndices;
+		//! ----------------------------------------
+
+		s_Data.WhiteTexture = Texture2D::Create(1, 1);
+		uint32_t WhiteTextureData = 0xffffffff;
+		s_Data.WhiteTexture->SetData(&WhiteTextureData, sizeof(WhiteTextureData));
+
+		int32_t samplers[s_Data.MaxTextureSlots];
+		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
+			samplers[i] = i;
+
+		s_Data.QuadTextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		s_Data.QuadTextureShader->Bind();
+		s_Data.QuadTextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
+		s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 	}
 
 	void Renderer2D::Shutdown()
 	{
 		LWE_PROFILE_FUNCTION();
-
-		delete s_Data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data->quadTextureShader->Bind();
-		s_Data->quadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data.QuadTextureShader->Bind();
+		s_Data.QuadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+		s_Data.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::EndScene()
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data->quadTextureShader->Unbind();
+		uint32_t dataSize = (uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase;
+		s_Data.QuadVB->SetData(s_Data.QuadVertexBufferBase, dataSize);
+
+		Flush();
+		//s_Data.QuadTextureShader->Unbind();
+	}
+
+	void Renderer2D::Flush()
+	{
+		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+			s_Data.TextureSlots[i]->Bind(i);
+		
+		RenderCommand::DrawIndexed(s_Data.QuadVA, s_Data.QuadIndexCount);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -85,15 +141,45 @@ namespace LWEngine {
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		LWE_PROFILE_FUNCTION();
+		
+		const float textureIndex = 0;
+		s_Data.QuadVertexBufferPtr->Position = position;
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
 
-		s_Data->quadTextureShader->SetFloat4("u_Color", color);
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f,0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f,1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f,1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadIndexCount += 6;
+
+#if BEFORE_BATCH_RENDERIN
+		s_Data.QuadTextureShader->SetFloat4("u_Color", color);
 		// White shader 
-		s_Data->whiteTexture->Bind();
+		s_Data.WhiteTexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
-		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+		s_Data.QuadTextureShader->SetMat4("u_Transform", transform);
 
-		s_Data->quadVA->Bind();
-		RenderCommand::DrawIndexed(s_Data->quadVA);
+		s_Data.QuadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data.QuadVA);
+#endif
+
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
@@ -105,18 +191,66 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data->quadTextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
-		s_Data->quadTextureShader->SetFloat("u_TilingFactor", 1.0f);
+		constexpr glm::vec4 color = { 1.0f,1.0f,1.0f,1.0f };
+		float textureIndex = 0.0f;
+
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		{
+			if (*s_Data.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex++;
+		}
+
+		s_Data.QuadVertexBufferPtr->Position = position;
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f,0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f,1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Color = color;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f,1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadIndexCount += 6;
+
+#if BEFORE_BATCH_RENDERIN
+		s_Data.QuadTextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_Data.QuadTextureShader->SetFloat("u_TilingFactor", 1.0f);
 
 		texture->Bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
-		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+		s_Data.QuadTextureShader->SetMat4("u_Transform", transform);
 
-		s_Data->quadVA->Bind();
-		RenderCommand::DrawIndexed(s_Data->quadVA);
+		s_Data.QuadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data.QuadVA);
+#endif
+
 	}
-	
+
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tint, tilingFactor);
@@ -126,16 +260,16 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
-		s_Data->quadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
+		s_Data.QuadTextureShader->SetFloat4("u_Color", tint);
+		s_Data.QuadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
 
 		texture->Bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
-		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+		s_Data.QuadTextureShader->SetMat4("u_Transform", transform);
 
-		s_Data->quadVA->Bind();
-		RenderCommand::DrawIndexed(s_Data->quadVA);
+		s_Data.QuadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data.QuadVA);
 	}
 	void Renderer2D::DrawQuadRotated(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
 	{
@@ -145,20 +279,20 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 
-		s_Data->quadTextureShader->SetFloat4("u_Color", tint);
-		s_Data->quadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
-		
+		s_Data.QuadTextureShader->SetFloat4("u_Color", tint);
+		s_Data.QuadTextureShader->SetFloat("u_TilingFactor", tilingFactor);
+
 
 		texture->Bind();
 
-		glm::mat4 transform = 
-			  glm::translate(glm::mat4(1.0f), position) 
+		glm::mat4 transform =
+			glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f , 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x,size.y, 1.0f });
 
-		s_Data->quadTextureShader->SetMat4("u_Transform", transform);
+		s_Data.QuadTextureShader->SetMat4("u_Transform", transform);
 
-		s_Data->quadVA->Bind();
-		RenderCommand::DrawIndexed(s_Data->quadVA);
+		s_Data.QuadVA->Bind();
+		RenderCommand::DrawIndexed(s_Data.QuadVA);
 	}
 }
