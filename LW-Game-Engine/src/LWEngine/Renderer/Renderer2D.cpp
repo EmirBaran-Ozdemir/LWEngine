@@ -11,6 +11,7 @@ namespace LWEngine {
 
 	struct Renderer2DStorage
 	{
+		
 		Ref<LWEngine::Shader> quadTextureShader;
 		Ref<LWEngine::VertexArray> quadVA;
 		Ref<LWEngine::Texture2D> whiteTexture;
@@ -26,16 +27,10 @@ namespace LWEngine {
 		s_Data = new Renderer2DStorage();
 
 		s_Data->quadVA = LWEngine::VertexArray::Create();
-		float squareVertices[5 * 4] = {
-			// Positions      // Texture Coordinates
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-		};
+
 
 		LWEngine::Ref<LWEngine::VertexBuffer> squareVB;
-		squareVB.reset(LWEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB.reset(LWEngine::VertexBuffer::Create();
 		LWEngine::BufferLayout squareLayout = {
 			{LWEngine::ShaderDataType::Float3, "a_Position"},
 			{LWEngine::ShaderDataType::Float2, "a_TexCoord"},

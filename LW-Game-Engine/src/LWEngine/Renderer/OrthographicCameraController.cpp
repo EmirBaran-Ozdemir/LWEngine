@@ -18,24 +18,24 @@ namespace LWEngine {
 		LWE_PROFILE_FUNCTION();
 
 		//. CAMERA MOVEMENTS
-		if (Input::IsKeyPressed(LWE_KEY_RIGHT) || Input::IsKeyPressed(LWE_KEY_D))
+		if (Input::IsKeyPressed(LWE_KEY_RIGHT))
 		{
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		else if (Input::IsKeyPressed(LWE_KEY_LEFT) || Input::IsKeyPressed(LWE_KEY_A))
+		else if (Input::IsKeyPressed(LWE_KEY_LEFT))
 		{
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		if (Input::IsKeyPressed(LWE_KEY_UP) || Input::IsKeyPressed(LWE_KEY_W))
+		if (Input::IsKeyPressed(LWE_KEY_UP))
 		{
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		else if (Input::IsKeyPressed(LWE_KEY_DOWN) || Input::IsKeyPressed(LWE_KEY_S))
+		else if (Input::IsKeyPressed(LWE_KEY_DOWN))
 		{
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;

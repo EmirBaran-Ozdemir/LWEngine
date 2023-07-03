@@ -10,7 +10,7 @@ namespace LWEngine {
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::NONE_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
-		case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLShader>(filepath);
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLShader>(filepath);
 		case RendererAPI::API::Direct3D:	LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::DIRECT3D_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
 		case RendererAPI::API::Vulkan:		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::VULKAN_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
 		}
@@ -24,7 +24,7 @@ namespace LWEngine {
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::NONE_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
-			case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			case RendererAPI::API::OpenGL:		return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			case RendererAPI::API::Direct3D:	LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::DIRECT3D_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
 			case RendererAPI::API::Vulkan:		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::VULKAN_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
 		}

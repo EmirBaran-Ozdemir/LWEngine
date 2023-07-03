@@ -46,7 +46,7 @@ namespace LWEngine {
 			{
 				if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
 				{
-					showDebug = -showDebug;
+					showDebug = !showDebug;
 				}
 
 				ImGui::EndMenu();
