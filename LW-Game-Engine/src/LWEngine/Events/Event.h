@@ -1,9 +1,9 @@
 #pragma once
 
+#include "lwpch.h"
+
 #include "LWEngine/Core/Core.h"
 
-#include <string>
-#include <functional>
 
 namespace LWEngine {
 
@@ -33,7 +33,7 @@ namespace LWEngine {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override {return category;}
 
-	class LWE_API Event {
+	class Event {
 	public:
 		bool Handled = false;
 	public:

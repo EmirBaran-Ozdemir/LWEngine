@@ -1,11 +1,11 @@
 #include "lwpch.h"
-#include "Application.h"
+#include "LWEngine/Core/Application.h"
 
 #include "LWEngine/Core/Log.h"
 #include "glad/glad.h"
 #include "LWEngine/Renderer/Renderer.h"
 //#include "LWEngine/Renderer/GraphicsSettings.h"
-
+#include "LWEngine/Core/Input.h"
 #include <GLFW/glfw3.h>
 
 namespace LWEngine {
@@ -16,7 +16,7 @@ namespace LWEngine {
 		
 		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!");
 		s_Instance = this;
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = Window::Create();
 		m_Window->SetEventCallback(LWE_BIND_EVENT_FN(Application::OnEvent));
 		
 		Renderer::Init();
@@ -29,7 +29,7 @@ namespace LWEngine {
 	Application::~Application()
 	{
 		LWE_PROFILE_FUNCTION();
-
+		Renderer::Shutdown();
 		
 	}
 

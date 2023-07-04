@@ -1,7 +1,7 @@
 #include "lwpch.h"
-#include "Texture.h"
+#include "LWEngine/Renderer/Texture.h"
 
-#include "Renderer.h"
+#include "LWEngine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace LWEngine {

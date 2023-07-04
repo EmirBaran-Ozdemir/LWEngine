@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RenderCommand.h"
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "LWEngine/Renderer/RenderCommand.h"
+#include "LWEngine/Renderer/OrthographicCamera.h"
+#include "LWEngine/Renderer/Shader.h"
 
 namespace LWEngine {
 	
@@ -10,6 +10,7 @@ namespace LWEngine {
 	{
 	public:
 		static void Init();
+		static void Shutdown();
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 

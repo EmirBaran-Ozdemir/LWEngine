@@ -1,7 +1,7 @@
 #include "lwpch.h"
-#include "Buffer.h"
+#include "LWEngine/Renderer/Buffer.h"
 
-#include "Renderer.h"
+#include "LWEngine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace LWEngine {

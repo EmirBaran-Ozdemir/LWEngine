@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 #include "glad/glad.h"
 
 
@@ -9,17 +9,17 @@ namespace LWEngine {
 	{
 		switch (type)
 		{
-			case ShaderDataType::Float:			return GL_FLOAT;
-			case ShaderDataType::Float2:		return GL_FLOAT;
-			case ShaderDataType::Float3:		return GL_FLOAT;
-			case ShaderDataType::Float4:		return GL_FLOAT;
-			case ShaderDataType::Mat3:			return GL_FLOAT;
-			case ShaderDataType::Mat4:			return GL_FLOAT;
-			case ShaderDataType::Int:			return GL_INT;
-			case ShaderDataType::Int2:			return GL_INT;
-			case ShaderDataType::Int3:			return GL_INT;
-			case ShaderDataType::Int4:			return GL_INT;
-			case ShaderDataType::Bool:			return GL_BOOL;
+			case LWEngine::ShaderDataType::Float:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Float2:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Float3:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Float4:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Mat3:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Mat4:			return GL_FLOAT;
+			case LWEngine::ShaderDataType::Int:				return GL_INT;
+			case LWEngine::ShaderDataType::Int2:			return GL_INT;
+			case LWEngine::ShaderDataType::Int3:			return GL_INT;
+			case LWEngine::ShaderDataType::Int4:			return GL_INT;
+			case LWEngine::ShaderDataType::Bool:			return GL_BOOL;
 		}
 
 		LWE_CORE_ASSERT(false, "ERROR_SHADER_DATA_TYPE::UNKNOWN_SHADER_DATA_TYPE");

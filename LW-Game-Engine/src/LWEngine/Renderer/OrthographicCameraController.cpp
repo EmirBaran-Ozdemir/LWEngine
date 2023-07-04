@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "OrthographicCameraController.h"
+#include "LWEngine/Renderer/OrthographicCameraController.h"
 
 #include "LWEngine/Core/Input.h"
 #include "LWEngine/Core/KeyCodes.h"

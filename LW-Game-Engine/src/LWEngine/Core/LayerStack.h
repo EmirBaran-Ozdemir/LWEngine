@@ -1,13 +1,13 @@
 #pragma once
 
 #include "LWEngine/Core/Core.h"
-#include "Layer.h"
+#include "LWEngine/Core/Layer.h"
 
 #include <vector>
 
 namespace LWEngine {
 
-	class LWE_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack();

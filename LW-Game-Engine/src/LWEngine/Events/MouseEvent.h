@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Event.h"
+#include "LWEngine/Events/Event.h"
 
 #include <sstream>
 
 namespace LWEngine {
 
-	class LWE_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -30,7 +30,7 @@ namespace LWEngine {
 		float m_MouseY;
 	};
 
-	class LWE_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
@@ -53,7 +53,7 @@ namespace LWEngine {
 		float m_YOffset;
 	};
 
-	class LWE_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
@@ -66,7 +66,7 @@ namespace LWEngine {
 		int m_Button;
 	};
 
-	class LWE_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int button)
@@ -82,7 +82,7 @@ namespace LWEngine {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class LWE_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button)

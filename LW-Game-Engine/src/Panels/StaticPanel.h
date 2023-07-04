@@ -5,7 +5,7 @@
 #include "LWEngine/Core/Timestep.h"
 namespace LWEngine {
 
-	class LWE_API StaticPanel {
+	class StaticPanel {
 	public:
 		static void TopMenuBar(LWEngine::Timestep ts);
 		static void BottomMenuBar();

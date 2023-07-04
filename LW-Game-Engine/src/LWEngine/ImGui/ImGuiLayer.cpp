@@ -1,9 +1,10 @@
 #include "lwpch.h"
-#include "ImGuiLayer.h"
+#include "LWEngine/ImGui/ImGuiLayer.h"
 
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
 #include "LWEngine/Core/Application.h"
 
 #include "imgui_internal.h"

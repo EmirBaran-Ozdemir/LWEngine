@@ -19,8 +19,7 @@ namespace LWEngine {
 			: Title(title), Width(width), Height(height) {}
 	};
 	
-	//. Desktop system based Window class (nust be implemented per platform)
-	class LWE_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
@@ -39,6 +38,6 @@ namespace LWEngine {
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 }

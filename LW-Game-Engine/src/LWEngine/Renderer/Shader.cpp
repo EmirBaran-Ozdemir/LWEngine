@@ -1,6 +1,6 @@
 #include "lwpch.h"
-#include "Shader.h"
-#include "Renderer.h"
+#include "LWEngine/Renderer/Shader.h"
+#include "LWEngine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace LWEngine {

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "LWEngine/Core/Core.h"
 #ifdef LWE_PLATFORM_WINDOWS
 
 extern LWEngine::Application* LWEngine::CreateApplication();

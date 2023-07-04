@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RendererAPI.h"
+#include "LWEngine/Renderer/RendererAPI.h"
 
 namespace LWEngine {
 
@@ -33,6 +33,6 @@ namespace LWEngine {
 
 
 	private:
-		static RendererAPI* s_RendererAPI;
+		static Scope<RendererAPI> s_RendererAPI;
 	};
 }

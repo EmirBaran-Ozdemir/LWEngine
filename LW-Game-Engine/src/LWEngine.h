@@ -6,6 +6,7 @@
 //. FOR USE BY LWENGINE APPLICATIONS
 
 //? CORE
+#include "LWEngine/Core/Core.h"
 #include "LWEngine/Core/Application.h"
 #include "LWEngine/Core/Layer.h"
 #include "LWEngine/Core/Log.h"

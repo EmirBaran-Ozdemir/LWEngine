@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 
 #include "LWEngine/Events/ApplicationEvent.h"
 #include "LWEngine/Events/KeyEvent.h"
@@ -9,16 +9,16 @@
 
 namespace LWEngine {
 
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		LWE_CORE_ERROR("ERROR::GLFW_{0}::{1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -44,16 +44,14 @@ namespace LWEngine {
 
 
 		//! Check GLFWInitialization
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
 			LWE_PROFILE_SCOPE("glfwInit");
-
 			int success = glfwInit();
 			LWE_CORE_ASSERT(success, "ERROR::GLFW::INITIALIZATION_FAILED");
 
 			//! Set error callback which doesn't setted in glfw
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
 		//! Set window properties and VSync
@@ -61,8 +59,10 @@ namespace LWEngine {
 			LWE_PROFILE_SCOPE("glfwCreateWindow");
 
 			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr); //glfwGetPrimaryMonitor()
-			m_Context = new OpenGLContext(m_Window);
+			++s_GLFWWindowCount;
+			m_Context = GraphicsContext::Create(m_Window);
 		}
+
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -161,6 +161,13 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_Window);
+		s_GLFWWindowCount -= 1;
+
+		if (s_GLFWWindowCount == 0)
+		{
+			LWE_CORE_INFO("Terminating GLFW");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()

@@ -1,22 +1,18 @@
 #pragma once
 
-#include "Core.h"
-#include "Window.h"
+#include "LWEngine/Core/Core.h"
+#include "LWEngine/Core/Window.h"
 
 #include "LWEngine/Core/LayerStack.h"
 #include "LWEngine/Events/Event.h"
 #include "LWEngine/Events/ApplicationEvent.h"
-
-//#include "LWEngine/Renderer/Shader.h"
-//#include "LWEngine/Renderer/Buffer.h"
-//#include "LWEngine/Renderer/VertexArray.h"
 
 #include "LWEngine/Renderer/OrthographicCamera.h"
 #include "LWEngine/Core/Timestep.h"
 #include "LWEngine/ImGui/ImGuiLayer.h"
 
 namespace LWEngine{
-	class LWE_API Application
+	class Application
 	{
 	public:
 		Application();

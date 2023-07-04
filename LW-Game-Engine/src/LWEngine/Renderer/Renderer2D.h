@@ -1,7 +1,7 @@
 #pragma once
 
-#include "OrthographicCamera.h"
-#include "Texture.h"
+#include "LWEngine/Renderer/OrthographicCamera.h"
+#include "LWEngine/Renderer/Texture.h"
 
 
 namespace LWEngine {

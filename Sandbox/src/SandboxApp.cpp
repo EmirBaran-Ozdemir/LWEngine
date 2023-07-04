@@ -14,7 +14,7 @@
 
 
 #define IMGUI_DEFINE_MATH_OPERATORS
-#include "imgui/imgui.h"
+#include  <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -78,8 +78,8 @@ public:
 
 		auto textureShader = m_ShaderLib.Load("assets/shaders/Texture.glsl");
 		m_Texture2D = LWEngine::Texture2D::Create("assets/textures/awesomeface.png");
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(textureShader)->SetInt("u_Texture2D", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture2D", 0);
 
 
 		m_TestVA = LWEngine::VertexArray::Create();
@@ -124,8 +124,8 @@ public:
 
 		auto squareShader = m_ShaderLib.Get("SquareShader");
 		
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(squareShader)->Bind();
-		std::dynamic_pointer_cast<LWEngine::OpenGLShader>(squareShader)->SetFloat3("u_Color", m_SquareColor);
+		squareShader->Bind();
+		squareShader->SetFloat3("u_Color", m_SquareColor);
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f));
 		for (int i = 0; i < 8; i++)
