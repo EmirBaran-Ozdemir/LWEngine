@@ -2,7 +2,7 @@
 #include <Platform/OpenGL/OpenGLShader.h>
 
 #define IMGUI_DEFINE_MATH_OPERATORS
-#include "imgui/imgui.h"
+#include <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -66,7 +66,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 		jumped = false;
 	}
 
-	float rotation = ts.GetElapsedTime() / 20;
+	float rotation = ts * 50.0f;
 
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
@@ -78,17 +78,19 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 		LWE_PROFILE_SCOPE("Renderer Draw");
 		LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		LWEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
+		LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
 		LWEngine::Renderer2D::DrawQuad({ 0.5f ,-0.5f }, { 0.5f, 0.75f }, { 1.0f,0.0f,1.0f,1.0f });
-		LWEngine::Renderer2D::DrawQuad(
+		LWEngine::Renderer2D::DrawQuadRotated(
 			m_PlayerPos,
-			{1.0f,1.0f},
-			m_Texture2D
+			{ 1.0f,1.0f },
+			rotation,
+			m_Texture2D,
+			{ 1.0f,1.0f,0.2f,1.0f }
 		);
 		
 
 		LWEngine::Renderer2D::DrawQuad(
-			{ 0.5f , 0.2f , -0.01f },
+			{ 0.0f , 0.0f , -0.01f },
 			{ m_Background->GetWidth() * sizeMultiplier,
 			m_Background->GetHeight() * sizeMultiplier },
 			m_Background
