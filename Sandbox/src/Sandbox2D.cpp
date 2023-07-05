@@ -33,44 +33,47 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 	LWE_PROFILE_FUNCTION();
 
 	// Update
-	static const float gravity = 0.098f;
-
 	m_CameraController.OnUpdate(ts);
 
-	static float speed = 0.0f;
+
+	constexpr float gravity = -9.8f;
+	static float velocity = 0.0f;
 	static bool jumped = false;
-	static float time = 1;
+
+	if(jumped)
+	{
+		velocity += gravity * ts;
+		if (velocity < -15.0f) velocity = -15.0f;
+		m_PlayerPos.y += velocity * ts + 0.5f * gravity * ts * ts;
+	}
+
+	if (m_PlayerPos.y <= 0)
+	{
+		velocity = 0.0f;
+		jumped = false;
+	}
 
 	if (LWEngine::Input::IsKeyPressed(LWE_KEY_SPACE))
 	{
 		if (!jumped)
 		{
 			jumped = true;
-			speed += 20.0f;
+			velocity += 5.0f;
 		}
 	}
+
 	if (LWEngine::Input::IsKeyPressed(LWE_KEY_A))
 		m_PlayerPos.x -= 5.0f * ts;
 	if (LWEngine::Input::IsKeyPressed(LWE_KEY_D))
 		m_PlayerPos.x += 5.0f * ts;
 
-	time += 0.1;
-	speed -= 0.5f * gravity * (time * time);
-	if (speed < -5.0f) speed = -5.0f;
-	m_PlayerPos.y += speed * ts;
+	float rotation = ts.GetElapsedTime() * 50.0f;
 
-	if (m_PlayerPos.y < 0)
-	{
-		time = 0;
-		speed = 0;
-		jumped = false;
-	}
-
-	float rotation = ts * 50.0f;
-
+	LWEngine::Renderer2D::ResetStats();
+	
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
-		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });   
+		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
 		LWEngine::RenderCommand::Clear();
 	}
 
@@ -80,25 +83,32 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 
 		LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
 		LWEngine::Renderer2D::DrawQuad({ 0.5f ,-0.5f }, { 0.5f, 0.75f }, { 1.0f,0.0f,1.0f,1.0f });
-		LWEngine::Renderer2D::DrawQuadRotated(
+		LWEngine::Renderer2D::DrawQuad(
 			m_PlayerPos,
 			{ 1.0f,1.0f },
-			rotation,
-			m_Texture2D,
-			{ 1.0f,1.0f,0.2f,1.0f }
+			m_Texture2D
 		);
-		
-
 		LWEngine::Renderer2D::DrawQuad(
 			{ 0.0f , 0.0f , -0.01f },
 			{ m_Background->GetWidth() * sizeMultiplier,
 			m_Background->GetHeight() * sizeMultiplier },
 			m_Background
 		);
+		LWEngine::Renderer2D::EndScene();
 
+		LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		for (float y = -5.0f; y < 5.0f; y += 0.5f)
+		{
+			for (float x = -5.0f; x < 5.0f; x += 0.5f)
+			{
+				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f ,1.0f};
+				LWEngine::Renderer2D::DrawQuad({x,y}, { 0.2f,0.2f }, m_Texture2D, color);
 
+			}
+		}
 
 		LWEngine::Renderer2D::EndScene();
+
 	}
 
 
@@ -109,16 +119,22 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 void Sandbox2D::OnImGuiRender(LWEngine::Timestep ts)
 {
 	LWE_PROFILE_FUNCTION();
+
+	auto stats = LWEngine::Renderer2D::GetStats();
+
 	ImGui::Begin("Settings");
+	ImGui::Text("Renderer Stats");
+	ImGui::Text("Draw Calls %d",stats.DrawCalls);
+	ImGui::Text("Quad Count %d",stats.QuadCount);
+	ImGui::Text("Vertices %d",stats.GetTotalVertexCount());
+	ImGui::Text("Indices %d",stats.GetTotalIndexCount());
+
+	
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();
-
-
-
 }
 
 void Sandbox2D::OnEvent(LWEngine::Event& e)
 {
 	m_CameraController.OnEvent(e);
-
 }

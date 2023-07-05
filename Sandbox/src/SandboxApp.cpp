@@ -21,7 +21,7 @@
 //? -----------------------------------
 
 extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
-extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1; }
+extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 0x00000001; }
 
 
 
@@ -172,6 +172,9 @@ public:
 	virtual void OnImGuiRender(LWEngine::Timestep ts) override
 	{
 		ImGui::Begin("Settings");
+		ImGui::NewFrame();
+		ImGui::Text("ts : {0}: ", ts);
+		ImGui::EndFrame();
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
