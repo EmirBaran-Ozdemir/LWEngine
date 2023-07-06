@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LWEngine/Events/Event.h"
+#include "LWEngine/Core/Input.h"
 
 #include <sstream>
 
@@ -10,20 +11,20 @@ namespace LWEngine
 	class  KeyEvent : public Event
 	{
 	public: 
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(int keycode)
+		KeyEvent(KeyCode keycode)
 			: m_KeyCode(keycode){}
 
-		int m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 	//. KeyPressed class for holding the key long time
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount)
+		KeyPressedEvent(KeyCode keycode, int repeatCount)
 			: KeyEvent(keycode), m_repeatCount(repeatCount) {}
 		inline int GetRepeatCount() const { return m_repeatCount; }
 		
@@ -42,7 +43,7 @@ namespace LWEngine
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int keycode)
+		KeyTypedEvent(KeyCode keycode)
 			: KeyEvent(keycode){}
 
 		std::string ToString() const override
@@ -58,7 +59,7 @@ namespace LWEngine
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keycode)
+		KeyReleasedEvent(KeyCode keycode)
 			: KeyEvent(keycode){}
 		std::string ToString() const override
 		{

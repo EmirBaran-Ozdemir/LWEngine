@@ -73,7 +73,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 	
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
-		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1 });
+		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1.0f });
 		LWEngine::RenderCommand::Clear();
 	}
 
@@ -97,12 +97,12 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 		LWEngine::Renderer2D::EndScene();
 
 		LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
-		for (float y = -5.0f; y < 5.0f; y += 0.5f)
+		for (float y = -5.0f; y < 5.0f; y += 0.1f)
 		{
-			for (float x = -5.0f; x < 5.0f; x += 0.5f)
+			for (float x = -5.0f; x < 5.0f; x += 0.1f)
 			{
 				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f ,1.0f};
-				LWEngine::Renderer2D::DrawQuad({x,y}, { 0.2f,0.2f }, m_Texture2D, color);
+				LWEngine::Renderer2D::DrawQuad({x,y}, { 0.09f,0.09f }, color);
 
 			}
 		}

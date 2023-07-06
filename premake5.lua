@@ -1,5 +1,5 @@
 workspace "LW-Game-Engine"
-	architecture "x64"
+	architecture "x86_64"
 	
 	configurations
 	{
@@ -129,11 +129,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"LWE_PLATFORM_WINDOWS"
-		}
 
 	filter "configurations:Debug"
 		defines "LWE_DEBUG"

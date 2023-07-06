@@ -602,9 +602,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Input.cpp" />
     <ClCompile Include="src\LWEngine\Core\Layer.cpp" />
     <ClCompile Include="src\LWEngine\Core\LayerStack.cpp" />
     <ClCompile Include="src\LWEngine\Core\Log.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Window.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />

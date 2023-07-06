@@ -125,10 +125,29 @@ namespace LWEngine {
 
 #define LWE_PROFILE 0
 #if LWE_PROFILE 
+
+	#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
+		#define LWE_FUNC_SIG __PRETTY_FUNCTION__
+	#elif defined(__DMC__) && (__DMC__ >= 0x810)
+		#define LWE_FUNC_SIG __PRETTY_FUNCTION__
+	#elif defined(__FUNCSIG__)
+		#define LWE_FUNC_SIG __FUNCSIG__
+	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
+		#define LWE_FUNC_SIG __FUNCTION__
+	#elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+		#define LWE_FUNC_SIG __FUNC__
+	#elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901)
+		#define LWE_FUNC_SIG __func__
+	#elif defined(__cplusplus) && (__cplusplus >= 201103)
+		#define LWE_FUNC_SIG __func__
+	#else
+		#define LWE_FUNC_SIG "WARNING::UNKNOWN::LWE_FUNC_SIG"
+	#endif
+
 	#define LWE_PROFILE_BEGIN_SESSION(name, filepath)				::LWEngine::Instrumentor::Get().BeginSession(name, filepath)
 	#define LWE_PROFILE_END_SESSION()								::LWEngine::Instrumentor::Get().EndSession()
 	#define LWE_PROFILE_SCOPE(name)									::LWEngine::InstrumentationTimer timer##__LINE__(name);
-	#define LWE_PROFILE_FUNCTION()									  LWE_PROFILE_SCOPE(__FUNCTION__)
+	#define LWE_PROFILE_FUNCTION()									  LWE_PROFILE_SCOPE(LWE_FUNC_SIG)
 #else
 	#define LWE_PROFILE_BEGIN_SESSION(name, filepath)
 	#define LWE_PROFILE_END_SESSION()

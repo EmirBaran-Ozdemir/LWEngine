@@ -5,6 +5,8 @@
 #include "LWEngine/Events/KeyEvent.h"
 #include "LWEngine/Events/MouseEvent.h"
 
+#include "LWEngine/Core/Input.h"
+
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace LWEngine {
@@ -14,11 +16,6 @@ namespace LWEngine {
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		LWE_CORE_ERROR("ERROR::GLFW_{0}::{1}", error, description);
-	}
-
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -93,19 +90,19 @@ namespace LWEngine {
 				{
 				case GLFW_PRESS:
 				{
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 0);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleasedEvent event(key);
+					KeyReleasedEvent event(static_cast<KeyCode>(key));
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 1);
 					data.EventCallback(event);
 					break;
 				}
@@ -116,7 +113,7 @@ namespace LWEngine {
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-				KeyTypedEvent event(keycode);
+				KeyTypedEvent event(static_cast<KeyCode>(keycode));
 				data.EventCallback(event);
 
 			});
@@ -129,13 +126,13 @@ namespace LWEngine {
 				{
 				case GLFW_PRESS:
 				{
-					MouseButtonPressedEvent event(button);
+					MouseButtonPressedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					MouseButtonReleasedEvent event(button);
+					MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}

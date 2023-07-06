@@ -10,6 +10,9 @@
     <Filter Include="src\LWEngine\Core">
       <UniqueIdentifier>{ED9D4D8D-59B4-4B23-A22B-D7440E811CAB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\LWEngine\Dev">
+      <UniqueIdentifier>{830FCC13-6F08-EB65-983A-D0EA8492CA71}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\LWEngine\Events">
       <UniqueIdentifier>{B9DE4E1C-2540-2C2A-AEAD-72DC1A0E63E9}</UniqueIdentifier>
     </Filter>
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="src\LWEngine\Core\Window.h">
       <Filter>src\LWEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Dev\Instrumentor.h">
+      <Filter>src\LWEngine\Dev</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h">
       <Filter>src\LWEngine\Events</Filter>
@@ -1422,7 +1428,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Dev\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
@@ -1444,6 +1449,9 @@
       <Filter>src\LWEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\GraphicsContext.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCamera.cpp">
@@ -1506,6 +1514,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\LWEngine\Renderer\GraphicsContext.cpp" />
   </ItemGroup>
 </Project>
