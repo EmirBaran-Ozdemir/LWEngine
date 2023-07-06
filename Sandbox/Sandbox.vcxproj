@@ -135,10 +135,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Sandbox2D.h" />
+    <ClInclude Include="src\Systems\ParticleSystem.h" />
+    <ClInclude Include="src\Systems\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox2D.cpp" />
     <ClCompile Include="src\SandboxApp.cpp" />
+    <ClCompile Include="src\Systems\ParticleSystem.cpp" />
+    <ClCompile Include="src\Systems\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LW-Game-Engine\LW-Game-Engine.vcxproj">

@@ -15,6 +15,7 @@
 #include "LWEngine/Core/KeyCodes.h"
 #include "LWEngine/Core/MouseButtonCodes.h"
 #include "LWEngine/Core/Window.h"
+#include "LWEngine/Core/Random.h"
 
 //? RENDERER
 #include "LWEngine/Renderer/Renderer.h"

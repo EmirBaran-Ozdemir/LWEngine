@@ -143,6 +143,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\LWEngine\Core\Random.h" />
+    <ClInclude Include="src\LWEngine\Systems\ParticleSystem.h" />
     <ClInclude Include="src\LWEngine.h" />
     <ClInclude Include="src\LWEngine\Core\Application.h" />
     <ClInclude Include="src\LWEngine\Core\Core.h" />
@@ -606,6 +608,7 @@
     <ClCompile Include="src\LWEngine\Core\Layer.cpp" />
     <ClCompile Include="src\LWEngine\Core\LayerStack.cpp" />
     <ClCompile Include="src\LWEngine\Core\Log.cpp" />
+    <ClCompile Include="src\LWEngine\Core\Random.cpp" />
     <ClCompile Include="src\LWEngine\Core\Window.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
