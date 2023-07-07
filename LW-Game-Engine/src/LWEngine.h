@@ -24,6 +24,7 @@
 #include "LWEngine/Renderer/Buffer.h"
 #include "LWEngine/Renderer/Shader.h"
 #include "LWEngine/Renderer/Texture.h"
+#include "LWEngine/Renderer/SubTexture2D.h"
 #include "LWEngine/Renderer/VertexArray.h"
 #include <LWEngine/Renderer/OrthographicCameraController.h>
 

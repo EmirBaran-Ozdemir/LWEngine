@@ -171,6 +171,7 @@
     <ClInclude Include="src\LWEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\LWEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\LWEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\LWEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\LWEngine\Renderer\Texture.h" />
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\Panels\StaticPanel.h" />
@@ -620,6 +621,7 @@
     <ClCompile Include="src\LWEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\LWEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Panels\StaticPanel.cpp" />
