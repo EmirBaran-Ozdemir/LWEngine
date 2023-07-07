@@ -144,3 +144,52 @@ project "Sandbox"
 		defines "LWE_DIST"
 		runtime "Release"
 		optimize "on"
+
+
+project "ExampleGame"
+	location "ExampleGame"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+	
+	includedirs
+	{
+		"LW-Game-Engine/vendor/spdlog/include",
+		"LW-Game-Engine/vendor",
+		"LW-Game-Engine/src",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.Glad}"
+	}
+
+	links
+	{
+		"LW-Game-Engine"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "LWE_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "LWE_RELEASE"
+		runtime "Release"
+		optimize "on"
+	
+	filter "configurations:Dist"
+		defines "LWE_DIST"
+		runtime "Release"
+		optimize "on"

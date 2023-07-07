@@ -90,6 +90,9 @@
     <ClInclude Include="src\LWEngine\Core\MouseButtonCodes.h">
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Core\Random.h">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Core\Timestep.h">
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
@@ -1433,6 +1436,9 @@
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
       <Filter>src\LWEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Core\Input.cpp">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\LWEngine\Core\Layer.cpp">
       <Filter>src\LWEngine\Core</Filter>
     </ClCompile>
@@ -1440,6 +1446,12 @@
       <Filter>src\LWEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Core\Log.cpp">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Core\Random.cpp">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Core\Window.cpp">
       <Filter>src\LWEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp">

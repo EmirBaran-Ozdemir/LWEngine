@@ -143,8 +143,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\LWEngine\Core\Random.h" />
-    <ClInclude Include="src\LWEngine\Systems\ParticleSystem.h" />
     <ClInclude Include="src\LWEngine.h" />
     <ClInclude Include="src\LWEngine\Core\Application.h" />
     <ClInclude Include="src\LWEngine\Core\Core.h" />
@@ -155,6 +153,7 @@
     <ClInclude Include="src\LWEngine\Core\LayerStack.h" />
     <ClInclude Include="src\LWEngine\Core\Log.h" />
     <ClInclude Include="src\LWEngine\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\LWEngine\Core\Random.h" />
     <ClInclude Include="src\LWEngine\Core\Timestep.h" />
     <ClInclude Include="src\LWEngine\Core\Window.h" />
     <ClInclude Include="src\LWEngine\Dev\Instrumentor.h" />

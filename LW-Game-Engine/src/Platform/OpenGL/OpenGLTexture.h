@@ -11,10 +11,11 @@ namespace LWEngine {
 	public:
 		OpenGLTexture2D(const std::string& path);
 		OpenGLTexture2D(uint32_t width, uint32_t height);
-		OpenGLTexture2D();
 		virtual ~OpenGLTexture2D();
+
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
+		virtual uint32_t GetRendererID() const override { return m_RendererID; }
 
 		virtual void SetData(void* data, uint32_t size) override;
 		virtual void Bind(uint32_t unit = 0) const override;

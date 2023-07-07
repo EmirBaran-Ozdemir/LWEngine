@@ -1,6 +1,5 @@
-//? Put these ptahs into your .h file
 #include <LWEngine.h>
-//? -----------------------------------
+
 
 //. ----------Entry Point----------
 #include <LWEngine/Core/EntryPoint.h>

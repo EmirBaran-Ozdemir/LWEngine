@@ -66,6 +66,13 @@ namespace LWEngine {
 		ImGui::DestroyContext();
 	}
 
+	void ImGuiLayer::OnEvent(Event& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+		e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+	}
+
 	//. ---------WINDOW ELEMENTS---------
 
 	void ImGuiLayer::OnImGuiRender(Timestep ts)
@@ -85,7 +92,7 @@ namespace LWEngine {
 		//ImGui::SetNextWindowDockID(ImGui::GetID("Dockable Frame"), ImGuiDockNodeFlags_PassthruCentralNode);
 
 		StaticPanel::TopMenuBar(ts);
-		StaticPanel::TabMenuBar();
+		//StaticPanel::TabMenuBar();
 		StaticPanel::BottomMenuBar();
 		StaticPanel::RightMenuBar();	
 	}

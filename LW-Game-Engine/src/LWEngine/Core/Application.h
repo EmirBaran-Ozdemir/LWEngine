@@ -20,7 +20,7 @@ namespace LWEngine{
 		
 		//! Main application
 		void Run();
-		
+		void Close();
 		//! Events
 		void OnEvent(Event& e); 
 		
@@ -28,8 +28,8 @@ namespace LWEngine{
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline static Application& Get() { return *s_Instance; } 
-		inline Window& GetWindow() { return *m_Window; }
+		static Application& Get() { return *s_Instance; } 
+		Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

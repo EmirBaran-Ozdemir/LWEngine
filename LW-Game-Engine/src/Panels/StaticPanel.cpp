@@ -40,7 +40,7 @@ namespace LWEngine {
 
 			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 
-#ifdef LWE_DEBUG
+
 			bool showDebug = false;
 			if (ImGui::BeginMenu("Demo Window"))
 			{
@@ -56,10 +56,10 @@ namespace LWEngine {
 			{
 				ImGui::ShowDemoWindow();
 			}
-#endif // _DEBUG	
+
 			ImGui::EndMainMenuBar();
 		}
-
+#ifdef LWE_TEST
 		//! Tool menu window
 		if (ImGui::BeginViewportSideBar("##ToolMenuBar", viewport, ImGuiDir_Up, height, window_flags)) {
 			if (ImGui::BeginMenuBar())
@@ -111,6 +111,9 @@ namespace LWEngine {
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f));
 			ImGui::End();
 		}
+#endif // _DEBUG	
+		
+
 	}
 
 	void StaticPanel::BottomMenuBar()
@@ -188,6 +191,7 @@ namespace LWEngine {
 		}
 	}
 
+#ifdef LWE_TEST
 	void StaticPanel::TabMenuBar()
 	{
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -208,9 +212,11 @@ namespace LWEngine {
 			ImGui::EndTabBar();
 		}
 	}
+#endif
 	void StaticPanel::RightMenuBar()
 	{
 
 		
 	}
+
 }

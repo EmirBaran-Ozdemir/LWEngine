@@ -11,7 +11,7 @@ namespace LWEngine
 	class  KeyEvent : public Event
 	{
 	public: 
-		inline KeyCode GetKeyCode() const { return m_KeyCode; }
+		KeyCode GetKeyCode() const { return m_KeyCode; }
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
 		KeyEvent(KeyCode keycode)
@@ -26,7 +26,7 @@ namespace LWEngine
 	public:
 		KeyPressedEvent(KeyCode keycode, int repeatCount)
 			: KeyEvent(keycode), m_repeatCount(repeatCount) {}
-		inline int GetRepeatCount() const { return m_repeatCount; }
+		int GetRepeatCount() const { return m_repeatCount; }
 		
 		std::string ToString() const override
 		{

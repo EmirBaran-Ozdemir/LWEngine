@@ -15,12 +15,12 @@ namespace LWEngine {
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 	public:
-		inline static bool IsKeyPressed(KeyCode keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
-		inline static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
-		inline static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
+		static bool IsKeyPressed(KeyCode keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
+		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
+		static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
 
-		inline static float GetMouseX(MouseCode button) { return s_Instance->GetMouseXImpl(); }
-		inline static float GetMouseY(MouseCode button) { return s_Instance->GetMouseYImpl(); }
+		static float GetMouseX(MouseCode button) { return s_Instance->GetMouseXImpl(); }
+		static float GetMouseY(MouseCode button) { return s_Instance->GetMouseYImpl(); }
 
 		static Scope<Input> Create();
 	protected:

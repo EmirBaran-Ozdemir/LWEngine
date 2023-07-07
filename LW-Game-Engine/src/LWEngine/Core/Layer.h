@@ -19,7 +19,7 @@ namespace LWEngine {
 		virtual void OnEvent(Event& event){}
 		
 		//! Layers has no name normally. Just for debugging
-		inline const std::string& GetName() const { return m_DebugName; }
+		const std::string& GetName() const { return m_DebugName; }
 
 	protected:
 		std::string m_DebugName;

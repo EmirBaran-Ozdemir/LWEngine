@@ -1,7 +1,7 @@
 #include "lwpch.h"
 #include "ParticleSystem.h"
 
-#include "Random.h"
+#include "LWEngine/Core/Random.h"
 
 #include <glm/gtc/constants.hpp>
 #define GLM_ENABLE_EXPERIMENTAL

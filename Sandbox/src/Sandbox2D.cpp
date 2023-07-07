@@ -110,11 +110,19 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 			for (float x = -5.0f; x < 5.0f; x += 0.1f)
 			{
 				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f ,0.5f };
-				LWEngine::Renderer2D::DrawQuad({ x,y }, { 0.09f,0.09f }, color);
+   				LWEngine::Renderer2D::DrawQuad({ x,y }, { 0.09f,0.09f }, m_Background,{1.0f,1.0f,1.0f,1.0f});
 
 			}
 		}
+		for (float y = -15.0f; y < -5.0f; y += 0.1f)
+		{
+			for (float x = -15.0f; x < -5.0f; x += 0.1f)
+			{
+				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f ,0.5f };
+				LWEngine::Renderer2D::DrawQuad({ x,y }, { 0.09f,0.09f }, m_Texture2D, { 1.0f,1.0f,1.0f,1.0f });
 
+			}
+		}
 		LWEngine::Renderer2D::EndScene();
 
 	}
@@ -155,7 +163,9 @@ void Sandbox2D::OnImGuiRender(LWEngine::Timestep ts)
 	ImGui::Begin("Color Edit");
 	ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
 	ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
-	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);
+	ImGui::DragFloat("SizeBegin", &m_Particle.SizeBegin, 0.1f, 0.2f, 5.0f);
+	ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin/2);
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();
 }

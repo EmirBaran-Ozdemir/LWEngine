@@ -6,6 +6,9 @@
 bin/
 bin-int/
 
+# VisualStudio
+.sln
+
 # Profiling
 *.json
 
