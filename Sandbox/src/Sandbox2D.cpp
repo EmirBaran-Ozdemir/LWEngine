@@ -1,5 +1,4 @@
 #include "Sandbox2D.h"
-#include <Platform/OpenGL/OpenGLShader.h>
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>

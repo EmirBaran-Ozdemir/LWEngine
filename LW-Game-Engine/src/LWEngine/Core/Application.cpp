@@ -21,7 +21,7 @@ namespace LWEngine {
 		
 		Renderer::Init();
 
-		m_Window->SetVSync(false);
+		m_Window->SetVSync(true);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}

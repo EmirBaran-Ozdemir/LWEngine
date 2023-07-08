@@ -1,5 +1,5 @@
 #include "ExampleGame.h"
-#include <Platform/OpenGL/OpenGLShader.h>
+
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
@@ -9,7 +9,7 @@
 
 
 ExampleGame::ExampleGame()
-	: Layer("ExampleGame"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000)
+	: Layer("ExampleGame"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000), m_World(WorldGeneration("assets/textures/exampleWorld.png"))
 {
 
 }
@@ -18,10 +18,18 @@ void ExampleGame::OnAttach()
 {
 	LWE_PROFILE_FUNCTION();
 
+
+	m_TextureNull = LWEngine::Texture2D::Create("assets/textures/textureNull.png");
+	m_SubTextureNull = LWEngine::SubTexture2D::CreateFromCoords(m_TextureNull, { 0,0 }, { 800,800 });
+
 	m_Background = LWEngine::Texture2D::Create("assets/textures/backgrounds/backgroundColorDesert.png");
-	m_FarmSpriteSheet = LWEngine::Texture2D::Create("assets/textures/level-components/industrial_tilemap.png");
+	m_IndustrialSpriteSheet = LWEngine::Texture2D::Create("assets/textures/level-components/industrial_tilemap.png");
 	
-	m_TopFarmTilemap = LWEngine::SubTexture2D::CreateFromCoords(m_FarmSpriteSheet, { 2,5 }, { 18,18 }, 1.0f);
+	m_TopDirtTilemap = LWEngine::SubTexture2D::CreateFromCoords(m_IndustrialSpriteSheet, { 2,5 }, { 18,18 }, 1.0f);
+	m_MidWaterTilemap = LWEngine::SubTexture2D::CreateFromCoords(m_IndustrialSpriteSheet, { 13,4 }, { 18,18 }, 1.0f);
+
+	m_TextureMap[m_ColTopFarmTilemap] = m_TopDirtTilemap;
+	m_TextureMap[m_ColMidWaterTilemap] = m_MidWaterTilemap;
 
 	m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
 	m_Particle.ColorEnd = { 0.5f,0.5f,0.0f,1.0f };
@@ -30,6 +38,8 @@ void ExampleGame::OnAttach()
 	m_Particle.Position = { 0.0f, 0.0f };
 	m_Particle.Velocity = { 0.0f, 0.0f };
 	m_Particle.VelocityVariation = { 5.0f,1.0f };
+
+	m_CameraController.SetZoomLevel(10.0f);
 
 }
 
@@ -56,12 +66,20 @@ void ExampleGame::OnUpdate(LWEngine::Timestep ts)
 	LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 	LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f,10.0f }, m_Background);
-	for (float i = -18.0f*5; i <= 18.0f*10; i += 18.0f)
+	for (int x = 0; x< m_World.GetHeight(); x++)
 	{
-		
-		LWEngine::Renderer2D::DrawQuad({ 0.0f + i, 0.0f, 0.1f }, { 3.0f,3.0f }, m_TopFarmTilemap, { 1.0f,1.0f,1.0f,1.0f });
+		for (int y = 0; y < m_World.GetWidth(); y++)
+		{
+			glm::vec4 tileType = m_World.GetTiles()[x * m_World.GetWidth() + y];
+			LWEngine::Ref<LWEngine::SubTexture2D> texture;
+			if (m_TextureMap.find(tileType) != m_TextureMap.end())
+				texture = m_TextureMap[tileType];
+			else
+				texture = m_SubTextureNull;
+			LWEngine::Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight(),0.1f }, {1.0f,1.0f}, texture, {1.0f,1.0f,1.0f,1.0f});
+		}
 	}
-	
+
 	LWEngine::Renderer2D::EndScene();
 }
 
@@ -72,7 +90,7 @@ void ExampleGame::OnImGuiRender(LWEngine::Timestep ts)
 	auto stats = LWEngine::Renderer2D::GetStats();
 
 	ImGui::Begin("Settings");
-
+	ImGui::Text("%f", LWEngine::Random::Float());
 	ImGui::End();
 }
 

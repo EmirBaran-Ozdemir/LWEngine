@@ -6,7 +6,7 @@
 #include <LWEngine/Core/EntryPoint.h>
 //. -------------------------------
 #include "ExampleGame.h"
-
+#include "WorldGeneration.h"
 
 extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 0x00000001; }
