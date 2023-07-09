@@ -1,4 +1,5 @@
 #include "WorldGeneration.h"
+
 WorldGeneration::WorldGeneration(const std::string& path)
 {
     LWE_PROFILE_FUNCTION();

@@ -3,7 +3,7 @@
 #include "LWEngine.h"
 
 #include "Systems/ParticleSystem.h"
-#include "WorldGeneration.h"
+#include "Systems/WorldGeneration.h"
 
 struct vec4Hash
 {
@@ -49,9 +49,13 @@ private:
 	LWEngine::ShaderLibrary m_ShaderLib;
 	LWEngine::Ref<LWEngine::Shader> m_Shader;
 	LWEngine::Ref<LWEngine::VertexArray> m_SquareVA;
-	LWEngine::Ref<LWEngine::Texture2D>  m_TextureNull, m_Background, m_IndustrialSpriteSheet;
-	LWEngine::Ref<LWEngine::SubTexture2D>  m_SubTextureNull, m_TopDirtTilemap, m_MidWaterTilemap;
-	glm::vec4 m_ColTopFarmTilemap = { 255.0f,0.0f,0.0f,1.0f }, m_ColMidWaterTilemap = { 0.0f,0.0f,255.0f,1.0f };
+	LWEngine::Ref<LWEngine::Texture2D>  m_TextureNull, m_TextureError, m_Background, m_IndustrialTilemap;
+
+	LWEngine::Ref<LWEngine::SubTexture2D>  m_SubTextureNull, m_SubTextureError;
+	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileDirtTop, m_TileDirtCenter, m_TileDirtLeftCenter, m_TileDirtRightCenter, m_TileDirtMid;
+	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileWaterTop, m_TileWaterCenter;
+	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileChest;
+	
 	const float sizeMultiplier = 0.01;
 	//? Temp
 	

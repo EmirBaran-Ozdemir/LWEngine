@@ -142,12 +142,12 @@
     <ClCompile Include="src\ExampleGame.cpp" />
     <ClCompile Include="src\Launch.cpp" />
     <ClCompile Include="src\Systems\ParticleSystem.cpp" />
-    <ClCompile Include="src\WorldGeneration.cpp" />
+    <ClCompile Include="src\Systems\WorldGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ExampleGame.h" />
     <ClInclude Include="src\Systems\ParticleSystem.h" />
-    <ClInclude Include="src\WorldGeneration.h" />
+    <ClInclude Include="src\Systems\WorldGeneration.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

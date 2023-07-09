@@ -8,7 +8,7 @@
 
 
 Sandbox2D::Sandbox2D()
-	: Layer("Sandbox2D"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000)
+	: Layer("Sandbox2D"), m_CameraController((float)1280 / 720), m_ParticleSystem(10000)
 {
 
 }

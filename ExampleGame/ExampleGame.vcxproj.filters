@@ -24,7 +24,7 @@
     <ClCompile Include="src\Systems\ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WorldGeneration.cpp">
+    <ClCompile Include="src\Systems\WorldGeneration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="src\Systems\ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WorldGeneration.h">
+    <ClInclude Include="src\Systems\WorldGeneration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
