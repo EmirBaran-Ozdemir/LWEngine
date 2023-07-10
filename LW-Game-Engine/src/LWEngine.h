@@ -26,6 +26,9 @@
 #include "LWEngine/Renderer/Texture.h"
 #include "LWEngine/Renderer/SubTexture2D.h"
 #include "LWEngine/Renderer/VertexArray.h"
-#include <LWEngine/Renderer/OrthographicCameraController.h>
+#include "LWEngine/Renderer/OrthographicCameraController.h"
+
+//? PANELS
+#include "LWEngine/Panels/StaticPanel.h"
 
 #include "LWEngine/ImGui/ImGuiLayer.h"

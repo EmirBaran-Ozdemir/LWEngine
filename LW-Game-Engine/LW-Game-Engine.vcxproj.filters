@@ -150,7 +150,7 @@
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Panels\StaticPanel.h">
+    <ClInclude Include="src\LWEngine\Panels\StaticPanel.h">
       <Filter>src\Panels</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -1494,7 +1494,7 @@
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Panels\StaticPanel.cpp">
+    <ClCompile Include="src\LWEngine\Panels\StaticPanel.cpp">
       <Filter>src\Panels</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">

@@ -3,6 +3,8 @@
 
 #include "LWEngine/Core/Core.h"
 #include "LWEngine/Core/Timestep.h"
+#include "LWEngine/Core/Application.h"
+
 namespace LWEngine {
 
 	class StaticPanel {

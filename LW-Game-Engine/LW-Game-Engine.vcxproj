@@ -174,7 +174,7 @@
     <ClInclude Include="src\LWEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\LWEngine\Renderer\Texture.h" />
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Panels\StaticPanel.h" />
+    <ClInclude Include="src\LWEngine\Panels\StaticPanel.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -624,7 +624,7 @@
     <ClCompile Include="src\LWEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Panels\StaticPanel.cpp" />
+    <ClCompile Include="src\LWEngine\Panels\StaticPanel.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />

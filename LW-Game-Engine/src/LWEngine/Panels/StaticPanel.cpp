@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "StaticPanel.h"
+#include "LWEngine\Panels\StaticPanel.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h"
@@ -24,6 +24,7 @@ namespace LWEngine {
 				if (ImGui::MenuItem("New", "CTRL+N")) {/*! NEW FILE*/ }
 				ImGui::Separator();
 				if (ImGui::MenuItem("Save", "CTRL+S")) { LWE_CLIENT_TRACE("File saved"); }
+				if (ImGui::MenuItem("Exit", NULL, false)) LWEngine::Application::Get().Close();
 
 				ImGui::EndMenu();
 			}
