@@ -1,6 +1,4 @@
-//? Put these ptahs into your .h file
 #include <LWEngine.h>
-//? -----------------------------------
 
 //. ----------Entry Point----------
 #include <LWEngine/Core/EntryPoint.h>
@@ -17,7 +15,11 @@ public:
 	Sandbox()
 		: Application()
 	{
-		PushLayer(new ExampleGame());
+		//std::cout << "Give full location of world.png file" << std::endl;
+		std::string path = "assets/textures/exampleWorldPlatformer.png";
+		//std::cin >> path;
+		
+		PushLayer(new ExampleGame(path));
 	}
 	~Sandbox()
 	{

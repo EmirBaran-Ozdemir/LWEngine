@@ -8,8 +8,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-ExampleGame::ExampleGame()
-	: Layer("ExampleGame"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000), m_World(WorldGeneration("assets/textures/exampleWorldPlatformer.png"))
+ExampleGame::ExampleGame(std::string& path)
+	: Layer("ExampleGame"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000), m_World(WorldGeneration(path))
 {
 
 }
@@ -101,7 +101,6 @@ void ExampleGame::OnUpdate(LWEngine::Timestep ts)
 			LWEngine::Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
 		}
 	}
-
 	LWEngine::Renderer2D::EndScene();
 
 	LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
@@ -128,11 +127,67 @@ void ExampleGame::OnImGuiRender(LWEngine::Timestep ts)
 {
 	LWE_PROFILE_FUNCTION();
 
-	auto stats = LWEngine::Renderer2D::GetStats();
+	static bool dockspaceEnabled = true;
+	static bool opt_fullscreen = true;
+	static bool opt_padding = true;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking ;
+	if (opt_fullscreen)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	}
+	else
+	{
+		dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+	}
+
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	if (!opt_padding)
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &dockspaceEnabled, window_flags);
+	if (!opt_padding)
+		ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
+
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
 
 	ImGui::Begin("Settings");
 	ImGui::Text("%f", LWEngine::Random::Float());
 	ImGui::End();
+	ImGui::Begin("Color Edit");
+	ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
+	ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
+	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);
+	ImGui::DragFloat("SizeBegin", &m_Particle.SizeBegin, 0.1f, 0.2f, 5.0f);
+	ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+	//for (auto &pair : m_TextureMap)
+	//{
+	//	LWEngine::Ref<LWEngine::SubTexture2D> texture = pair.second;
+	//	ImTextureID imguiTextureID = (ImTextureID)(intptr_t)texture->GetTexture()->GetRendererID();
+	//	if(ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f}, { 1.0f,1.0f }, texture->GetTexture(), {1.0f,1.0f,1.0f,1.0f});
+	//}
+	ImGui::End();
+
+	ImGui::End(); // Dockwindow end
 }
 
 void ExampleGame::OnEvent(LWEngine::Event& e)

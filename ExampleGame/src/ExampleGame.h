@@ -33,7 +33,7 @@ struct vec4Equal
 class ExampleGame : public LWEngine::Layer
 {
 public:
-	ExampleGame();
+	ExampleGame(std::string& path);
 	virtual ~ExampleGame() = default;
 
 	virtual void OnAttach() override;

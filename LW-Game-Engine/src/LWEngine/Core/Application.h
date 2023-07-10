@@ -21,6 +21,7 @@ namespace LWEngine{
 		//! Main application
 		void Run();
 		void Close();
+
 		//! Events
 		void OnEvent(Event& e); 
 		
@@ -34,7 +35,7 @@ namespace LWEngine{
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 	private:
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true, m_Minimized = false;
 		LayerStack m_LayerStack;
@@ -46,7 +47,5 @@ namespace LWEngine{
 		inline static Application* s_Instance = nullptr;
 	};
 
-	//. Functions
-	// To be defined in client
 	Application* CreateApplication();
 }
