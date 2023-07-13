@@ -56,8 +56,6 @@ private:
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileDirtTop, m_TileDirtCenter, m_TileDirtLeftCenter, m_TileDirtRightCenter, m_TileDirtMid;
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileWaterTop, m_TileWaterCenter;
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileChest;
-	
-	LWEngine::Ref<LWEngine::Framebuffer> m_Framebuffer;
 
 	const float sizeMultiplier = 0.01;
 	//? Temp

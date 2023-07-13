@@ -9,13 +9,13 @@ namespace LWEngine {
 	struct WindowProps
 	{
 		std::string Title;
-		unsigned int Width;
-		unsigned int Height;
+		uint32_t Width;
+		uint32_t Height;
 
 		//! Default paramaters
-		WindowProps(const std::string& title = "LW Engine",
-			unsigned int width = 1280,
-			unsigned int height = 720)
+		WindowProps(const std::string& title = "LWEngine",
+			uint32_t width = 1280,
+			uint32_t height = 720)
 			: Title(title), Width(width), Height(height) {}
 	};
 	
@@ -28,8 +28,8 @@ namespace LWEngine {
 
 		virtual void OnUpdate() = 0;
 
-		virtual unsigned int GetWidth() const = 0;
-		virtual unsigned int GetHeight() const = 0;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
 		virtual void* GetNativeWindow() const = 0;
 
 

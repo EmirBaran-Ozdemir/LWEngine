@@ -13,12 +13,12 @@ class Launch :public LWEngine::Application
 {
 public:
 	Launch()
-		: Application()
+		: Application("ExmpaleGame", 1920, 1080)
 	{
 		//std::cout << "Give full location of world.png file" << std::endl;
 		std::string path = "assets/textures/exampleWorldPlatformer.png";
 		//std::cin >> path;
-		
+
 		PushLayer(new ExampleGame(path));
 	}
 	~Launch()

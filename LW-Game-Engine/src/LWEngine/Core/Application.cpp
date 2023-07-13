@@ -10,15 +10,15 @@
 
 namespace LWEngine {
 
-	Application::Application()
+	Application::Application(const std::string& name, uint32_t width, uint32_t height)
 	{
 		LWE_PROFILE_FUNCTION();
-		
+
 		LWE_CORE_ASSERT(!s_Instance, "WARNING::APPLICATION_ALREADY_EXISTS!");
 		s_Instance = this;
-		m_Window = Window::Create();
+		m_Window = Window::Create(WindowProps(name, width, height));
 		m_Window->SetEventCallback(LWE_BIND_EVENT_FN(Application::OnEvent));
-		
+
 		Renderer::Init();
 
 		m_Window->SetVSync(true);
@@ -30,7 +30,7 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 		Renderer::Shutdown();
-		
+
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -126,5 +126,5 @@ namespace LWEngine {
 		return false;
 	}
 
-	
+
 }

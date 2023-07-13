@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\Systems\ParticleSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Systems\Player.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Systems\WorldGeneration.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\LWEditor.cpp" />
+    <ClCompile Include="src\Systems\ParticleSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Systems\Player.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Systems\WorldGeneration.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
