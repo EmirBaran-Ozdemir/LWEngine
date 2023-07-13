@@ -9,10 +9,10 @@ extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 extern "C" {__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 0x00000001; }
 
 
-class Sandbox :public LWEngine::Application
+class Launch :public LWEngine::Application
 {
 public:
-	Sandbox()
+	Launch()
 		: Application()
 	{
 		//std::cout << "Give full location of world.png file" << std::endl;
@@ -21,7 +21,7 @@ public:
 		
 		PushLayer(new ExampleGame(path));
 	}
-	~Sandbox()
+	~Launch()
 	{
 
 	}
@@ -31,5 +31,5 @@ public:
 
 LWEngine::Application* LWEngine::CreateApplication()
 {
-	return new Sandbox();
+	return new Launch();
 }
