@@ -4,6 +4,7 @@
 
 #include "Systems/ParticleSystem.h"
 #include "Systems/WorldGeneration.h"
+#include "Systems/Player.h"
 
 struct vec4Hash
 {
@@ -49,19 +50,22 @@ private:
 	LWEngine::ShaderLibrary m_ShaderLib;
 	LWEngine::Ref<LWEngine::Shader> m_Shader;
 	LWEngine::Ref<LWEngine::VertexArray> m_SquareVA;
-	LWEngine::Ref<LWEngine::Texture2D>  m_TextureNull, m_TextureError, m_Background, m_IndustrialTilemap;
+	LWEngine::Ref<LWEngine::Texture2D>  m_TextureNull, m_TextureError, m_Background, m_IndustrialTilemap, m_CubeHead;
 
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_SubTextureNull, m_SubTextureError;
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileDirtTop, m_TileDirtCenter, m_TileDirtLeftCenter, m_TileDirtRightCenter, m_TileDirtMid;
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileWaterTop, m_TileWaterCenter;
 	LWEngine::Ref<LWEngine::SubTexture2D>  m_TileChest;
 	
+	LWEngine::Ref<LWEngine::Framebuffer> m_Framebuffer;
+
 	const float sizeMultiplier = 0.01;
 	//? Temp
 	
 	LWEngine::OrthographicCameraController m_CameraController;
+	Player m_Player;
+
 	glm::vec4 m_SquareColor = { 0.2f,0.3f,0.7f,1.0f };
-	glm::vec3 m_PlayerPos = { 0.0f,10.0f,0.0f };
 
 	ParticleSystem m_ParticleSystem;
 	ParticleProperties m_Particle;

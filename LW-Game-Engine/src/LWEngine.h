@@ -22,6 +22,7 @@
 #include "LWEngine/Renderer/Renderer2D.h"
 #include "LWEngine/Renderer/RenderCommand.h"
 #include "LWEngine/Renderer/Buffer.h"
+#include "LWEngine/Renderer/Framebuffer.h"
 #include "LWEngine/Renderer/Shader.h"
 #include "LWEngine/Renderer/Texture.h"
 #include "LWEngine/Renderer/SubTexture2D.h"

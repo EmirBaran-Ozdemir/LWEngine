@@ -142,11 +142,13 @@
     <ClCompile Include="src\ExampleGame.cpp" />
     <ClCompile Include="src\Launch.cpp" />
     <ClCompile Include="src\Systems\ParticleSystem.cpp" />
+    <ClCompile Include="src\Systems\Player.cpp" />
     <ClCompile Include="src\Systems\WorldGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ExampleGame.h" />
     <ClInclude Include="src\Systems\ParticleSystem.h" />
+    <ClInclude Include="src\Systems\Player.h" />
     <ClInclude Include="src\Systems\WorldGeneration.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

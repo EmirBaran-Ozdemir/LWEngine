@@ -30,6 +30,7 @@ void ExampleGame::OnAttach()
 	//. DEFINING BACKGROUNDS & TILEMAPS
 	m_Background = LWEngine::Texture2D::Create("assets/textures/backgrounds/backgroundColorFall.png");
 	m_IndustrialTilemap = LWEngine::Texture2D::Create("assets/textures/level-components/industrial_tilemap.png");
+	m_CubeHead = LWEngine::Texture2D::Create("assets/textures/level-components/awesomeface.png");
 
 	//. DEFINING TILES FROM TILEMAP & BINDING COLOR VALUES
 	m_TileDirtTop = LWEngine::SubTexture2D::CreateFromCoords(m_IndustrialTilemap, { 2,5 }, { 18,18 }, 1.0f);
@@ -59,6 +60,11 @@ void ExampleGame::OnAttach()
 	m_Particle.Velocity = { 0.0f, 0.0f };
 	m_Particle.VelocityVariation = { 5.0f,1.0f };
 
+	LWEngine::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1280;
+	fbSpec.Height = 720;
+	m_Framebuffer = LWEngine::Framebuffer::Create(fbSpec);
+
 	m_CameraController.SetZoomLevel(10.0f);
 
 }
@@ -75,16 +81,21 @@ void ExampleGame::OnUpdate(LWEngine::Timestep ts)
 
 	// Update
 	m_CameraController.OnUpdate(ts);
+	m_Player.OnUpdate(ts);
 	LWEngine::Renderer2D::ResetStats();
 
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1.0f });
 		LWEngine::RenderCommand::Clear();
 	}
 
 	LWEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
+	auto playerPos = m_Player.GetPlayerPos();
+	LWEngine::Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
+	
 	LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
 	for (int x = 0; x < m_World.GetWidth(); x++)
 	{
@@ -121,6 +132,7 @@ void ExampleGame::OnUpdate(LWEngine::Timestep ts)
 	m_ParticleSystem.OnUpdate(ts);
 	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 	LWEngine::Renderer2D::EndScene();
+	m_Framebuffer->Unbind();
 }
 
 void ExampleGame::OnImGuiRender(LWEngine::Timestep ts)
@@ -130,7 +142,7 @@ void ExampleGame::OnImGuiRender(LWEngine::Timestep ts)
 	static bool dockspaceEnabled = true;
 	static bool opt_fullscreen = true;
 	static bool opt_padding = true;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None ;
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking ;
 	if (opt_fullscreen)
@@ -185,6 +197,9 @@ void ExampleGame::OnImGuiRender(LWEngine::Timestep ts)
 	//	ImTextureID imguiTextureID = (ImTextureID)(intptr_t)texture->GetTexture()->GetRendererID();
 	//	if(ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) LWEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f}, { 1.0f,1.0f }, texture->GetTexture(), {1.0f,1.0f,1.0f,1.0f});
 	//}
+	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+	ImGui::Image((void*)textureID, ImVec2{ 1280,720}, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+
 	ImGui::End();
 
 	ImGui::End(); // Dockwindow end

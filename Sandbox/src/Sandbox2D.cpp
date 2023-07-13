@@ -20,6 +20,11 @@ void Sandbox2D::OnAttach()
 	m_Texture2D = LWEngine::Texture2D::Create("assets/textures/awesomeface.png");
 	m_Background = LWEngine::Texture2D::Create("assets/textures/Lake.jpg");
 
+	LWEngine::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1280;
+	fbSpec.Height = 720;
+	m_Framebuffer = LWEngine::Framebuffer::Create(fbSpec);
+
 	m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
 	m_Particle.ColorEnd = { 0.5f,0.5f,0.0f,1.0f };
 	m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
@@ -80,6 +85,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 
 	{
 		LWE_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		LWEngine::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1.0f });
 		LWEngine::RenderCommand::Clear();
 	}
@@ -142,7 +148,7 @@ void Sandbox2D::OnUpdate(LWEngine::Timestep ts)
 	}
 	m_ParticleSystem.OnUpdate(ts);
 	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
-
+	m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnImGuiRender(LWEngine::Timestep ts)
