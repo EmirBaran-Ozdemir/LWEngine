@@ -35,6 +35,7 @@ namespace LWEngine {
 
 	class Event {
 	public:
+		virtual ~Event() = default;
 		bool Handled = false;
 	public:
 		virtual EventType GetEventType() const = 0;

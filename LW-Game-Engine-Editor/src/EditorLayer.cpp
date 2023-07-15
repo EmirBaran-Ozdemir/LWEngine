@@ -80,8 +80,12 @@ namespace LWEngine {
 		LWE_PROFILE_FUNCTION();
 
 		// Update
-		m_CameraController.OnUpdate(ts);
-		m_Player.OnUpdate(ts);
+		if (m_ViewPortFocused)
+		{
+			m_CameraController.OnUpdate(ts);
+			m_Player.OnUpdate(ts);
+		}
+
 		Renderer2D::ResetStats();
 
 		{
@@ -198,7 +202,12 @@ namespace LWEngine {
 		//	if(ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f}, { 1.0f,1.0f }, texture->GetTexture(), {1.0f,1.0f,1.0f,1.0f});
 		//}
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
-		ImGui::Begin("ViewPort");
+		ImGui::Begin("Viewport");
+		m_ViewPortFocused = ImGui::IsWindowFocused();
+		m_ViewPortHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
+		
+
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		if (m_ViewportSize != *((glm::vec2*)&availContentRegion))
 		{

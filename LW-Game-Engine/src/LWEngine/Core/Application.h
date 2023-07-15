@@ -31,6 +31,7 @@ namespace LWEngine {
 
 		static Application& Get() { return *s_Instance; }
 		Window& GetWindow() { return *m_Window; }
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

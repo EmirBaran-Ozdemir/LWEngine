@@ -1,12 +1,12 @@
 #include "lwpch.h"
-#include "Platform/Windows/WindowsInput.h"
+#include "LWEngine/Core/Input.h"
 
 #include "LWEngine/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace LWEngine {
 
-	bool WindowsInput::IsKeyPressedImpl(KeyCode keycode)
+	bool Input::IsKeyPressed(KeyCode keycode)
 	{
 
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -15,7 +15,7 @@ namespace LWEngine {
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 	
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	std::pair<float, float> Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xPos, yPos;
@@ -24,7 +24,7 @@ namespace LWEngine {
 		return { (float)xPos, (float)yPos };
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
+	bool Input::IsMouseButtonPressed(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
@@ -32,15 +32,15 @@ namespace LWEngine {
 		return state == GLFW_PRESS;
 	}
 
-	float WindowsInput::GetMouseXImpl()
+	float Input::GetMouseX()
 	{
-		auto [x, _] = GetMousePositionImpl();
+		auto [x, _] = GetMousePosition();
 		return x;
 	}
 
-	float WindowsInput::GetMouseYImpl()
+	float Input::GetMouseY()
 	{
-		auto [_, y] = GetMousePositionImpl();
+		auto [_, y] = GetMousePosition();
 		return y;
 	}
 

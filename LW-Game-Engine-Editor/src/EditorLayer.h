@@ -63,6 +63,9 @@ namespace LWEngine {
 		const float sizeMultiplier = 0.01;
 		//? Temp
 
+		bool m_ViewPortFocused = false;
+		bool m_ViewPortHovered = false;
+
 		OrthographicCameraController m_CameraController;
 		Player m_Player;
 
