@@ -180,28 +180,36 @@ namespace LWEngine {
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 
-		//ImGui::Begin("Settings");
-		//ImGui::Text("%f", Random::Float());
-		//ImGui::End();
-		//ImGui::Begin("Color Edit");
-		//ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
-		//ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
-		//ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);
-		//ImGui::DragFloat("SizeBegin", &m_Particle.SizeBegin, 0.1f, 0.2f, 5.0f);
-		//ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
-		//ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
-
+		ImGui::Begin("Settings");
+		ImGui::Text("%f", Random::Float());
+		ImGui::End();
+		ImGui::Begin("Color Edit");
+		ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
+		ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
+		ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);
+		ImGui::DragFloat("SizeBegin", &m_Particle.SizeBegin, 0.1f, 0.2f, 5.0f);
+		ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 		//for (auto &pair : m_TextureMap)
 		//{
 		//	Ref<SubTexture2D> texture = pair.second;
 		//	ImTextureID imguiTextureID = (ImTextureID)(intptr_t)texture->GetTexture()->GetRendererID();
 		//	if(ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f}, { 1.0f,1.0f }, texture->GetTexture(), {1.0f,1.0f,1.0f,1.0f});
 		//}
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
+		ImGui::Begin("ViewPort");
+		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != *((glm::vec2*)&availContentRegion))
+		{
+			m_Framebuffer->Resize((uint32_t)availContentRegion.x, (uint32_t)availContentRegion.y);
+			m_ViewportSize = { availContentRegion.x,availContentRegion.y };
+			m_CameraController.Resize(availContentRegion.x, availContentRegion.y);
+		}
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 1280,720 }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
-
-		//ImGui::End();
-
+		ImGui::Image((void*)textureID, { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+		ImGui::End();
+		ImGui::PopStyleVar();
 		ImGui::End(); // Dockwindow end
 	}
 

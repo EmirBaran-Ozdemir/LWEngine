@@ -67,6 +67,7 @@ namespace LWEngine {
 		Player m_Player;
 
 		glm::vec4 m_SquareColor = { 0.2f,0.3f,0.7f,1.0f };
+		glm::vec2 m_ViewportSize = { 0.0f,0.0f };
 
 		ParticleSystem m_ParticleSystem;
 		ParticleProperties m_Particle;

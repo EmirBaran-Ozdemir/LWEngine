@@ -26,6 +26,8 @@ namespace LWEngine {
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
+		void Resize(float width, float height);
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
