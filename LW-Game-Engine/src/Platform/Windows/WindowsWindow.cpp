@@ -171,6 +171,10 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 		glfwPollEvents();
+	}
+
+	void WindowsWindow::OnRender()
+	{
 		m_Context->SwapBuffers();
 	}
 

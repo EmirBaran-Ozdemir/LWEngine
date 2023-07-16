@@ -78,7 +78,14 @@ namespace LWEngine {
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		LWE_PROFILE_FUNCTION();
-
+		LWEngine::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+		// Resize
+		if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+		{
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
+		}
+		
 		// Update
 		if (m_ViewPortFocused)
 		{
@@ -209,12 +216,8 @@ namespace LWEngine {
 		
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != *((glm::vec2*)&availContentRegion))
-		{
-			m_Framebuffer->Resize((uint32_t)availContentRegion.x, (uint32_t)availContentRegion.y);
-			m_ViewportSize = { availContentRegion.x,availContentRegion.y };
-			m_CameraController.Resize(availContentRegion.x, availContentRegion.y);
-		}
+		m_ViewportSize = { availContentRegion.x, availContentRegion.y };
+
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image((void*)textureID, { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 		ImGui::End();

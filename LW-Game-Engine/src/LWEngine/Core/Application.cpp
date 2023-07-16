@@ -89,6 +89,9 @@ namespace LWEngine {
 				timestep = Timestep(time - m_LastFrameTime, m_ElapsedTime);
 				m_LastFrameTime = time;
 			}
+
+			m_Window->OnUpdate();
+
 			if (!m_Minimized)
 			{
 				LWE_PROFILE_SCOPE("Layer update");
@@ -96,13 +99,14 @@ namespace LWEngine {
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdate(timestep);
 			}
-
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender(timestep);
-			m_ImGuiLayer->End();
-
-			m_Window->OnUpdate();
+			{
+				LWE_PROFILE_SCOPE("Layer render");
+				m_ImGuiLayer->Begin();
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender(timestep);
+				m_ImGuiLayer->End();
+			}
+			m_Window->OnRender();
 		}
 	}
 
