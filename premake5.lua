@@ -17,6 +17,7 @@ IncludeDir["Glad"] = "LW-Game-Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
 IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
 IncludeDir["stb_image"] = "LW-Game-Engine/vendor/stb_image"
+IncludeDir["entt"] = "LW-Game-Engine/vendor/entt/include"
 
 
 include "LW-Game-Engine/vendor/GLFW"
@@ -61,6 +62,7 @@ project "LW-Game-Engine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}",
 	}
 	
 	links
@@ -118,7 +120,8 @@ project "LW-Game-Engine-Editor"
 		"LW-Game-Engine/vendor",
 		"LW-Game-Engine/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -168,7 +171,8 @@ project "Sandbox"
 		"LW-Game-Engine/vendor",
 		"LW-Game-Engine/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -217,7 +221,8 @@ project "ExampleGame"
 		"LW-Game-Engine/vendor",
 		"LW-Game-Engine/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.entt}",
 	}
 
 	links

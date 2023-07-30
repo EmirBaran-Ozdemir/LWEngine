@@ -17,6 +17,12 @@
 #include "LWEngine/Core/Window.h"
 #include "LWEngine/Core/Random.h"
 
+//? SCENE
+#include "LWEngine/Scene/Scene.h"
+#include "LWEngine/Scene/Entity.h"
+#include "LWEngine/Scene/Components.h"
+
+
 //? RENDERER
 #include "LWEngine/Renderer/Renderer.h"
 #include "LWEngine/Renderer/Renderer2D.h"

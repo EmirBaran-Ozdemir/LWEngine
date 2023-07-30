@@ -67,6 +67,11 @@ namespace LWEngine {
 
 		m_CameraController.SetZoomLevel(10.0f);
 
+		m_ActiveScene = CreateRef<Scene>();
+
+		auto square = m_ActiveScene->CreateEntity("Square");
+		square.AddComponent<SpriteRendererComponent>( glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+		m_SquareEntity = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -102,10 +107,14 @@ namespace LWEngine {
 			RenderCommand::Clear();
 		}
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
+		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? WORLD GENERATION
+
+		//! Test
+		m_ActiveScene->OnUpdate(ts);
+
 
 		auto playerPos = m_Player.GetPlayerPos();
-		Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
+		/*Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
 		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
 		for (int x = 0; x < m_World.GetWidth(); x++)
@@ -122,10 +131,10 @@ namespace LWEngine {
 					texture = m_SubTextureError;
 				Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
 			}
-		}
+		}*/
 		Renderer2D::EndScene();
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
+		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
 		if (Input::IsMouseButtonPressed(MouseCode::Button0))
 		{
 			auto [x, y] = Input::GetMousePosition();
@@ -143,6 +152,7 @@ namespace LWEngine {
 		m_ParticleSystem.OnUpdate(ts);
 		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 		Renderer2D::EndScene();
+
 		m_Framebuffer->Unbind();
 	}
 
@@ -195,6 +205,14 @@ namespace LWEngine {
 		ImGui::Text("%f", Random::Float());
 		ImGui::End();
 		ImGui::Begin("Color Edit");
+		if (m_SquareEntity)
+		{
+			ImGui::Separator();
+			ImGui::Text("%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+			auto& entityColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorEdit3("entityColor", glm::value_ptr(entityColor));
+		}
+
 		ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
 		ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
 		ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);

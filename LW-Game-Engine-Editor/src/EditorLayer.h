@@ -60,7 +60,10 @@ namespace LWEngine {
 
 		Ref<Framebuffer> m_Framebuffer;
 
-		const float sizeMultiplier = 0.01;
+		Ref<Scene> m_ActiveScene;
+		Entity m_SquareEntity;
+
+		const float sizeMultiplier = 0.01f;
 		//? Temp
 
 		bool m_ViewPortFocused = false;
