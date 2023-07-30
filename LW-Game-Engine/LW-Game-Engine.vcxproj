@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\LWEngine.h" />
+    <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
     <ClInclude Include="src\LWEngine\Core\Application.h" />
     <ClInclude Include="src\LWEngine\Core\Core.h" />
     <ClInclude Include="src\LWEngine\Core\EntryPoint.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\LWEngine\Scene\Components.h" />
     <ClInclude Include="src\LWEngine\Scene\Entity.h" />
     <ClInclude Include="src\LWEngine\Scene\Scene.h" />
+    <ClInclude Include="src\LWEngine\Scene\SceneCamera.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -631,6 +633,7 @@
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\LWEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\LWEngine\Scene\Scene.cpp" />
+    <ClCompile Include="src\LWEngine\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

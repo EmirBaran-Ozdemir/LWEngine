@@ -11,7 +11,7 @@ namespace LWEngine {
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:			LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::NONE_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
-			case RendererAPI::API::OpenGL:		return CreateRef<OpenGLVertexBuffer>(size);
+			case RendererAPI::API::OpenGL:			return CreateRef<OpenGLVertexBuffer>(size);
 		}
 		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::UNKNOWN_API");
 		return nullptr;
@@ -21,7 +21,7 @@ namespace LWEngine {
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:			LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::NONE_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
-			case RendererAPI::API::OpenGL:		return CreateRef<OpenGLVertexBuffer>(vertices, size);
+			case RendererAPI::API::OpenGL:			return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::UNKNOWN_API");
 		return nullptr;
@@ -32,7 +32,7 @@ namespace LWEngine {
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:			LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::NONE_RENDERER_IS_NOT_SUPPORTED"); return nullptr;
-			case RendererAPI::API::OpenGL:		return CreateRef<OpenGLIndexBuffer>(indices, count);
+			case RendererAPI::API::OpenGL:			return CreateRef<OpenGLIndexBuffer>(indices, count);
 		}
 		LWE_CORE_ASSERT(false, "RENDERER_API_ERROR::UNKNOWN_API");
 		return nullptr;

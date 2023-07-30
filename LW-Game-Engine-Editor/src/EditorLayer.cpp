@@ -33,6 +33,7 @@ namespace LWEngine {
 		m_CubeHead = Texture2D::Create("assets/textures/level-components/awesomeface.png");
 
 		//. DEFINING TILES FROM TILEMAP & BINDING COLOR VALUES
+
 		m_TileDirtTop = SubTexture2D::CreateFromCoords(m_IndustrialTilemap, { 2,5 }, { 18,18 }, 1.0f);
 		m_TextureMap[{255.0f, 0.0f, 0.0f, 255.0f}] = m_TileDirtTop;
 		m_TileDirtCenter = SubTexture2D::CreateFromCoords(m_IndustrialTilemap, { 2,4 }, { 18,18 }, 1.0f);
@@ -52,6 +53,7 @@ namespace LWEngine {
 		m_TileChest = SubTexture2D::CreateFromCoords(m_IndustrialTilemap, { 13,3 }, { 18,18 }, 1.0f);
 		m_TextureMap[{0.0f, 255.0f, 255.0f, 255.0f}] = m_TileChest;
 
+
 		m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
 		m_Particle.ColorEnd = { 0.5f,0.5f,0.0f,1.0f };
 		m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
@@ -70,8 +72,14 @@ namespace LWEngine {
 		m_ActiveScene = CreateRef<Scene>();
 
 		auto square = m_ActiveScene->CreateEntity("Square");
-		square.AddComponent<SpriteRendererComponent>( glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 		m_SquareEntity = square;
+
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
+		m_CameraEntity.AddComponent<CameraComponent>();
+		m_SecondCameraEntity = m_ActiveScene->CreateEntity("SecondCamera");
+		auto& cameraComponent = m_SecondCameraEntity.AddComponent<CameraComponent>();
+		cameraComponent.Primary = false;
 	}
 
 	void EditorLayer::OnDetach()
@@ -84,14 +92,16 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 		LWEngine::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
-		// Resize
+		//! Resize
 		if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
-		}
 		
-		// Update
+			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		}
+
+		//! Update
 		if (m_ViewPortFocused)
 		{
 			m_CameraController.OnUpdate(ts);
@@ -107,14 +117,13 @@ namespace LWEngine {
 			RenderCommand::Clear();
 		}
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? WORLD GENERATION
 
-		//! Test
 		m_ActiveScene->OnUpdate(ts);
 
 
+		Renderer2D::BeginScene(m_CameraController.GetCamera());
 		auto playerPos = m_Player.GetPlayerPos();
-		/*Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
+		Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
 		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
 		for (int x = 0; x < m_World.GetWidth(); x++)
@@ -131,7 +140,7 @@ namespace LWEngine {
 					texture = m_SubTextureError;
 				Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
 			}
-		}*/
+		}
 		Renderer2D::EndScene();
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
@@ -213,6 +222,23 @@ namespace LWEngine {
 			ImGui::ColorEdit3("entityColor", glm::value_ptr(entityColor));
 		}
 
+		ImGui::DragFloat3(m_CameraEntity.GetComponent<TagComponent>().Tag.c_str(),
+			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]
+		));
+
+		if(ImGui::Checkbox("Camera 1", &m_PrimaryCamera))
+		{
+			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
+			m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
+		};
+
+		{
+			auto& camera = m_SecondCameraEntity.GetComponent<CameraComponent>().Camera;
+			float orthoSize = camera.GetOrthographicSize();
+			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
+				camera.SetOrthographicSize(orthoSize);
+		}
+
 		ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
 		ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
 		ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.1f, 10.0f);
@@ -220,18 +246,18 @@ namespace LWEngine {
 		ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
-		//for (auto &pair : m_TextureMap)
+		//for (auto& pair : m_TextureMap)
 		//{
 		//	Ref<SubTexture2D> texture = pair.second;
 		//	ImTextureID imguiTextureID = (ImTextureID)(intptr_t)texture->GetTexture()->GetRendererID();
-		//	if(ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f}, { 1.0f,1.0f }, texture->GetTexture(), {1.0f,1.0f,1.0f,1.0f});
+		//	if (ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f }, { 1.0f,1.0f }, texture->GetTexture(), { 1.0f,1.0f,1.0f,1.0f });
 		//}
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewPortFocused = ImGui::IsWindowFocused();
 		m_ViewPortHovered = ImGui::IsWindowHovered();
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
-		
+
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { availContentRegion.x, availContentRegion.y };

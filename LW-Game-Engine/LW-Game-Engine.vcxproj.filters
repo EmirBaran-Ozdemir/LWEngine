@@ -1443,6 +1443,10 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Scene\Components.h" />
+    <ClInclude Include="src\LWEngine\Scene\Entity.h" />
+    <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\LWEngine\Scene\SceneCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
@@ -1547,5 +1551,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Scene\Entity.cpp" />
+    <ClCompile Include="src\LWEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

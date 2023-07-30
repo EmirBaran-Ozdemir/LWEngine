@@ -60,8 +60,11 @@ namespace LWEngine {
 
 		Ref<Framebuffer> m_Framebuffer;
 
-		Ref<Scene> m_ActiveScene;
+		Ref<Scene> m_ActiveScene;	
 		Entity m_SquareEntity;
+		Entity m_CameraEntity;
+		Entity m_SecondCameraEntity;
+		bool m_PrimaryCamera = true;
 
 		const float sizeMultiplier = 0.01f;
 		//? Temp
