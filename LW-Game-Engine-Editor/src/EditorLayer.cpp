@@ -77,9 +77,37 @@ namespace LWEngine {
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_CameraEntity.AddComponent<CameraComponent>();
+		
 		m_SecondCameraEntity = m_ActiveScene->CreateEntity("SecondCamera");
 		auto& cameraComponent = m_SecondCameraEntity.AddComponent<CameraComponent>();
 		cameraComponent.Primary = false;
+
+		class CameraController : public ScriptableEntity
+		{
+		public:
+			void OnCreate()
+			{
+				std::cout << "Created::" << std::endl;
+			}
+			void OnUpdate(Timestep ts)
+			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+
+				if (Input::IsKeyPressed(KeyCode::A))
+					transform[3][0] += 2.0f * ts;
+				if (Input::IsKeyPressed(KeyCode::D))
+					transform[3][0] -= 2.0f * ts;
+				if (Input::IsKeyPressed(KeyCode::S))
+					transform[3][1] += 2.0f * ts;
+				if (Input::IsKeyPressed(KeyCode::W))
+					transform[3][1] -= 2.0f * ts;
+			}
+			void OnDestroy()
+			{
+				std::cout << "Destroyed" << std::endl;
+			}
+		};
+		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach()

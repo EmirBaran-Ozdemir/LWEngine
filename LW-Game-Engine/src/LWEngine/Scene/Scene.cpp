@@ -8,7 +8,6 @@
 
 namespace LWEngine {
 
-
 	Scene::Scene()
 	{
 		entt::entity entity = m_Registry.create();
@@ -35,6 +34,22 @@ namespace LWEngine {
 
 	void Scene::OnUpdate(Timestep ts)
 	{
+		//. Update scripts
+		{
+			LWE_PROFILE_SCOPE("Scene::OnUpdate - Scripts");
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			{
+				if (!nsc.Instance)
+				{
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Entity = Entity{ entity,this };
+					nsc.Instance->OnCreate();
+				}
+				nsc.Instance->OnUpdate(ts);
+			});
+		}
+
+		//. Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 
@@ -44,7 +59,7 @@ namespace LWEngine {
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
 			{
-				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;

@@ -15,7 +15,7 @@ class Sandbox :public LWEngine::Application
 {
 public:
 	Sandbox()
-		: Application()
+		: Application("LWEngine",1920,1080)
 	{
 		// PushLayer(new ExampleLayer());
 		

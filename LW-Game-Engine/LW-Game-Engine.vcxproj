@@ -181,6 +181,7 @@
     <ClInclude Include="src\LWEngine\Scene\Entity.h" />
     <ClInclude Include="src\LWEngine\Scene\Scene.h" />
     <ClInclude Include="src\LWEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\LWEngine\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />

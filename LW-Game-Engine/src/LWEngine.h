@@ -20,6 +20,7 @@
 //? SCENE
 #include "LWEngine/Scene/Scene.h"
 #include "LWEngine/Scene/Entity.h"
+#include "LWEngine/Scene/ScriptableEntity.h"
 #include "LWEngine/Scene/Components.h"
 
 

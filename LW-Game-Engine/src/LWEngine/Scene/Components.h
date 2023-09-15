@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include "LWEngine/Scene/SceneCamera.h"
+#include "LWEngine/Scene/ScriptableEntity.h"
 
 namespace LWEngine {
 
@@ -15,7 +16,6 @@ namespace LWEngine {
 			: Tag(Tag) {}
 
 	};
-
 
 	struct TransformComponent
 	{
@@ -42,7 +42,6 @@ namespace LWEngine {
 
 	};
 
-
 	struct CameraComponent
 	{
 		SceneCamera Camera;
@@ -51,6 +50,26 @@ namespace LWEngine {
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		ScriptableEntity*(*InstantiateScript)();
+		void(*DestroyScript)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateScript = []() {return static_cast<ScriptableEntity*>(new T()); };
+		#if LWE_DEBUG
+			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance;  nsc->Instance = nullptr;  };
+		#else
+			DestroyScript = [](NativeScriptComponent* nsc) {delete  nsc->Instance;};
+		#endif
+		}
+
 	};
 
 }

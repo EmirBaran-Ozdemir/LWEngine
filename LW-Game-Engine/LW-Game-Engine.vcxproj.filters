@@ -1447,6 +1447,7 @@
     <ClInclude Include="src\LWEngine\Scene\Entity.h" />
     <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
     <ClInclude Include="src\LWEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\LWEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
