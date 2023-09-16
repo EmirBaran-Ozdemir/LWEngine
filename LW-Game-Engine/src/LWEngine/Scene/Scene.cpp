@@ -10,11 +10,6 @@ namespace LWEngine {
 
 	Scene::Scene()
 	{
-		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-
-		TransformComponent& transformComponent = m_Registry.get<TransformComponent>(entity);
-
 	}
 
 	Scene::~Scene()

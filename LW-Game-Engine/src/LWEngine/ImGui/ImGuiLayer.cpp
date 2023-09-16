@@ -1,6 +1,5 @@
 #include "lwpch.h"
 #include "LWEngine/ImGui/ImGuiLayer.h"
-#include "LWEngine/Panels/StaticPanel.h"
 #include "LWEngine/Core/Application.h"
 
 #include <imgui.h>
@@ -80,24 +79,8 @@ namespace LWEngine {
 
 	void ImGuiLayer::OnImGuiRender(Timestep ts)
 	{
-		
 		static bool show = true;
-		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
-		//// Create the main window
-		//ImGui::Begin("Main Window");
-
-		//// Add content to the main window
-		//ImGui::Text("This is the main window");
-
-		//ImGui::End(); // End the main window
-
-		//// Create a dockable frame
-		//ImGui::SetNextWindowDockID(ImGui::GetID("Dockable Frame"), ImGuiDockNodeFlags_PassthruCentralNode);
-
-		StaticPanel::TopMenuBar(ts);
-		//StaticPanel::TabMenuBar();
-		StaticPanel::BottomMenuBar();
-		StaticPanel::RightMenuBar();	
+		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);	
 	}
 
 	void ImGuiLayer::Begin()

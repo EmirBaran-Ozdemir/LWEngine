@@ -1,6 +1,5 @@
 #include "EditorLayer.h"
 
-
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 
@@ -87,7 +86,6 @@ namespace LWEngine {
 		public:
 			void OnCreate()
 			{
-				std::cout << "Created::" << std::endl;
 			}
 			void OnUpdate(Timestep ts)
 			{
@@ -104,10 +102,10 @@ namespace LWEngine {
 			}
 			void OnDestroy()
 			{
-				std::cout << "Destroyed" << std::endl;
 			}
 		};
 		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_ScHiPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -237,6 +235,8 @@ namespace LWEngine {
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
+
+		m_ScHiPanel.OnImGuiRender();
 
 		ImGui::Begin("Settings");
 		ImGui::Text("%f", Random::Float());

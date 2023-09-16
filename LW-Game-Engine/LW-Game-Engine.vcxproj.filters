@@ -19,9 +19,6 @@
     <Filter Include="src\LWEngine\ImGui">
       <UniqueIdentifier>{5F216C37-4B05-2D8D-B465-27E0A068170F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\LWEngine\Panels">
-      <UniqueIdentifier>{27638034-93C4-5D42-1C32-A4F488929401}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\LWEngine\Renderer">
       <UniqueIdentifier>{BB7F7C62-27EC-375D-F0DF-CFBA5C0B5AC5}</UniqueIdentifier>
     </Filter>
@@ -120,10 +117,10 @@
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h">
       <Filter>src\LWEngine\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Panels\StaticPanel.h">
-      <Filter>src\LWEngine\Panels</Filter>
-    </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\Camera.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\Framebuffer.h">
@@ -162,7 +159,19 @@
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Scene\Components.h">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Scene\Entity.h">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Scene\Scene.h">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Scene\SceneCamera.h">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Scene\ScriptableEntity.h">
       <Filter>src\LWEngine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -1443,11 +1452,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Scene\Components.h" />
-    <ClInclude Include="src\LWEngine\Scene\Entity.h" />
-    <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
-    <ClInclude Include="src\LWEngine\Scene\SceneCamera.h" />
-    <ClInclude Include="src\LWEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
@@ -1473,9 +1477,6 @@
     </ClCompile>
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\LWEngine\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LWEngine\Panels\StaticPanel.cpp">
-      <Filter>src\LWEngine\Panels</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
@@ -1516,7 +1517,13 @@
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Scene\Entity.cpp">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\LWEngine\Scene\Scene.cpp">
+      <Filter>src\LWEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Scene\SceneCamera.cpp">
       <Filter>src\LWEngine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1552,7 +1559,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\LWEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\LWEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 #include "lwpch.h"
-#include "LWEngine\Panels\StaticPanel.h"
+#include "WindowPanel.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
-#include "imgui.h"
+#include <imgui/imgui.h>
 #include <direct.h>
-#include <imgui_internal.h>
+#include <imgui/imgui_internal.h>
 
 namespace LWEngine {
 

@@ -1,9 +1,6 @@
 #pragma once
 
-
-#include "LWEngine/Core/Core.h"
-#include "LWEngine/Core/Timestep.h"
-#include "LWEngine/Core/Application.h"
+#include "LWEngine.h"
 
 namespace LWEngine {
 

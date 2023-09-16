@@ -144,7 +144,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\LWEngine.h" />
-    <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
     <ClInclude Include="src\LWEngine\Core\Application.h" />
     <ClInclude Include="src\LWEngine\Core\Core.h" />
     <ClInclude Include="src\LWEngine\Core\EntryPoint.h" />
@@ -163,8 +162,8 @@
     <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\LWEngine\Panels\StaticPanel.h" />
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
     <ClInclude Include="src\LWEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\LWEngine\Renderer\OrthographicCamera.h" />
@@ -618,7 +617,6 @@
     <ClCompile Include="src\LWEngine\Core\Window.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\LWEngine\Panels\StaticPanel.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\GraphicsContext.cpp" />
