@@ -11,9 +11,13 @@ namespace LWEngine {
 		SceneHierarchyPanel(const Ref<Scene>& context);
 		void OnImGuiRender();
 		void SetContext(const Ref<Scene>& context);
+	
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
+		template <typename T>
+		void DrawComponent(std::string name);
+
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;

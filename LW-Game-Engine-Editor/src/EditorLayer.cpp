@@ -72,6 +72,9 @@ namespace LWEngine {
 
 		auto square = m_ActiveScene->CreateEntity("Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+
+		auto redSq = m_ActiveScene->CreateEntity("Red Square");
+		redSq.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 		m_SquareEntity = square;
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
@@ -86,19 +89,22 @@ namespace LWEngine {
 		public:
 			void OnCreate()
 			{
+				auto& position = GetComponent<TransformComponent>().Position;
+				position.x = rand() % 10 - 5.0f;
+				position.y = rand() % 10 - 5.0f;
 			}
 			void OnUpdate(Timestep ts)
 			{
-				auto& transform = GetComponent<TransformComponent>().Transform;
+				auto& position = GetComponent<TransformComponent>().Position;
 
 				if (Input::IsKeyPressed(KeyCode::A))
-					transform[3][0] += 2.0f * ts;
+					position.x -= 2.0f * ts;
 				if (Input::IsKeyPressed(KeyCode::D))
-					transform[3][0] -= 2.0f * ts;
-				if (Input::IsKeyPressed(KeyCode::S))
-					transform[3][1] += 2.0f * ts;
+					position.x += 2.0f * ts;
 				if (Input::IsKeyPressed(KeyCode::W))
-					transform[3][1] -= 2.0f * ts;
+					position.y += 2.0f * ts;
+				if (Input::IsKeyPressed(KeyCode::S))
+					position.y -= 2.0f * ts;
 			}
 			void OnDestroy()
 			{
@@ -173,8 +179,8 @@ namespace LWEngine {
 		if (Input::IsMouseButtonPressed(MouseCode::Button0))
 		{
 			auto [x, y] = Input::GetMousePosition();
-			auto width = Application::Get().GetWindow().GetWidth();
-			auto height = Application::Get().GetWindow().GetHeight();
+			auto width = m_ActiveScene.get()->GetWidth();
+			auto height = m_ActiveScene.get()->GetHeight();
 
 			auto bounds = m_CameraController.GetBounds();
 			auto pos = m_CameraController.GetCamera().GetPosition();
@@ -241,31 +247,7 @@ namespace LWEngine {
 		ImGui::Begin("Settings");
 		ImGui::Text("%f", Random::Float());
 		ImGui::End();
-		ImGui::Begin("Color Edit");
-		if (m_SquareEntity)
-		{
-			ImGui::Separator();
-			ImGui::Text("%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
-			auto& entityColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
-			ImGui::ColorEdit3("entityColor", glm::value_ptr(entityColor));
-		}
-
-		ImGui::DragFloat3(m_CameraEntity.GetComponent<TagComponent>().Tag.c_str(),
-			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]
-		));
-
-		if(ImGui::Checkbox("Camera 1", &m_PrimaryCamera))
-		{
-			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-			m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
-		};
-
-		{
-			auto& camera = m_SecondCameraEntity.GetComponent<CameraComponent>().Camera;
-			float orthoSize = camera.GetOrthographicSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
-				camera.SetOrthographicSize(orthoSize);
-		}
+		ImGui::Begin("Settings");
 
 		ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
 		ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));

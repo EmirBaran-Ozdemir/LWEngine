@@ -38,7 +38,7 @@ namespace LWEngine {
 		io.ConfigFlags |= ImGuiBackendFlags_HasMouseCursors;		//io.ConfigFlags |= ImGuiBackendFlags_HasSetMousePos;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.ConfigFlags |= ImGuiWindowFlags_NoSavedSettings;
 		
 		ImGuiStyle& style = ImGui::GetStyle();
