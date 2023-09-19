@@ -72,23 +72,30 @@ namespace LWEngine {
 
 		auto square = m_ActiveScene->CreateEntity("Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+		square.AddComponent<TransformComponent>(glm::vec3{0.0f, 0.0f, -3.0f});
 
 		auto redSq = m_ActiveScene->CreateEntity("Red Square");
 		redSq.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 		m_SquareEntity = square;
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
-		m_CameraEntity.AddComponent<CameraComponent>();
-		
+		auto& camComponent = m_CameraEntity.AddComponent<CameraComponent>();
+		m_CameraEntity.AddComponent<TransformComponent>();
+		camComponent.Primary = true;
+
 		m_SecondCameraEntity = m_ActiveScene->CreateEntity("SecondCamera");
-		auto& cameraComponent = m_SecondCameraEntity.AddComponent<CameraComponent>();
-		cameraComponent.Primary = false;
+		m_SecondCameraEntity.AddComponent<TransformComponent>();
+		m_SecondCameraEntity.AddComponent<CameraComponent>();
 
 		class CameraController : public ScriptableEntity
 		{
 		public:
 			void OnCreate()
 			{
+				if (!HasComponent<TransformComponent>())
+				{
+					AddComponent<TransformComponent>();
+				}
 				auto& position = GetComponent<TransformComponent>().Position;
 				position.x = rand() % 10 - 5.0f;
 				position.y = rand() % 10 - 5.0f;
@@ -123,13 +130,13 @@ namespace LWEngine {
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		LWE_PROFILE_FUNCTION();
-		LWEngine::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+		FramebufferSpecification spec = m_Framebuffer->GetSpecification();
 		//! Resize
 		if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
-		
+
 			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
@@ -152,47 +159,46 @@ namespace LWEngine {
 
 		m_ActiveScene->OnUpdate(ts);
 
-
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
-		auto playerPos = m_Player.GetPlayerPos();
-		Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
+		//auto playerPos = m_Player.GetPlayerPos();
+		//Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
-		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
-		for (int x = 0; x < m_World.GetWidth(); x++)
-		{
-			for (int y = 0; y < m_World.GetHeight(); y++)
-			{
-				glm::vec4 tileType = m_World.GetTiles()[x * m_World.GetHeight() + y];
-				Ref<SubTexture2D> texture;
-				if (m_TextureMap.find(tileType) != m_TextureMap.end())
-				{
-					texture = m_TextureMap[tileType];
-				}
-				else
-					texture = m_SubTextureError;
-				Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
-			}
-		}
-		Renderer2D::EndScene();
+		//Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
+		//for (int x = 0; x < m_World.GetWidth(); x++)
+		//{
+		//	for (int y = 0; y < m_World.GetHeight(); y++)
+		//	{
+		//		glm::vec4 tileType = m_World.GetTiles()[x * m_World.GetHeight() + y];
+		//		Ref<SubTexture2D> texture;
+		//		if (m_TextureMap.find(tileType) != m_TextureMap.end())
+		//		{
+		//			texture = m_TextureMap[tileType];
+		//		}
+		//		else
+		//			texture = m_SubTextureError;
+		//		Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
+		//	}
+		//}
+		//Renderer2D::EndScene();
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
-		if (Input::IsMouseButtonPressed(MouseCode::Button0))
-		{
-			auto [x, y] = Input::GetMousePosition();
-			auto width = m_ActiveScene.get()->GetWidth();
-			auto height = m_ActiveScene.get()->GetHeight();
+		//Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
+		//if (Input::IsMouseButtonPressed(MouseCode::Button0))
+		//{
+		//	auto [x, y] = Input::GetMousePosition();
+		//	auto width = m_ActiveScene.get()->GetWidth();
+		//	auto height = m_ActiveScene.get()->GetHeight();
 
-			auto bounds = m_CameraController.GetBounds();
-			auto pos = m_CameraController.GetCamera().GetPosition();
-			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-			m_Particle.Position = { x + pos.x, y + pos.y };
-			for (int i = 0; i < 5; i++)
-				m_ParticleSystem.Emit(m_Particle);
-		}
-		m_ParticleSystem.OnUpdate(ts);
-		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
-		Renderer2D::EndScene();
+		//	auto bounds = m_CameraController.GetBounds();
+		//	auto pos = m_CameraController.GetCamera().GetPosition();
+		//	x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+		//	y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+		//	m_Particle.Position = { x + pos.x, y + pos.y };
+		//	for (int i = 0; i < 5; i++)
+		//		m_ParticleSystem.Emit(m_Particle);
+		//}
+		//m_ParticleSystem.OnUpdate(ts);
+		//m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+		//Renderer2D::EndScene();
 
 		m_Framebuffer->Unbind();
 	}
@@ -256,12 +262,6 @@ namespace LWEngine {
 		ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
-		//for (auto& pair : m_TextureMap)
-		//{
-		//	Ref<SubTexture2D> texture = pair.second;
-		//	ImTextureID imguiTextureID = (ImTextureID)(intptr_t)texture->GetTexture()->GetRendererID();
-		//	if (ImGui::ImageButton(imguiTextureID, ImVec2(100, 100))) Renderer2D::DrawQuad({ 0.0f, 0.0f ,2.0f }, { 1.0f,1.0f }, texture->GetTexture(), { 1.0f,1.0f,1.0f,1.0f });
-		//}
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewPortFocused = ImGui::IsWindowFocused();

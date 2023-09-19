@@ -33,12 +33,42 @@ namespace LWEngine {
 			m_SelectionContext = {};
 
 
+		if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
+		{
+			if (ImGui::MenuItem("Create Entity"))
+				m_Context->CreateEntity("New Entity");
+			ImGui::EndPopup();
+		}
 
 		ImGui::End();
 
 		ImGui::Begin("Properties");
 		if (m_SelectionContext)
+		{
 			DrawComponents(m_SelectionContext);
+			if (ImGui::Button("Add Component"))
+				ImGui::OpenPopup("AddComponent");
+
+			if (ImGui::BeginPopup("AddComponent"))
+			{
+				if (ImGui::MenuItem("Camera"))
+				{
+					m_SelectionContext.AddComponent<CameraComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+				if (ImGui::MenuItem("Sprite Renderer"))
+				{
+					m_SelectionContext.AddComponent<SpriteRendererComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+				if (ImGui::MenuItem("Transform"))
+				{
+					m_SelectionContext.AddComponent<TransformComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+		}
 		ImGui::End();
 	}
 
@@ -50,15 +80,27 @@ namespace LWEngine {
 		if (ImGui::IsItemClicked())
 			m_SelectionContext = entity;
 
+		bool entityDeleted = false;
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (ImGui::MenuItem("Delete Entity"))
+				entityDeleted = true;
+			if (ImGui::MenuItem("Clone Entity"))
+				m_Context->CloneEntity(entity);
+			ImGui::EndPopup();
+		}
 		if (opened)
 		{
 			ImGui::TreePop();
 		}
+		if (entityDeleted)
+			m_Context->DestroyEntity(entity);
 
 	}
-	static void DrawVec3Control(const std::string& label, glm::vec3& values,float &dragSpeed, float resetValue = 0.0f, const float columnWidth = 100.0f)
+
+	static void DrawVec3Control(const std::string& label, glm::vec3& values, float& dragSpeed, float resetValue = 0.0f, const float columnWidth = 100.0f)
 	{
-		
+
 		ImGui::PushID(label.c_str());
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
@@ -105,7 +147,7 @@ namespace LWEngine {
 		ImGui::SameLine();
 		ImGui::PopStyleColor(3);
 
-		if(ImGui::Button("Speed", ImVec2{ lineHeight + 20.0f, lineHeight }))
+		if (ImGui::Button("Speed", ImVec2{ lineHeight + 20.0f, lineHeight }))
 			dragSpeed = 0.05f;
 		ImGui::SameLine();
 		ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f);
@@ -121,8 +163,8 @@ namespace LWEngine {
 
 		if (entity.HasComponent<TagComponent>())
 		{
+			
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
-
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
 			strcpy_s(buffer, sizeof(buffer), tag.c_str());
@@ -135,6 +177,7 @@ namespace LWEngine {
 
 		if (entity.HasComponent<TransformComponent>())
 		{
+			
 			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
 			{
 				auto& transformComponent = entity.GetComponent<TransformComponent>();
@@ -146,12 +189,21 @@ namespace LWEngine {
 				DrawVec3Control("Rotation", rotation, rotationDragSpeed);
 				transformComponent.Rotation = glm::radians(rotation);
 				DrawVec3Control("Scale", transformComponent.Scale, scaleDragSpeed);
+				
 				ImGui::TreePop();
+				
+			}
+			if (ImGui::BeginPopupContextItem("TransformComponent"))
+			{
+				if (ImGui::MenuItem("Delete TransformComponent"))
+					entity.RemoveComponent<CameraComponent>();
+				ImGui::EndPopup();
 			}
 		}
 
 		if (entity.HasComponent<CameraComponent>())
 		{
+			
 			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
 			{
 				auto& camComponent = entity.GetComponent<CameraComponent>();
@@ -216,15 +268,28 @@ namespace LWEngine {
 				ImGui::TreePop();
 
 			}
+			if (ImGui::BeginPopupContextItem("CameraComponent"))
+			{
+				if (ImGui::MenuItem("Delete CameraComponent"))
+					entity.RemoveComponent<CameraComponent>();
+				ImGui::EndPopup();
+			}
 		}
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
+			
 			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Rendering"))
 			{
 				auto& spriteComponent = entity.GetComponent<SpriteRendererComponent>();
 				ImGui::ColorEdit4("Color edit", glm::value_ptr(spriteComponent.Color));
 				ImGui::TreePop();
+			}
+			if (ImGui::BeginPopupContextItem("SpriteRendererComponent"))
+			{
+				if (ImGui::MenuItem("Delete SpriteRendererComponent"))
+					entity.RemoveComponent<SpriteRendererComponent>();
+				ImGui::EndPopup();
 			}
 		}
 	}

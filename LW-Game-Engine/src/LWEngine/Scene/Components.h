@@ -3,7 +3,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "LWEngine/Scene/SceneCamera.h"
-#include "LWEngine/Scene/ScriptableEntity.h"
 
 namespace LWEngine {
 
@@ -56,12 +55,14 @@ namespace LWEngine {
 	struct CameraComponent
 	{
 		SceneCamera Camera;
-		bool Primary = true;
+		bool Primary = false;
 		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
 	};
+
+	class ScriptableEntity;
 
 	struct NativeScriptComponent
 	{
@@ -83,4 +84,13 @@ namespace LWEngine {
 
 	};
 
+	template<typename... Component>
+	struct ComponentGroup
+	{
+	};
+
+	using AllComponents =
+		ComponentGroup < TransformComponent, SpriteRendererComponent,
+		CameraComponent,
+		NativeScriptComponent>;
 }
