@@ -15,6 +15,8 @@
 #define IMPL_OPENGL_LOADER_CUSTOM
 
 namespace LWEngine {
+
+
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
@@ -38,9 +40,21 @@ namespace LWEngine {
 		io.ConfigFlags |= ImGuiBackendFlags_HasMouseCursors;		//io.ConfigFlags |= ImGuiBackendFlags_HasSetMousePos;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.ConfigFlags |= ImGuiWindowFlags_NoSavedSettings;
-		
+
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Light.ttf", 18);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Italic.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Light.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Regular.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Bold.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Italic.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Light.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Regular.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Bold.ttf", 18);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Italic.ttf", 18);
+
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
@@ -80,7 +94,7 @@ namespace LWEngine {
 	void ImGuiLayer::OnImGuiRender(Timestep ts)
 	{
 		static bool show = true;
-		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);	
+		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 	}
 
 	void ImGuiLayer::Begin()
@@ -103,7 +117,7 @@ namespace LWEngine {
 		//! Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		
+
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -112,7 +126,6 @@ namespace LWEngine {
 			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
-
 }
 
 

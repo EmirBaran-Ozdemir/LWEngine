@@ -2,6 +2,7 @@
 
 #include "LWEngine.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/WindowPanel.h"
 
 #include "Systems/ParticleSystem.h"
 #include "Systems/WorldGeneration.h"
@@ -86,5 +87,6 @@ namespace LWEngine {
 
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;
+		WindowPanel m_WindowPanel;
 	};
 }

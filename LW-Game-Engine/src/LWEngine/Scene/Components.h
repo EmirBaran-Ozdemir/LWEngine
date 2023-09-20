@@ -28,7 +28,7 @@ namespace LWEngine {
 		TransformComponent(const glm::vec3& position)
 			: Position(position) {}
 
-		glm::mat4 GetTransform() const 
+		glm::mat4 GetTransform() const
 		{
 			glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), Rotation.x, { 1,0,0 })
 				* glm::rotate(glm::mat4(1.0f), Rotation.y, { 0,1,0 })
@@ -36,8 +36,8 @@ namespace LWEngine {
 
 
 			return glm::translate(glm::mat4(1.0f), Position)
-				* rotation 
-				* glm::scale(glm::mat4(1.0f),Scale);
+				* rotation
+				* glm::scale(glm::mat4(1.0f), Scale);
 		}
 	};
 
@@ -68,7 +68,7 @@ namespace LWEngine {
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		ScriptableEntity*(*InstantiateScript)();
+		ScriptableEntity* (*InstantiateScript)();
 		void(*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
@@ -78,7 +78,7 @@ namespace LWEngine {
 		#if LWE_DEBUG
 			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance;  nsc->Instance = nullptr;  };
 		#else
-			DestroyScript = [](NativeScriptComponent* nsc) {delete  nsc->Instance;};
+			DestroyScript = [](NativeScriptComponent* nsc) {delete  nsc->Instance; };
 		#endif
 		}
 

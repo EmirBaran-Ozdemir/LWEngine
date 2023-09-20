@@ -116,6 +116,7 @@ project "LW-Game-Engine-Editor"
 	
 	includedirs
 	{
+		"%{prj.name}/src",
 		"LW-Game-Engine/vendor/spdlog/include",
 		"LW-Game-Engine/vendor",
 		"LW-Game-Engine/src",

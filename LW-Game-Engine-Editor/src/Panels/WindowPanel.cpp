@@ -5,12 +5,19 @@
 #include <imgui/imgui.h>
 #include <direct.h>
 #include <imgui/imgui_internal.h>
+#include "Panels/SelectTheme.h"
 
 namespace LWEngine {
+	ThemeMenu WindowPanel::m_ThemeMenu;
 
-
-	void StaticPanel::TopMenuBar(LWEngine::Timestep ts)
+	WindowPanel::WindowPanel()
 	{
+		m_ThemeMenu.Init();
+	}
+
+	void WindowPanel::TopMenuBar(LWEngine::Timestep ts)
+	{
+
 		ImGuiViewportP* viewport = (ImGuiViewportP*)(void*)ImGui::GetMainViewport();
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
 		float height = ImGui::GetFrameHeight();
@@ -38,25 +45,11 @@ namespace LWEngine {
 				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 				ImGui::EndMenu();
 			}
-
+			
 			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 
-
-			bool showDebug = false;
-			if (ImGui::BeginMenu("Demo Window"))
-			{
-				if (ImGui::MenuItem("Show ImGui Demo Window", NULL, &showDebug))
-				{
-					showDebug = !showDebug;
-				}
-
-				ImGui::EndMenu();
-			}
-
-			if (showDebug)
-			{
-				ImGui::ShowDemoWindow();
-			}
+			
+			m_ThemeMenu.Render();
 
 			ImGui::EndMainMenuBar();
 		}
@@ -117,7 +110,7 @@ namespace LWEngine {
 
 	}
 
-	void StaticPanel::BottomMenuBar()
+	void WindowPanel::BottomMenuBar()
 	{
 		ImGuiViewportP* viewport = (ImGuiViewportP*)(void*)ImGui::GetMainViewport();
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
@@ -193,7 +186,7 @@ namespace LWEngine {
 	}
 
 #ifdef LWE_TEST
-	void StaticPanel::TabMenuBar()
+	void WindowPanel::TabMenuBar()
 	{
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 
@@ -214,7 +207,7 @@ namespace LWEngine {
 		}
 	}
 #endif
-	void StaticPanel::RightMenuBar()
+	void WindowPanel::RightMenuBar()
 	{
 
 		

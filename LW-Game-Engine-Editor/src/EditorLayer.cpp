@@ -249,7 +249,9 @@ namespace LWEngine {
 		}
 
 		m_ScHiPanel.OnImGuiRender();
-
+		m_WindowPanel.TopMenuBar(ts);
+		
+		m_WindowPanel.BottomMenuBar();
 		ImGui::Begin("Settings");
 		ImGui::Text("%f", Random::Float());
 		ImGui::End();

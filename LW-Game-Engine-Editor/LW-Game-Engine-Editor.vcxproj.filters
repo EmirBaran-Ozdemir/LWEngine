@@ -7,6 +7,9 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Theme">
+      <UniqueIdentifier>{F8CD290E-64E2-51BF-2D64-F51E99374EF0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
@@ -25,6 +28,17 @@
     <ClInclude Include="src\Systems\WorldGeneration.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="src\Theme\IImGuiTheme.h">
+      <Filter>Theme</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Theme\ImGuiFullDarkTheme.h">
+      <Filter>Theme</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Panels\SelectTheme.h" />
+    <ClInclude Include="src\Theme\ImGuiBrightDarkTheme.h" />
+    <ClInclude Include="src\Theme\ImGuiDarkBlueTheme.h" />
+    <ClInclude Include="src\Theme\ImGuiWhiteGreenTheme.h" />
+    <ClInclude Include="src\Theme\ImGuiDarkGreenTheme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
@@ -44,5 +58,12 @@
     <ClCompile Include="src\Systems\WorldGeneration.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\Theme\ImGuiFullDarkTheme.cpp">
+      <Filter>Theme</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Panels\SelectTheme.cpp" />
+    <ClCompile Include="src\Theme\ImGuiBrightDarkTheme.cpp" />
+    <ClCompile Include="src\Theme\ImGuiDarkBlueTheme.cpp" />
+    <ClCompile Include="src\Theme\ImGuiDarkGreenTheme.cpp" />
   </ItemGroup>
 </Project>

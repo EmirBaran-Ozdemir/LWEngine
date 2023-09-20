@@ -2,7 +2,7 @@
 
 #include "SceneHierarchyPanel.h"
 #include "LWEngine/Scene/Components.h"
-
+#include "LWEngine/ImGui/ImGuiLayer.h"
 #include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui_internal.h>
@@ -100,8 +100,11 @@ namespace LWEngine {
 
 	static void DrawVec3Control(const std::string& label, glm::vec3& values, float& dragSpeed, float resetValue = 0.0f, const float columnWidth = 100.0f)
 	{
-
+		ImGuiIO& io = ImGui::GetIO();
+		auto boldFont = io.Fonts->Fonts[ImGuiLayer::GetFont(FontFamily::OpenSans, FontWeight::Bold)];
+		
 		ImGui::PushID(label.c_str());
+		ImGui::PushFont(boldFont);
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 		ImGui::Text(label.c_str());
@@ -152,15 +155,15 @@ namespace LWEngine {
 		ImGui::SameLine();
 		ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f);
 
-
 		ImGui::PopStyleVar();
+		ImGui::PopFont();
 		ImGui::Columns(1);
 		ImGui::PopID();
 	}
 
 	void SceneHierarchyPanel::DrawComponents(Entity entity)
 	{
-
+		const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
 		if (entity.HasComponent<TagComponent>())
 		{
 			
@@ -177,8 +180,24 @@ namespace LWEngine {
 
 		if (entity.HasComponent<TransformComponent>())
 		{
-			
-			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4,4 });
+			bool open = ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), treeNodeFlags, "Transform");
+			ImGui::SameLine();
+			if (ImGui::Button("+",ImVec2{20,20}))
+			{
+				ImGui::OpenPopup("Component Settings");
+
+			}
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("Component Settings"))
+			{
+				if (ImGui::MenuItem("Delete TransformComponent"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+			ImGui::PopStyleVar();
+
+			if (open)
 			{
 				auto& transformComponent = entity.GetComponent<TransformComponent>();
 				static float positionDragSpeed = 0.01f;
@@ -193,18 +212,31 @@ namespace LWEngine {
 				ImGui::TreePop();
 				
 			}
-			if (ImGui::BeginPopupContextItem("TransformComponent"))
-			{
-				if (ImGui::MenuItem("Delete TransformComponent"))
-					entity.RemoveComponent<CameraComponent>();
-				ImGui::EndPopup();
-			}
+			if(removeComponent)
+				entity.RemoveComponent<TransformComponent>();
+
 		}
 
 		if (entity.HasComponent<CameraComponent>())
 		{
-			
-			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4,4 });
+			bool open = ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), treeNodeFlags, "Camera");
+			ImGui::SameLine();
+			if (ImGui::Button("+", ImVec2{ 20,20 }))
+			{
+				ImGui::OpenPopup("Component Settings");
+
+			}
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("Component Settings"))
+			{
+				if (ImGui::MenuItem("Delete TransformComponent"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+			ImGui::PopStyleVar();
+
+			if (open)
 			{
 				auto& camComponent = entity.GetComponent<CameraComponent>();
 				auto& camera = camComponent.Camera;
@@ -268,18 +300,30 @@ namespace LWEngine {
 				ImGui::TreePop();
 
 			}
-			if (ImGui::BeginPopupContextItem("CameraComponent"))
-			{
-				if (ImGui::MenuItem("Delete CameraComponent"))
-					entity.RemoveComponent<CameraComponent>();
-				ImGui::EndPopup();
-			}
+			if (removeComponent)
+				entity.RemoveComponent<CameraComponent>();
 		}
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
-			
-			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Rendering"))
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4,4 });
+			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Rendering");
+			ImGui::SameLine();
+			if (ImGui::Button("+", ImVec2{ 20,20 }))
+			{
+				ImGui::OpenPopup("Component Settings");
+
+			}
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("Component Settings"))
+			{
+				if (ImGui::MenuItem("Delete TransformComponent"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+			ImGui::PopStyleVar();
+
+			if (open)
 			{
 				auto& spriteComponent = entity.GetComponent<SpriteRendererComponent>();
 				ImGui::ColorEdit4("Color edit", glm::value_ptr(spriteComponent.Color));
@@ -291,6 +335,8 @@ namespace LWEngine {
 					entity.RemoveComponent<SpriteRendererComponent>();
 				ImGui::EndPopup();
 			}
+			if (removeComponent)
+				entity.RemoveComponent<SpriteRendererComponent>();
 		}
 	}
 }
