@@ -17,6 +17,7 @@ namespace LWEngine {
 	{
 		LWE_PROFILE_FUNCTION();
 
+
 		//. DEFINING NULL & ERROR TEXTURES
 		m_TextureNull = Texture2D::Create(1, 1);
 		uint32_t NullTextureData = 0x00ffffff;
@@ -241,17 +242,22 @@ namespace LWEngine {
 		if (opt_fullscreen)
 			ImGui::PopStyleVar(2);
 
+		//. Dockspace
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+		float minSizeX = style.WindowMinSize.x;
+		style.WindowMinSize.x = 370.0f;
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 
+		style.WindowMinSize.x = minSizeX;
+
 		m_ScHiPanel.OnImGuiRender();
 		m_WindowPanel.TopMenuBar(ts);
-		
-		m_WindowPanel.BottomMenuBar();
+
 		ImGui::Begin("Settings");
 		ImGui::Text("%f", Random::Float());
 		ImGui::End();
@@ -270,6 +276,7 @@ namespace LWEngine {
 		m_ViewPortHovered = ImGui::IsWindowHovered();
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
 
+		m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { availContentRegion.x, availContentRegion.y };

@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -96,7 +96,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -117,7 +117,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -135,8 +135,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\Font\ImGuiFont.h" />
+    <ClInclude Include="src\Font\ImGuiOpenSansFont.h" />
+    <ClInclude Include="src\Font\ImGuiPlusJakartaFont.h" />
+    <ClInclude Include="src\Font\ImGuiRobotoFont.h" />
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
-    <ClInclude Include="src\Panels\SelectTheme.h" />
+    <ClInclude Include="src\Panels\FontMenu.h" />
+    <ClInclude Include="src\Panels\ThemeMenu.h" />
     <ClInclude Include="src\Panels\WindowPanel.h" />
     <ClInclude Include="src\Systems\ParticleSystem.h" />
     <ClInclude Include="src\Systems\Player.h" />
@@ -146,21 +151,24 @@
     <ClInclude Include="src\Theme\ImGuiDarkBlueTheme.h" />
     <ClInclude Include="src\Theme\ImGuiDarkGreenTheme.h" />
     <ClInclude Include="src\Theme\ImGuiFullDarkTheme.h" />
-    <ClInclude Include="src\Theme\ImGuiWhiteGreenTheme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\Font\ImGuiOpenSansFont.cpp" />
+    <ClCompile Include="src\Font\ImGuiPlusJakartaFont.cpp" />
+    <ClCompile Include="src\Font\ImGuiRobotoFont.cpp" />
     <ClCompile Include="src\LWEditor.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
-    <ClCompile Include="src\Panels\SelectTheme.cpp" />
+    <ClCompile Include="src\Panels\FontMenu.cpp" />
+    <ClCompile Include="src\Panels\ThemeMenu.cpp" />
     <ClCompile Include="src\Panels\WindowPanel.cpp" />
     <ClCompile Include="src\Systems\ParticleSystem.cpp" />
     <ClCompile Include="src\Systems\Player.cpp" />
     <ClCompile Include="src\Systems\WorldGeneration.cpp" />
     <ClCompile Include="src\Theme\ImGuiBrightDarkTheme.cpp" />
     <ClCompile Include="src\Theme\ImGuiDarkBlueTheme.cpp" />
-    <ClCompile Include="src\Theme\ImGuiFullDarkTheme.cpp" />
     <ClCompile Include="src\Theme\ImGuiDarkGreenTheme.cpp" />
+    <ClCompile Include="src\Theme\ImGuiFullDarkTheme.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LW-Game-Engine\LW-Game-Engine.vcxproj">

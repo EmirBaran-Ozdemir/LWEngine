@@ -1,7 +1,8 @@
 #pragma once
 
 #include "LWEngine.h"
-#include "SelectTheme.h"
+#include "ThemeMenu.h"
+#include "FontMenu.h"
 
 namespace LWEngine {
 
@@ -9,12 +10,12 @@ namespace LWEngine {
 	{
 	public:
 		WindowPanel();
-		static void TopMenuBar(LWEngine::Timestep ts);
-		static void BottomMenuBar();
-		static void TabMenuBar();
-		static void RightMenuBar();
+		void TopMenuBar(LWEngine::Timestep ts);
+		void BottomMenuBar();
+		void TabMenuBar();
+		void RightMenuBar();
 	private:
-		static ThemeMenu m_ThemeMenu;
-	
+		ThemeMenu m_ThemeMenu;
+		FontMenu m_FontMenu;
 	};
 }

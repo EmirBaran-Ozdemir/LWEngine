@@ -88,5 +88,6 @@ namespace LWEngine {
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;
 		WindowPanel m_WindowPanel;
+
 	};
 }

@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "SelectTheme.h"
+#include "ThemeMenu.h"
 #include <imgui/imgui.h>
 #include "Theme/ImGuiFullDarkTheme.h"
 #include "Theme/ImGuiBrightDarkTheme.h"
@@ -39,11 +39,6 @@ namespace LWEngine {
 	bool ThemeMenu::Init()
 	{
 		InitBuildInThemes();
-		return true;
-	}
-
-	bool ThemeMenu::NeedRender()
-	{
 		return true;
 	}
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <utility>
 #include "Theme/IImGuiTheme.h"
 
 namespace LWEngine {
@@ -12,7 +11,6 @@ namespace LWEngine {
 
 		bool AddTheme(IImGuiTheme* theme);
 		virtual bool Init();
-		virtual bool NeedRender();
 		virtual void Render();
 		virtual const char* GetMenuName();
 		virtual void InitBuildInThemes();

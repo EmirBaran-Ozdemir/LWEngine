@@ -15,6 +15,5 @@ namespace LWEngine {
 
 		virtual bool Init() = 0;
 		virtual void Destroy() = 0;
-	private:
 	};
 }

@@ -5,14 +5,14 @@
 #include <imgui/imgui.h>
 #include <direct.h>
 #include <imgui/imgui_internal.h>
-#include "Panels/SelectTheme.h"
 
 namespace LWEngine {
-	ThemeMenu WindowPanel::m_ThemeMenu;
+
 
 	WindowPanel::WindowPanel()
 	{
 		m_ThemeMenu.Init();
+		m_FontMenu.Init();
 	}
 
 	void WindowPanel::TopMenuBar(LWEngine::Timestep ts)
@@ -46,11 +46,12 @@ namespace LWEngine {
 				ImGui::EndMenu();
 			}
 			
-			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
-
-			
 			m_ThemeMenu.Render();
+			m_FontMenu.Render();
+			
 
+
+			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 			ImGui::EndMainMenuBar();
 		}
 #ifdef LWE_TEST

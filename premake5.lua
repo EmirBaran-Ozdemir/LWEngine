@@ -18,6 +18,7 @@ IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
 IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
 IncludeDir["stb_image"] = "LW-Game-Engine/vendor/stb_image"
 IncludeDir["entt"] = "LW-Game-Engine/vendor/entt/include"
+IncludeDir["better_enums"] = "LW-Game-Engine/vendor/better_enums"
 
 
 include "LW-Game-Engine/vendor/GLFW"
@@ -63,6 +64,7 @@ project "LW-Game-Engine"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.better_enums}",
 	}
 	
 	links
@@ -123,6 +125,7 @@ project "LW-Game-Engine-Editor"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.better_enums}",
 	}
 
 	links
