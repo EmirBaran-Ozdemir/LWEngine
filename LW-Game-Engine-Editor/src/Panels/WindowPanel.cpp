@@ -15,7 +15,23 @@ namespace LWEngine {
 		m_FontMenu.Init();
 	}
 
-	void WindowPanel::TopMenuBar(LWEngine::Timestep ts)
+	WindowPanel::WindowPanel(const Ref<Scene>& scene)
+	{
+		m_Scene = scene;
+		m_ThemeMenu.Init();
+		m_FontMenu.Init();
+		if (!m_Serializer.HasScene())
+			m_Serializer = SceneSerializer(m_Scene);
+	}
+
+	void WindowPanel::SetContext(const Ref<Scene>& scene)
+	{
+		m_Scene = scene;
+		if (!m_Serializer.HasScene())
+			m_Serializer = SceneSerializer(m_Scene);
+	}
+
+	void WindowPanel::TopMenuBar(Timestep ts)
 	{
 
 		ImGuiViewportP* viewport = (ImGuiViewportP*)(void*)ImGui::GetMainViewport();
@@ -27,10 +43,20 @@ namespace LWEngine {
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Open", "CTRL+O")) {/*! OPEN FILE*/ }
-				if (ImGui::MenuItem("New", "CTRL+N")) {/*! NEW FILE*/ }
+				if (ImGui::MenuItem("Open", "CTRL+O")) 
+				{
+					m_Serializer.Deserialize("assets/scenes/Test.lwe");
+				}
+				if (ImGui::MenuItem("New", "CTRL+N")) 
+				{
+					m_Serializer.Deserialize("assets/scenes/Empty.lwe");
+				}
 				ImGui::Separator();
-				if (ImGui::MenuItem("Save", "CTRL+S")) { LWE_CLIENT_TRACE("File saved"); }
+				if (ImGui::MenuItem("Save", "CTRL+S")) 
+				{ 
+					LWE_CLIENT_INFO("File saved"); 
+					m_Serializer.Serialize("assets/scenes/Test.lwe");
+				}
 				if (ImGui::MenuItem("Exit", NULL, false)) LWEngine::Application::Get().Close();
 
 				ImGui::EndMenu();
@@ -54,60 +80,6 @@ namespace LWEngine {
 			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
 			ImGui::EndMainMenuBar();
 		}
-#ifdef LWE_TEST
-		//! Tool menu window
-		if (ImGui::BeginViewportSideBar("##ToolMenuBar", viewport, ImGuiDir_Up, height, window_flags)) {
-			if (ImGui::BeginMenuBar())
-			{
-				ImGui::Text("ToolMenuBar");
-				ImGui::EndMenuBar();
-			}
-			ImGui::End();
-		}
-
-		//! Open tabs menu 
-		if (ImGui::BeginViewportSideBar("##OpenTabsMenuBar", viewport, ImGuiDir_Up, height, window_flags)) {
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
-				{
-					if (ImGui::BeginTabItem("Description"))
-					{
-						ImGui::Begin("Window for test docking");
-						if (ImGui::BeginMenu("Dock Window"))
-						{
-							ImGui::Text("Hope");
-							ImGui::EndMenu();
-						}
-						ImGuiID dockspace_id = ImGui::GetID("Window for test docking");
-						ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f));
-						ImGui::End();
-						ImGui::EndTabItem();
-					}
-					if (ImGui::BeginTabItem("Details"))
-					{
-						ImGui::Text("ID: 0123456789");
-
-						ImGui::Begin("Second window for test docking");
-						if (ImGui::BeginMenu("Second Dock Window"))
-						{
-							ImGui::Text("Hope");
-							ImGui::EndMenu();
-						}
-						ImGui::End();
-						ImGui::EndTabItem();
-					}
-					ImGui::EndTabBar();
-				}
-				ImGui::EndMenuBar();
-			}
-			ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-			ImGuiID dockspace_id = ImGui::GetID("##OpenTabsMenuBar");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f));
-			ImGui::End();
-		}
-#endif // _DEBUG	
-		
 
 	}
 
@@ -185,33 +157,4 @@ namespace LWEngine {
 			ImGui::End();
 		}
 	}
-
-#ifdef LWE_TEST
-	void WindowPanel::TabMenuBar()
-	{
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-		if (ImGui::BeginTabBar("MyTabBar"))
-		{
-			if (ImGui::Button("openPopUP"))
-				ImGui::OpenPopup("TEEST");
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("It is a surprise");
-			if (ImGui::BeginPopup("MyHelpMenu"))
-			{
-				ImGui::Selectable("Hello!");
-				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-
-				ImGui::EndPopup();
-			}
-			ImGui::EndTabBar();
-		}
-	}
-#endif
-	void WindowPanel::RightMenuBar()
-	{
-
-		
-	}
-
 }

@@ -22,7 +22,7 @@
 #include "LWEngine/Scene/Entity.h"
 #include "LWEngine/Scene/ScriptableEntity.h"
 #include "LWEngine/Scene/Components.h"
-
+#include "LWEngine/Scene/SceneSerializer.h"
 
 //? RENDERER
 #include "LWEngine/Renderer/Renderer.h"

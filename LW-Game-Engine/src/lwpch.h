@@ -11,6 +11,8 @@
 #include <fstream>
 #include <chrono>
 #include <filesystem>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 //. Data structures
 #include <vector>

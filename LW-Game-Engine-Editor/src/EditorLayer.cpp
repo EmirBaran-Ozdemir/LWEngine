@@ -70,7 +70,6 @@ namespace LWEngine {
 		m_CameraController.SetZoomLevel(10.0f);
 
 		m_ActiveScene = CreateRef<Scene>();
-
 		auto square = m_ActiveScene->CreateEntity("Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 		square.AddComponent<TransformComponent>(glm::vec3{0.0f, 0.0f, -3.0f});
@@ -120,6 +119,10 @@ namespace LWEngine {
 		};
 		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_ScHiPanel.SetContext(m_ActiveScene);
+		m_WindowPanel.SetContext(m_ActiveScene);
+		//SceneSerializer serializer(m_ActiveScene);
+		//serializer.Serialize("assets/scenes/Empty.lwe");
+		//serializer.Deserialize("assets/scenes/Example.lwe");
 	}
 
 	void EditorLayer::OnDetach()

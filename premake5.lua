@@ -19,12 +19,13 @@ IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
 IncludeDir["stb_image"] = "LW-Game-Engine/vendor/stb_image"
 IncludeDir["entt"] = "LW-Game-Engine/vendor/entt/include"
 IncludeDir["better_enums"] = "LW-Game-Engine/vendor/better_enums"
+IncludeDir["yaml_cpp"] = "LW-Game-Engine/vendor/yaml-cpp/include"
 
 
 include "LW-Game-Engine/vendor/GLFW"
 include "LW-Game-Engine/vendor/Glad"
 include "LW-Game-Engine/vendor/imgui"
-
+include	"LW-Game-Engine/vendor/yaml-cpp"
 
 project "LW-Game-Engine"
 	location "LW-Game-Engine"
@@ -65,6 +66,7 @@ project "LW-Game-Engine"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.better_enums}",
+		"%{IncludeDir.yaml_cpp}",
 	}
 	
 	links
@@ -72,6 +74,7 @@ project "LW-Game-Engine"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib",
 		"dwmapi.lib"
 	}

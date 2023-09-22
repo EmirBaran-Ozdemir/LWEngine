@@ -22,10 +22,16 @@
     <ClInclude Include="src\Font\ImGuiOpenSansFont.h">
       <Filter>Font</Filter>
     </ClInclude>
-    <ClInclude Include="src\Panels\SceneHierarchyPanel.h">
-      <Filter>Panels</Filter>
+    <ClInclude Include="src\Font\ImGuiPlusJakartaFont.h">
+      <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Font\ImGuiRobotoFont.h">
+      <Filter>Font</Filter>
     </ClInclude>
     <ClInclude Include="src\Panels\FontMenu.h">
+      <Filter>Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Panels\SceneHierarchyPanel.h">
       <Filter>Panels</Filter>
     </ClInclude>
     <ClInclude Include="src\Panels\ThemeMenu.h">
@@ -58,19 +64,23 @@
     <ClInclude Include="src\Theme\ImGuiFullDarkTheme.h">
       <Filter>Theme</Filter>
     </ClInclude>
-    <ClInclude Include="src\Font\ImGuiPlusJakartaFont.h" />
-    <ClInclude Include="src\Font\ImGuiRobotoFont.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Font\ImGuiOpenSansFont.cpp">
       <Filter>Font</Filter>
     </ClCompile>
+    <ClCompile Include="src\Font\ImGuiPlusJakartaFont.cpp">
+      <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Font\ImGuiRobotoFont.cpp">
+      <Filter>Font</Filter>
+    </ClCompile>
     <ClCompile Include="src\LWEditor.cpp" />
-    <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp">
+    <ClCompile Include="src\Panels\FontMenu.cpp">
       <Filter>Panels</Filter>
     </ClCompile>
-    <ClCompile Include="src\Panels\FontMenu.cpp">
+    <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp">
       <Filter>Panels</Filter>
     </ClCompile>
     <ClCompile Include="src\Panels\ThemeMenu.cpp">
@@ -100,7 +110,5 @@
     <ClCompile Include="src\Theme\ImGuiFullDarkTheme.cpp">
       <Filter>Theme</Filter>
     </ClCompile>
-    <ClCompile Include="src\Font\ImGuiPlusJakartaFont.cpp" />
-    <ClCompile Include="src\Font\ImGuiRobotoFont.cpp" />
   </ItemGroup>
 </Project>
