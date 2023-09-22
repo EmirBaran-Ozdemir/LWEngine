@@ -11,3 +11,6 @@
 [submodule "LW-Game-Engine/vendor/glm"]
 	path = LW-Game-Engine/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "LW-Game-Engine/vendor/yaml-cpp"]
+	path = LW-Game-Engine/vendor/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp
