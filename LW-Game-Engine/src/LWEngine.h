@@ -36,4 +36,7 @@
 #include "LWEngine/Renderer/VertexArray.h"
 #include "LWEngine/Renderer/OrthographicCameraController.h"
 
+//? UTILS
+#include "LWEngine/Utils/PlatformUtils.h"
+
 #include "LWEngine/ImGui/ImGuiLayer.h"

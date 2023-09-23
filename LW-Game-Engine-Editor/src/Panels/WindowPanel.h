@@ -1,8 +1,8 @@
 #pragma once
 
 #include "LWEngine.h"
-#include "ThemeMenu.h"
-#include "FontMenu.h"
+#include "Panels/ThemeMenu.h"
+#include "Panels/FontMenu.h"
 
 namespace LWEngine {
 

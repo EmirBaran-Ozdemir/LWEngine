@@ -34,53 +34,7 @@ namespace LWEngine {
 	void WindowPanel::TopMenuBar(Timestep ts)
 	{
 
-		ImGuiViewportP* viewport = (ImGuiViewportP*)(void*)ImGui::GetMainViewport();
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
-		float height = ImGui::GetFrameHeight();
-
-		//! First menu bar
-		if (ImGui::BeginMainMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Open", "CTRL+O")) 
-				{
-					m_Serializer.Deserialize("assets/scenes/Test.lwe");
-				}
-				if (ImGui::MenuItem("New", "CTRL+N")) 
-				{
-					m_Serializer.Deserialize("assets/scenes/Empty.lwe");
-				}
-				ImGui::Separator();
-				if (ImGui::MenuItem("Save", "CTRL+S")) 
-				{ 
-					LWE_CLIENT_INFO("File saved"); 
-					m_Serializer.Serialize("assets/scenes/Test.lwe");
-				}
-				if (ImGui::MenuItem("Exit", NULL, false)) LWEngine::Application::Get().Close();
-
-				ImGui::EndMenu();
-			}
-			if (ImGui::BeginMenu("Edit"))
-			{
-				if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-				if (ImGui::MenuItem("Redo", "CTRL+SHIFT+Z", false, false)) {}  // Disabled item
-				ImGui::Separator();
-				if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-				if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-				ImGui::EndMenu();
-			}
-			
-			m_ThemeMenu.Render();
-			m_FontMenu.Render();
-			
-
-
-			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
-			ImGui::EndMainMenuBar();
-		}
-
+		
 	}
 
 	void WindowPanel::BottomMenuBar()
@@ -111,7 +65,7 @@ namespace LWEngine {
 						else
 							LWE_CLIENT_ERROR("Log file does not found");
 					}
-					
+
 					ImGui::EndMenu();
 				}
 

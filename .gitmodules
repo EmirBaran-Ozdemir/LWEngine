@@ -14,3 +14,6 @@
 [submodule "LW-Game-Engine/vendor/yaml-cpp"]
 	path = LW-Game-Engine/vendor/yaml-cpp
 	url = https://github.com/TheCherno/yaml-cpp
+[submodule "LW-Game-Engine/vendor/ImGuizmo"]
+	path = LW-Game-Engine/vendor/ImGuizmo
+	url = https://github.com/TheCherno/ImGuizmo

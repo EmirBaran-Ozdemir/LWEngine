@@ -131,13 +131,13 @@ namespace LWEngine {
 	
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		m_Scene->m_Registry.each([&](auto entityID)
-			{
-				Entity entity = { entityID,m_Scene.get() };
-				if (!entity)
-					return;
-				m_Scene->DestroyEntity(entity);
-			});
+		//m_Scene->m_Registry.each([&](auto entityID)
+		//	{
+		//		Entity entity = { entityID,m_Scene.get() };
+		//		if (!entity)
+		//			return;
+		//		m_Scene->DestroyEntity(entity);
+		//	});
 		std::ifstream stream(filepath);
 		std::stringstream strStream;
 		strStream << stream.rdbuf();

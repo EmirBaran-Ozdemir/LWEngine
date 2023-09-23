@@ -120,7 +120,7 @@ namespace LWEngine {
 		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_ScHiPanel.SetContext(m_ActiveScene);
 		m_WindowPanel.SetContext(m_ActiveScene);
-		//SceneSerializer serializer(m_ActiveScene);
+		SceneSerializer serializer(m_ActiveScene);
 		//serializer.Serialize("assets/scenes/Empty.lwe");
 		//serializer.Deserialize("assets/scenes/Example.lwe");
 	}
@@ -259,6 +259,13 @@ namespace LWEngine {
 		style.WindowMinSize.x = minSizeX;
 
 		m_ScHiPanel.OnImGuiRender();
+
+
+
+		//. TOP MENU BAR - TEMPORARY
+		
+
+
 		m_WindowPanel.TopMenuBar(ts);
 
 		ImGui::Begin("Settings");
@@ -294,5 +301,72 @@ namespace LWEngine {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
+
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+	}
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		//. Shortcuts
+		if (e.GetRepeatCount() > 0)
+			return false;
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
+		switch (e.GetKeyCode())
+		{
+			
+			case Key::W:
+			{
+				if (control)
+					NewScene();
+				break;
+			}
+			case Key::O:
+			{
+				if (control)
+					OpenScene();
+				break;
+			}
+			case Key::S:
+			{
+				if (control)
+					SaveSceneAs();
+				break;
+			}
+			default:
+				break;
+		}
+
+		return false;
+	}
+	void EditorLayer::NewScene()
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_ScHiPanel.SetContext(m_ActiveScene);
+	}
+	void EditorLayer::OpenScene()
+	{
+		std::string filePath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
+		if (!filePath.empty())
+		{
+			m_ActiveScene = CreateRef<Scene>();
+			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+			m_ScHiPanel.SetContext(m_ActiveScene);
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(filePath);
+		}
+	}
+	void EditorLayer::SaveSceneAs()
+	{
+		LWE_CLIENT_INFO("File saved");
+		std::string filePath = FileDialogs::SaveFile("LWEngine Scene (*.lwe)\0*.lwe\0");
+		if (!filePath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filePath);
+		}
 	}
 }
