@@ -18,10 +18,14 @@ project "LW-Game-Engine"
 		"vendor/stb_image/**.cpp",
 		"vendor/glm/glm/**.hpp",
 		"vendor/glm/glm/**.inl",
+
+		"vendor/ImGuizmo/ImGuizmo.h",
+		"vendor/ImGuizmo/ImGuizmo.cpp",
 	}
 	
 	defines
 	{
+		"IMGUI_DEFINE_MATH_OPERATORS",
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE"
 	}
@@ -38,6 +42,8 @@ project "LW-Game-Engine"
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.better_enums}",
 		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}",
+
 	}
 	
 	links
@@ -49,6 +55,10 @@ project "LW-Game-Engine"
 		"opengl32.lib",
 		"dwmapi.lib"
 	}
+
+	filter "files:vendor/ImGuizmo/**.cpp"
+	flags { "NoPCH" }
+
 	filter "system:windows"
 		
 		systemversion "latest"

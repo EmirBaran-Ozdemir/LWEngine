@@ -20,6 +20,8 @@ namespace LWEngine {
 		void OnResize(uint32_t width, uint32_t height);
 		uint32_t GetWidth() const { return m_ViewportWidth; }
 		uint32_t GetHeight() const { return m_ViewportHeight; }
+
+		Entity GetPrimaryCameraEntity();
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);

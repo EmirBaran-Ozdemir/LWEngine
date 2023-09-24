@@ -1,22 +1,23 @@
 #pragma once
+
 #include <LWEngine/Scene/Entity.h>
 #include "LWEngine/Scene/Scene.h"
 
 namespace LWEngine {
 
-	class SceneHierarchyPanel 
+	class SceneHierarchyPanel
 	{
 	public:
 		SceneHierarchyPanel() = default;
 		SceneHierarchyPanel(const Ref<Scene>& context);
 		void OnImGuiRender();
 		void SetContext(const Ref<Scene>& context);
-	
+		Entity GetSelectedEntity() const { return m_SelectionContext; }
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
 		template <typename T>
-		void ComponentAddCheck();
+		const std::string ComponentAddCheck();
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;

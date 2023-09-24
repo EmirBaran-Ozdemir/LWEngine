@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;..\LW-Game-Engine\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -98,7 +98,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;..\LW-Game-Engine\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -120,7 +120,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>LWE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\LW-Game-Engine\vendor\spdlog\include;..\LW-Game-Engine\vendor;..\LW-Game-Engine\src;..\LW-Game-Engine\vendor\glm;..\LW-Game-Engine\vendor\Glad\include;..\LW-Game-Engine\vendor\entt\include;..\LW-Game-Engine\vendor\better_enums;..\LW-Game-Engine\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

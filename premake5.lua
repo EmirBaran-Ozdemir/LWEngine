@@ -33,6 +33,7 @@ IncludeDir["stb_image"] = "%{wks.location}/LW-Game-Engine/vendor/stb_image"
 IncludeDir["entt"] = "%{wks.location}/LW-Game-Engine/vendor/entt/include"
 IncludeDir["better_enums"] = "%{wks.location}/LW-Game-Engine/vendor/better_enums"
 IncludeDir["yaml_cpp"] = "%{wks.location}/LW-Game-Engine/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "%{wks.location}/LW-Game-Engine/vendor/ImGuizmo"
 
 group "Dependencies"
 	include "vendor/premake"

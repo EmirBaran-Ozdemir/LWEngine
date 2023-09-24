@@ -23,6 +23,7 @@ project "LW-Game-Engine-Editor"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.better_enums}",
+		"%{IncludeDir.ImGuizmo}",
 	}
 
 	links

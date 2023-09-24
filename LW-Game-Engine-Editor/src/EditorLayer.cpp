@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "ImGuizmo.h"
+
 namespace LWEngine {
 	EditorLayer::EditorLayer(std::string& path)
 		: Layer("EditorLayer"), m_CameraController((float)1280 / 720), m_ParticleSystem(100000), m_World(WorldGeneration(path))
@@ -19,6 +21,7 @@ namespace LWEngine {
 
 
 		//. DEFINING NULL & ERROR TEXTURES
+	#ifdef LWE_TEST
 		m_TextureNull = Texture2D::Create(1, 1);
 		uint32_t NullTextureData = 0x00ffffff;
 		m_TextureNull->SetData(&NullTextureData, sizeof(NullTextureData));
@@ -62,14 +65,8 @@ namespace LWEngine {
 		m_Particle.Velocity = { 0.0f, 0.0f };
 		m_Particle.VelocityVariation = { 5.0f,1.0f };
 
-		FramebufferSpecification fbSpec;
-		fbSpec.Width = 1280;
-		fbSpec.Height = 720;
-		m_Framebuffer = Framebuffer::Create(fbSpec);
-
 		m_CameraController.SetZoomLevel(10.0f);
 
-		m_ActiveScene = CreateRef<Scene>();
 		auto square = m_ActiveScene->CreateEntity("Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 		square.AddComponent<TransformComponent>(glm::vec3{0.0f, 0.0f, -3.0f});
@@ -118,11 +115,18 @@ namespace LWEngine {
 			}
 		};
 		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-		m_ScHiPanel.SetContext(m_ActiveScene);
-		m_WindowPanel.SetContext(m_ActiveScene);
+
 		SceneSerializer serializer(m_ActiveScene);
 		//serializer.Serialize("assets/scenes/Empty.lwe");
 		//serializer.Deserialize("assets/scenes/Example.lwe");
+	#endif
+		FramebufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+		m_Framebuffer = Framebuffer::Create(fbSpec);
+		m_ActiveScene = CreateRef<Scene>();
+		m_ScHiPanel.SetContext(m_ActiveScene);
+		m_WindowPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -164,45 +168,48 @@ namespace LWEngine {
 		m_ActiveScene->OnUpdate(ts);
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
-		//auto playerPos = m_Player.GetPlayerPos();
-		//Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
-		//Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
-		//for (int x = 0; x < m_World.GetWidth(); x++)
-		//{
-		//	for (int y = 0; y < m_World.GetHeight(); y++)
-		//	{
-		//		glm::vec4 tileType = m_World.GetTiles()[x * m_World.GetHeight() + y];
-		//		Ref<SubTexture2D> texture;
-		//		if (m_TextureMap.find(tileType) != m_TextureMap.end())
-		//		{
-		//			texture = m_TextureMap[tileType];
-		//		}
-		//		else
-		//			texture = m_SubTextureError;
-		//		Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
-		//	}
-		//}
-		//Renderer2D::EndScene();
+	#ifdef LWE_TEST
+		auto playerPos = m_Player.GetPlayerPos();
+		Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
-		//Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
-		//if (Input::IsMouseButtonPressed(MouseCode::Button0))
-		//{
-		//	auto [x, y] = Input::GetMousePosition();
-		//	auto width = m_ActiveScene.get()->GetWidth();
-		//	auto height = m_ActiveScene.get()->GetHeight();
+		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 64.0f,36.0f }, m_Background);
+		for (int x = 0; x < m_World.GetWidth(); x++)
+		{
+			for (int y = 0; y < m_World.GetHeight(); y++)
+			{
+				glm::vec4 tileType = m_World.GetTiles()[x * m_World.GetHeight() + y];
+				Ref<SubTexture2D> texture;
+				if (m_TextureMap.find(tileType) != m_TextureMap.end())
+				{
+					texture = m_TextureMap[tileType];
+				}
+				else
+					texture = m_SubTextureError;
+				Renderer2D::DrawQuad({ x - m_World.GetWidth() / 2.0f, y - m_World.GetHeight() / 2.0f,0.1f }, { 1.0f,1.0f }, texture, { 1.0f,1.0f,1.0f,1.0f });
+			}
+		}
+		Renderer2D::EndScene();
 
-		//	auto bounds = m_CameraController.GetBounds();
-		//	auto pos = m_CameraController.GetCamera().GetPosition();
-		//	x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-		//	y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-		//	m_Particle.Position = { x + pos.x, y + pos.y };
-		//	for (int i = 0; i < 5; i++)
-		//		m_ParticleSystem.Emit(m_Particle);
-		//}
-		//m_ParticleSystem.OnUpdate(ts);
-		//m_ParticleSystem.OnRender(m_CameraController.GetCamera());
-		//Renderer2D::EndScene();
+		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
+		if (Input::IsMouseButtonPressed(MouseCode::Button0))
+		{
+			auto [x, y] = Input::GetMousePosition();
+			auto width = m_ActiveScene.get()->GetWidth();
+			auto height = m_ActiveScene.get()->GetHeight();
+
+			auto bounds = m_CameraController.GetBounds();
+			auto pos = m_CameraController.GetCamera().GetPosition();
+			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+			m_Particle.Position = { x + pos.x, y + pos.y };
+			for (int i = 0; i < 5; i++)
+				m_ParticleSystem.Emit(m_Particle);
+		}
+		m_ParticleSystem.OnUpdate(ts);
+		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+		Renderer2D::EndScene();
+	#endif
 
 		m_Framebuffer->Unbind();
 	}
@@ -306,6 +313,7 @@ namespace LWEngine {
 
 		m_WindowPanel.TopMenuBar(ts);
 
+	#ifdef LWE_TEST
 		ImGui::Begin("Settings");
 		ImGui::Text("%f", Random::Float());
 		ImGui::End();
@@ -318,12 +326,12 @@ namespace LWEngine {
 		ImGui::DragFloat("SizeEnd (Max = SizeBegin/2)", &m_Particle.SizeEnd, 0.01f, 0.1f, m_Particle.SizeBegin / 2);
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
+	#endif
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewPortFocused = ImGui::IsWindowFocused();
 		m_ViewPortHovered = ImGui::IsWindowHovered();
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
-
 		m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
@@ -331,6 +339,31 @@ namespace LWEngine {
 
 		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+
+
+		//. ImGuizmo
+		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
+		if (selectedEntity)
+		{
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+			
+			//? Camera
+			auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+			const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+			const glm::mat4& cameraProjection = camera.GetProjection();
+			glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+			//? EntityTransform
+			auto& tc = selectedEntity.GetComponent<TransformComponent>();
+			glm::mat4 transform = tc.GetTransform();
+		
+			ImGuizmo::Manipulate(glm::value_ptr(cameraView),glm::value_ptr(cameraProjection),ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 		ImGui::End(); // Dockwindow end
