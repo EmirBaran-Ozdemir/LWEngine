@@ -1,5 +1,5 @@
 #include "lwpch.h"
-#include "VertexArray.h"
+#include "LWEngine/Renderer/VertexArray.h"
 
 #include "LWEngine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"

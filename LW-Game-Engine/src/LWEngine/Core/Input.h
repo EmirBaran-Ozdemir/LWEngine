@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lwpch.h"
-#include "LWEngine/Core/Core.h"
+#include <glm/glm.hpp>
 #include "LWEngine/Core/KeyCodes.h"
 #include "LWEngine/Core/MouseButtonCodes.h"
 
@@ -12,7 +12,7 @@ namespace LWEngine {
 	public:
 		static bool IsKeyPressed(KeyCode keycode);
 		static bool IsMouseButtonPressed(MouseCode button);
-		static std::pair<float, float> GetMousePosition();
+		static glm::vec2 GetMousePosition();
 
 		static float GetMouseX();
 		static float GetMouseY();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lwpch.h"
+#include <sstream>
 
 #include "LWEngine/Core/Core.h"
 #include "LWEngine/Events/Event.h"

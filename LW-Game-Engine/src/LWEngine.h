@@ -16,6 +16,7 @@
 #include "LWEngine/Core/MouseButtonCodes.h"
 #include "LWEngine/Core/Window.h"
 #include "LWEngine/Core/Random.h"
+#include "LWEngine/Core/Assert.h"
 
 //? SCENE
 #include "LWEngine/Scene/Scene.h"

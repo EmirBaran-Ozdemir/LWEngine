@@ -1,6 +1,9 @@
+include "./vendor/premake/premake_customization/solution_items.lua"
+
 workspace "LW-Game-Engine"
 	architecture "x86_64"
-	
+	startproject "LW-Game-Engine-Editor"
+
 	configurations
 	{
 		"Debug",
@@ -8,251 +11,38 @@ workspace "LW-Game-Engine"
 		"Dist"
 	}
 
-outputdir = "%{cfg.buildcfg}-%{cfg.ststem}-%{cfg.architecture}"
+	solution_items
+	{
+		".editorconfig"
+	}
+
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "LW-Game-Engine/vendor/GLFW/include"
-IncludeDir["Glad"] = "LW-Game-Engine/vendor/Glad/include"
-IncludeDir["ImGui"] = "LW-Game-Engine/vendor/imgui"
-IncludeDir["glm"] = "LW-Game-Engine/vendor/glm"
-IncludeDir["stb_image"] = "LW-Game-Engine/vendor/stb_image"
-IncludeDir["entt"] = "LW-Game-Engine/vendor/entt/include"
-IncludeDir["better_enums"] = "LW-Game-Engine/vendor/better_enums"
-IncludeDir["yaml_cpp"] = "LW-Game-Engine/vendor/yaml-cpp/include"
+IncludeDir["GLFW"] = "%{wks.location}/LW-Game-Engine/vendor/GLFW/include"
+IncludeDir["Glad"] = "%{wks.location}/LW-Game-Engine/vendor/Glad/include"
+IncludeDir["ImGui"] = "%{wks.location}/LW-Game-Engine/vendor/imgui"
+IncludeDir["glm"] = "%{wks.location}/LW-Game-Engine/vendor/glm"
+IncludeDir["stb_image"] = "%{wks.location}/LW-Game-Engine/vendor/stb_image"
+IncludeDir["entt"] = "%{wks.location}/LW-Game-Engine/vendor/entt/include"
+IncludeDir["better_enums"] = "%{wks.location}/LW-Game-Engine/vendor/better_enums"
+IncludeDir["yaml_cpp"] = "%{wks.location}/LW-Game-Engine/vendor/yaml-cpp/include"
 
+group "Dependencies"
+	include "vendor/premake"
+	include "LW-Game-Engine/vendor/GLFW"
+	include "LW-Game-Engine/vendor/Glad"
+	include "LW-Game-Engine/vendor/imgui"
+	include "LW-Game-Engine/vendor/yaml-cpp"
+group ""
 
-include "LW-Game-Engine/vendor/GLFW"
-include "LW-Game-Engine/vendor/Glad"
-include "LW-Game-Engine/vendor/imgui"
-include	"LW-Game-Engine/vendor/yaml-cpp"
-
-project "LW-Game-Engine"
-	location "LW-Game-Engine"
-	kind "StaticLib"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-	
-	pchheader "lwpch.h"
-	pchsource "LW-Game-Engine/src/lwpch.cpp"
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp",
-		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",
-	}
-	
-	defines
-	{
-		"_CRT_SECURE_NO_WARNINGS"
-	}
-
-	includedirs
-	{
-		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.better_enums}",
-		"%{IncludeDir.yaml_cpp}",
-	}
-	
-	links
-	{
-		"GLFW",
-		"Glad",
-		"ImGui",
-		"yaml-cpp",
-		"opengl32.lib",
-		"dwmapi.lib"
-	}
-	filter "system:windows"
-		
-		systemversion "latest"
-
-		defines
-		{
-			"LWE_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
-
-	filter "configurations:Debug"
-		defines "LWE_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "LWE_RELEASE"
-		runtime "Release"
-		optimize "on"
-	
-	filter "configurations:Dist"
-		defines "LWE_DIST"
-		runtime "Release"
-		optimize "on"
-
-project "LW-Game-Engine-Editor"
-	location "LW-Game-Engine-Editor"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-	
-	includedirs
-	{
-		"%{prj.name}/src",
-		"LW-Game-Engine/vendor/spdlog/include",
-		"LW-Game-Engine/vendor",
-		"LW-Game-Engine/src",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.better_enums}",
-	}
-
-	links
-	{
-		"LW-Game-Engine"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-	filter "configurations:Debug"
-		defines "LWE_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "LWE_RELEASE"
-		runtime "Release"
-		optimize "on"
-	
-	filter "configurations:Dist"
-		defines "LWE_DIST"
-		runtime "Release"
-		optimize "on"
-
-
-
-project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-	
-	includedirs
-	{
-		"LW-Game-Engine/vendor/spdlog/include",
-		"LW-Game-Engine/vendor",
-		"LW-Game-Engine/src",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.entt}",
-	}
-
-	links
-	{
-		"LW-Game-Engine"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-	filter "configurations:Debug"
-		defines "LWE_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "LWE_RELEASE"
-		runtime "Release"
-		optimize "on"
-	
-	filter "configurations:Dist"
-		defines "LWE_DIST"
-		runtime "Release"
-		optimize "on"
-
-
-project "ExampleGame"
-	location "ExampleGame"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-	
-	includedirs
-	{
-		"LW-Game-Engine/vendor/spdlog/include",
-		"LW-Game-Engine/vendor",
-		"LW-Game-Engine/src",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.entt}",
-	}
-
-	links
-	{
-		"LW-Game-Engine"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-	filter "configurations:Debug"
-		defines "LWE_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "LWE_RELEASE"
-		runtime "Release"
-		optimize "on"
-	
-	filter "configurations:Dist"
-		defines "LWE_DIST"
-		runtime "Release"
-		optimize "on"
-
-		
+include "LW-Game-Engine"
+include "Sandbox"
+include "ExampleGame"
+include "LW-Game-Engine-Editor"

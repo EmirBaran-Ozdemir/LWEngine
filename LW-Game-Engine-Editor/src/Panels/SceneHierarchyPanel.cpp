@@ -1,12 +1,17 @@
 #include "lwpch.h"
 
-#include "SceneHierarchyPanel.h"
+#include "Panels/SceneHierarchyPanel.h"
 #include "LWEngine/Scene/Components.h"
-#include "LWEngine/ImGui/ImGuiLayer.h"
+
 #include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui_internal.h>
 #include "Font/ImGuiFont.h"
+#include <cstring>
+
+#ifdef _MSVC_LANG
+	#define _CRT_SECURE_NO_WARNINGS
+#endif
 
 namespace LWEngine {
 
@@ -199,7 +204,7 @@ namespace LWEngine {
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tag.c_str());
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
@@ -214,19 +219,20 @@ namespace LWEngine {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
+			ImGui::ShowDemoWindow();
 			if (ImGui::MenuItem("Camera"))
 			{
-				m_SelectionContext.AddComponent<CameraComponent>();
+				ComponentAddCheck<CameraComponent>();
 				ImGui::CloseCurrentPopup();
 			}
 			if (ImGui::MenuItem("Sprite Renderer"))
 			{
-				m_SelectionContext.AddComponent<SpriteRendererComponent>();
+				ComponentAddCheck<SpriteRendererComponent>();
 				ImGui::CloseCurrentPopup();
 			}
 			if (ImGui::MenuItem("Transform"))
 			{
-				m_SelectionContext.AddComponent<TransformComponent>();
+				ComponentAddCheck<TransformComponent>();
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
@@ -309,5 +315,24 @@ namespace LWEngine {
 				ImGui::Checkbox("Fixed aspect ratio", &component.FixedAspectRatio);
 			}
 		});
+	}
+
+	template <typename T>
+	void SceneHierarchyPanel::ComponentAddCheck()
+	{
+		T component;
+		if (!m_SelectionContext.HasComponent<T>())
+			m_SelectionContext.AddComponent<T>();
+		else
+		{
+			
+			LWE_CORE_WARN("Warning: This entity already has the {0}!", component.name);
+			if (ImGui::BeginPopupModal("Component Exists!"))
+			{
+				ImGui::Text("{0} has already exists", component.name);
+				if (ImGui::Button("Close"))
+					ImGui::CloseCurrentPopup();
+			}
+		}
 	}
 }

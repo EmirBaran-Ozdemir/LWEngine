@@ -34,7 +34,7 @@ namespace LWEngine {
 	void WindowPanel::TopMenuBar(Timestep ts)
 	{
 
-		
+
 	}
 
 	void WindowPanel::BottomMenuBar()

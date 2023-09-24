@@ -25,6 +25,9 @@
     <Filter Include="src\LWEngine\Scene">
       <UniqueIdentifier>{52191C38-3EFD-DC8D-A75D-D7E09360C70F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\LWEngine\Utils">
+      <UniqueIdentifier>{95AD4938-8191-0A8E-EAF1-04E1D6F4F40F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -88,6 +91,9 @@
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Core\MouseButtonCodes.h">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Core\PlatformDetection.h">
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Core\Random.h">
@@ -176,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="src\LWEngine\Scene\ScriptableEntity.h">
       <Filter>src\LWEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Utils\PlatformUtils.h">
+      <Filter>src\LWEngine\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1455,7 +1464,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Utils\PlatformUtils.h" />
+    <ClInclude Include="src\LWEngine\Core\Assert.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
@@ -1533,6 +1542,9 @@
     <ClCompile Include="src\LWEngine\Scene\SceneSerializer.cpp">
       <Filter>src\LWEngine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Utils\WindowsPlatformUtils.cpp">
+      <Filter>src\LWEngine\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1566,6 +1578,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\LWEngine\Utils\WindowsPlatformUtils.cpp" />
   </ItemGroup>
 </Project>

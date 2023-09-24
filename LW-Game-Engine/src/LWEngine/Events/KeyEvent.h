@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LWEngine/Events/Event.h"
-#include "LWEngine/Core/Input.h"
+#include "LWEngine/Core/KeyCodes.h"
 
 #include <sstream>
 
@@ -14,7 +14,7 @@ namespace LWEngine
 		KeyCode GetKeyCode() const { return m_KeyCode; }
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(KeyCode keycode)
+		KeyEvent(const KeyCode keycode)
 			: m_KeyCode(keycode){}
 
 		KeyCode m_KeyCode;
@@ -24,9 +24,9 @@ namespace LWEngine
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(KeyCode keycode, int repeatCount)
+		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount)
 			: KeyEvent(keycode), m_repeatCount(repeatCount) {}
-		int GetRepeatCount() const { return m_repeatCount; }
+		uint16_t GetRepeatCount() const { return m_repeatCount; }
 		
 		std::string ToString() const override
 		{
@@ -37,13 +37,13 @@ namespace LWEngine
 		
 		EVENT_CLASS_TYPE(KeyPressed);
 	private:
-		int m_repeatCount;
+		uint16_t m_repeatCount;
 	};
 
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(KeyCode keycode)
+		KeyTypedEvent(const KeyCode keycode)
 			: KeyEvent(keycode){}
 
 		std::string ToString() const override
@@ -59,7 +59,7 @@ namespace LWEngine
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(KeyCode keycode)
+		KeyReleasedEvent(const KeyCode keycode)
 			: KeyEvent(keycode){}
 		std::string ToString() const override
 		{

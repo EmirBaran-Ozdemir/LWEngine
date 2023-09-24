@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\ExampleGame">
+      <UniqueIdentifier>{16838534-0251-793A-EBE4-E960D751559F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine">
+      <UniqueIdentifier>{1D7FCEB5-8995-CC4B-D20C-586D3E629DD3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor">
+      <UniqueIdentifier>{DA52B20A-C677-018B-EFC2-E61ADB4600A9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor\GLFW">
+      <UniqueIdentifier>{59E6F4D0-C5FE-DBFA-8EAB-6B94FA827094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor\Glad">
+      <UniqueIdentifier>{0172F5D0-6D8A-DCFA-3637-6C94A20E7194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor\imgui">
+      <UniqueIdentifier>{C49B0BF2-B0C1-D558-9907-5B2485CCFA24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor\yaml-cpp">
+      <UniqueIdentifier>{CC8E3445-38FD-89C4-81E6-44C4ED937F60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\LW-Game-Engine-Editor">
+      <UniqueIdentifier>{31805CFE-1DA5-AB7E-46F0-900E3274AA9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Sandbox">
+      <UniqueIdentifier>{3F7B6B1D-2B33-AD6A-943A-86C68011485B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\ExampleGame\premake5.lua">
+      <Filter>..\ExampleGame</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine-Editor\premake5.lua">
+      <Filter>..\LW-Game-Engine-Editor</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\premake5.lua">
+      <Filter>..\LW-Game-Engine</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\vendor\GLFW\premake5.lua">
+      <Filter>..\LW-Game-Engine\vendor\GLFW</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\vendor\Glad\premake5.lua">
+      <Filter>..\LW-Game-Engine\vendor\Glad</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\vendor\imgui\premake5.lua">
+      <Filter>..\LW-Game-Engine\vendor\imgui</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\vendor\yaml-cpp\premake5.lua">
+      <Filter>..\LW-Game-Engine\vendor\yaml-cpp</Filter>
+    </None>
+    <None Include="..\..\Sandbox\premake5.lua">
+      <Filter>..\Sandbox</Filter>
+    </None>
+    <None Include="..\..\premake5.lua">
+      <Filter>..</Filter>
+    </None>
+    <None Include="premake5.lua" />
+  </ItemGroup>
+</Project>

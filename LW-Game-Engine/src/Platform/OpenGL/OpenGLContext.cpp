@@ -28,13 +28,7 @@ namespace LWEngine {
 		LWE_CORE_INFO("   Renderer: {0}",renderer);
 		LWE_CORE_INFO("   Version: {0}",version);
 
-#ifdef LWE_ENABLE_ASSERTS
-		int versionMajor;
-		int versionMinor;
-		glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
-		glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
-		LWE_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "OPENGL_VERSION_REQUIREMENT::VERSION_SHOULD_BE_AT_LEAST_4_5");
-#endif
+		LWE_CORE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "ERROR::OPENGL_VERSION::VERSION_SHOULD_BE_AT_LEAST_4_5");
 
 	}
 

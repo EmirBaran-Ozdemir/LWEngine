@@ -104,13 +104,13 @@ namespace LWEngine {
 			{
 				auto& position = GetComponent<TransformComponent>().Position;
 
-				if (Input::IsKeyPressed(KeyCode::A))
+				if (Input::IsKeyPressed(Key::A))
 					position.x -= 2.0f * ts;
-				if (Input::IsKeyPressed(KeyCode::D))
+				if (Input::IsKeyPressed(Key::D))
 					position.x += 2.0f * ts;
-				if (Input::IsKeyPressed(KeyCode::W))
+				if (Input::IsKeyPressed(Key::W))
 					position.y += 2.0f * ts;
-				if (Input::IsKeyPressed(KeyCode::S))
+				if (Input::IsKeyPressed(Key::S))
 					position.y -= 2.0f * ts;
 			}
 			void OnDestroy()
@@ -263,7 +263,45 @@ namespace LWEngine {
 
 
 		//. TOP MENU BAR - TEMPORARY
-		
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
+		float height = ImGui::GetFrameHeight();
+
+		//! First menu bar
+
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("New", "CTRL+N"))
+					NewScene();
+				if (ImGui::MenuItem("Open", "CTRL+O"))
+					OpenScene();
+				ImGui::Separator();
+				if (ImGui::MenuItem("Save", "CTRL+S"))
+					SaveSceneAs();
+
+				if (ImGui::MenuItem("Exit", "Alt+F4", false))
+					Application::Get().Close();;
+
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Edit"))
+			{
+				if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+				if (ImGui::MenuItem("Redo", "CTRL+SHIFT+Z", false, false)) {}  // Disabled item
+				ImGui::Separator();
+				if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+				if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+				ImGui::EndMenu();
+			}
+			//m_ThemeMenu.Render();
+			//m_FontMenu.Render();
+			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
+			ImGui::EndMainMenuBar();
+		}
+
 
 
 		m_WindowPanel.TopMenuBar(ts);
@@ -291,8 +329,8 @@ namespace LWEngine {
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { availContentRegion.x, availContentRegion.y };
 
-		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
 		ImGui::End(); // Dockwindow end
@@ -312,10 +350,9 @@ namespace LWEngine {
 			return false;
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
-
+		bool alt = Input::IsKeyPressed(Key::LeftAlt) || Input::IsKeyPressed(Key::RightAlt);
 		switch (e.GetKeyCode())
 		{
-			
 			case Key::W:
 			{
 				if (control)
@@ -334,8 +371,11 @@ namespace LWEngine {
 					SaveSceneAs();
 				break;
 			}
-			default:
-				break;
+			case Key::F4:
+			{
+				if (alt)
+					Application::Get().Close();
+			}
 		}
 
 		return false;

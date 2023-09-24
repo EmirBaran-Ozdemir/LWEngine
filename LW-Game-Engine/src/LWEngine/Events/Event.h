@@ -1,6 +1,7 @@
 #pragma once
 
-#include "lwpch.h"
+#include <functional>
+#include "LWEngine/Dev/Instrumentor.h"
 
 #include "LWEngine/Core/Core.h"
 
@@ -65,7 +66,7 @@ namespace LWEngine {
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.Handled = func(*(T*)&m_Event);
+				m_Event.Handled |= func(static_cast<T&>(m_Event));
 				return true;
 			}
 			return false;

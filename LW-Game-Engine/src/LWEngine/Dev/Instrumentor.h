@@ -6,6 +6,9 @@
 #include <iomanip>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <sstream>
+#include "LWEngine/Core/Log.h"
 
 namespace LWEngine {
 

@@ -9,7 +9,7 @@ namespace LWEngine {
 	struct TagComponent
 	{
 		std::string Tag;
-
+		std::string name = "Tag Component";
 		TagComponent() = default;
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& Tag)
@@ -22,7 +22,7 @@ namespace LWEngine {
 		glm::vec3 Position = { 0.0f,0.0f,0.0f };
 		glm::vec3 Rotation = { 0.0f,0.0f,0.0f };
 		glm::vec3 Scale = { 1.0f,1.0f,1.0f };
-
+		std::string name = "Transform Component";
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
 		TransformComponent(const glm::vec3& position)
@@ -44,7 +44,7 @@ namespace LWEngine {
 	struct SpriteRendererComponent
 	{
 		glm::vec4 Color{1.0f};
-
+		std::string name = "Sprite Renderer Component";
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
@@ -57,7 +57,7 @@ namespace LWEngine {
 		SceneCamera Camera;
 		bool Primary = false;
 		bool FixedAspectRatio = false;
-
+		std::string name = "Camera Component";
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
 	};

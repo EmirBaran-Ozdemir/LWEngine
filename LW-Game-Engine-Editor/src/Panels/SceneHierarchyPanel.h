@@ -15,7 +15,8 @@ namespace LWEngine {
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
-
+		template <typename T>
+		void ComponentAddCheck();
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;
