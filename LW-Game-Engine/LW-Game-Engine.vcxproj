@@ -168,6 +168,7 @@
     <ClInclude Include="src\LWEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\LWEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\LWEngine\Math\Math.h" />
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
     <ClInclude Include="src\LWEngine\Renderer\Framebuffer.h" />
@@ -626,6 +627,7 @@
     <ClCompile Include="src\LWEngine\Core\Window.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\LWEngine\Math\Math.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\GraphicsContext.cpp" />

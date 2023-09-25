@@ -264,7 +264,7 @@ namespace LWEngine {
 				static float positionDragSpeed = 0.01f;
 				static float rotationDragSpeed = 1.0f;
 				static float scaleDragSpeed = 0.03f;
-				DrawVec3Control("Position", component.Position, positionDragSpeed);
+				DrawVec3Control("Position", component.Translation, positionDragSpeed);
 				glm::vec3 rotation = glm::degrees(component.Rotation);
 				DrawVec3Control("Rotation", rotation, rotationDragSpeed);
 				component.Rotation = glm::radians(rotation);

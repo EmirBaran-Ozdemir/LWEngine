@@ -61,7 +61,7 @@ namespace LWEngine {
 			out _Key("TransformComponent");
 			out _BeginMap;
 			auto& transformComp = entity.GetComponent<TransformComponent>();
-			out _KeyVal("Position", transformComp.Position);
+			out _KeyVal("Position", transformComp.Translation);
 			out _KeyVal("Rotation", transformComp.Rotation);
 			out _KeyVal("Scale", transformComp.Scale);
 			out _EndMap;
@@ -157,7 +157,7 @@ namespace LWEngine {
 				if (transformComp)
 				{
 					auto& entityTC = deserializedEntity.AddComponent<TransformComponent>();
-					entityTC.Position = transformComp["Position"].as<glm::vec3>();
+					entityTC.Translation = transformComp["Position"].as<glm::vec3>();
 					entityTC.Rotation = transformComp["Rotation"].as<glm::vec3>();
 					entityTC.Scale = transformComp["Scale"].as<glm::vec3>();
 				}

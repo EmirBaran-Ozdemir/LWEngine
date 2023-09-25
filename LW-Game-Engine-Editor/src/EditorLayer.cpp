@@ -327,6 +327,7 @@ namespace LWEngine {
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	#endif
+
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewPortFocused = ImGui::IsWindowFocused();
@@ -343,14 +344,14 @@ namespace LWEngine {
 
 		//. ImGuizmo
 		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
-		if (selectedEntity)
+		if (selectedEntity && m_GuizmoType != -1)
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 			float windowWidth = (float)ImGui::GetWindowWidth();
 			float windowHeight = (float)ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-			
+
 			//? Camera
 			auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
 			const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
@@ -358,10 +359,30 @@ namespace LWEngine {
 			glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
 			//? EntityTransform
-			auto& tc = selectedEntity.GetComponent<TransformComponent>();
-			glm::mat4 transform = tc.GetTransform();
-		
-			ImGuizmo::Manipulate(glm::value_ptr(cameraView),glm::value_ptr(cameraProjection),ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+			if (selectedEntity.HasComponent<TransformComponent>())
+			{
+				auto& tc = selectedEntity.GetComponent<TransformComponent>();
+				glm::mat4 transform = tc.GetTransform();
+
+				bool snap = Input::IsKeyPressed(Key::LeftControl);
+				float snapValue = 0.5f + (44.5f * (m_GuizmoType ==ImGuizmo::OPERATION::ROTATE));
+				float snapValues[3] = { snapValue,snapValue,snapValue };
+
+
+				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)m_GuizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+
+				if (ImGuizmo::IsUsing())
+				{
+					glm::vec3 translation, rotation, scale;
+					Math::DecomposeTransform(transform, translation, rotation, scale);
+					glm::vec3 deltaRotation = rotation - tc.Rotation;
+
+					tc.Translation = translation;
+					tc.Rotation += deltaRotation;
+					tc.Scale = scale;
+				}
+			}
+
 		}
 
 		ImGui::End();
@@ -408,6 +429,32 @@ namespace LWEngine {
 			{
 				if (alt)
 					Application::Get().Close();
+			}
+
+			//? Guizmo
+			case Key::D1:
+			{
+				if (control)
+					m_GuizmoType = -1;
+				break;
+			}
+			case Key::D2:
+			{
+				if (control)
+					m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			}
+			case Key::D3:
+			{
+				if (control)
+					m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			}
+			case Key::D4:
+			{
+				if (control)
+					m_GuizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
 			}
 		}
 

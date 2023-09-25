@@ -88,7 +88,8 @@ namespace LWEngine {
 		ParticleProperties m_Particle;
 		WorldGeneration m_World;
 		std::unordered_map<glm::vec4, Ref<SubTexture2D>, vec4Hash, vec4Equal> m_TextureMap;
-
+		
+		int m_GuizmoType = -1;
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;
 		WindowPanel m_WindowPanel;
