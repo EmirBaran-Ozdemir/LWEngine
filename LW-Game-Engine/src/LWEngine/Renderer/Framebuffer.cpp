@@ -6,7 +6,7 @@
 
 namespace LWEngine {
 
-	Ref<Framebuffer> Framebuffer::Create(const FramebufferSpecification& spec)
+	Ref<Framebuffer> Framebuffer::Create(const FbufferSpec& spec)
 	{
 		switch (Renderer::GetAPI())
 		{

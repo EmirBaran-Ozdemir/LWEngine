@@ -72,6 +72,8 @@ namespace LWEngine {
 		Entity m_SecondCameraEntity;
 		bool m_PrimaryCamera = true;
 
+		EditorCamera m_EditorCamera;
+
 		const float sizeMultiplier = 0.01f;
 		//? Temp
 

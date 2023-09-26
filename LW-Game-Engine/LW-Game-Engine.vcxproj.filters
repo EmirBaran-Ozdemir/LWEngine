@@ -19,6 +19,9 @@
     <Filter Include="src\LWEngine\ImGui">
       <UniqueIdentifier>{5F216C37-4B05-2D8D-B465-27E0A068170F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\LWEngine\Math">
+      <UniqueIdentifier>{6EDE528D-DAF4-5023-236C-DC448FC121AB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\LWEngine\Renderer">
       <UniqueIdentifier>{BB7F7C62-27EC-375D-F0DF-CFBA5C0B5AC5}</UniqueIdentifier>
     </Filter>
@@ -129,10 +132,16 @@
     <ClInclude Include="src\LWEngine\ImGui\ImGuiLayer.h">
       <Filter>src\LWEngine\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Math\Math.h">
+      <Filter>src\LWEngine\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\Camera.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\EditorCamera.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\Framebuffer.h">
@@ -1473,7 +1482,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\LWEngine\Math\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LWEngine\Core\Application.cpp">
@@ -1500,7 +1508,13 @@
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\LWEngine\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Math\Math.cpp">
+      <Filter>src\LWEngine\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\EditorCamera.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\Framebuffer.cpp">
@@ -1590,6 +1604,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\LWEngine\Math\Math.cpp" />
   </ItemGroup>
 </Project>

@@ -120,13 +120,15 @@ namespace LWEngine {
 		//serializer.Serialize("assets/scenes/Empty.lwe");
 		//serializer.Deserialize("assets/scenes/Example.lwe");
 	#endif
-		FramebufferSpecification fbSpec;
+		FbufferSpec fbSpec;
+		fbSpec.Attachments = { FbufferTexFormat::RGBA8, FbufferTexFormat::Depth };
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 		m_ActiveScene = CreateRef<Scene>();
 		m_ScHiPanel.SetContext(m_ActiveScene);
 		m_WindowPanel.SetContext(m_ActiveScene);
+		m_EditorCamera = EditorCamera(30.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	}
 
 	void EditorLayer::OnDetach()
@@ -138,19 +140,20 @@ namespace LWEngine {
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		LWE_PROFILE_FUNCTION();
-		FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+		FbufferSpec spec = m_Framebuffer->GetSpecification();
 		//! Resize
 		if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
-
+			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 		//! Update
-		if (m_ViewPortFocused)
+		if (m_ViewPortFocused && !ImGuizmo::IsUsing())
 		{
+			m_EditorCamera.OnUpdate(ts);
 			m_CameraController.OnUpdate(ts);
 			m_Player.OnUpdate(ts);
 		}
@@ -165,7 +168,7 @@ namespace LWEngine {
 		}
 
 
-		m_ActiveScene->OnUpdate(ts);
+		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
@@ -352,11 +355,15 @@ namespace LWEngine {
 			float windowHeight = (float)ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-			//? Camera
-			auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-			const glm::mat4& cameraProjection = camera.GetProjection();
-			glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+			//? Editor Camera
+			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+
+			//? Runtime Camera
+			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+			//const glm::mat4& cameraProjection = camera.GetProjection();
+			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
 			//? EntityTransform
 			if (selectedEntity.HasComponent<TransformComponent>())
@@ -365,7 +372,7 @@ namespace LWEngine {
 				glm::mat4 transform = tc.GetTransform();
 
 				bool snap = Input::IsKeyPressed(Key::LeftControl);
-				float snapValue = 0.5f + (44.5f * (m_GuizmoType ==ImGuizmo::OPERATION::ROTATE));
+				float snapValue = 0.5f + (44.5f * (m_GuizmoType == ImGuizmo::OPERATION::ROTATE));
 				float snapValues[3] = { snapValue,snapValue,snapValue };
 
 
@@ -385,23 +392,31 @@ namespace LWEngine {
 
 		}
 
-		ImGui::End();
-		ImGui::PopStyleVar();
+		ImGui::End(); // Viewport end
+		ImGui::PopStyleVar(); // WindowPadding
 		ImGui::End(); // Dockwindow end
 	}
 
 	void EditorLayer::OnEvent(Event& e)
 	{
+		if (ImGuizmo::IsUsing())
+			return;
+
 		m_CameraController.OnEvent(e);
+		m_EditorCamera.OnEvent(e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
 		//. Shortcuts
+		if (ImGuizmo::IsUsing())
+			return false;
 		if (e.GetRepeatCount() > 0)
 			return false;
+
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 		bool alt = Input::IsKeyPressed(Key::LeftAlt) || Input::IsKeyPressed(Key::RightAlt);
@@ -429,6 +444,7 @@ namespace LWEngine {
 			{
 				if (alt)
 					Application::Get().Close();
+				break;
 			}
 
 			//? Guizmo
@@ -456,6 +472,7 @@ namespace LWEngine {
 					m_GuizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 			}
+
 		}
 
 		return false;

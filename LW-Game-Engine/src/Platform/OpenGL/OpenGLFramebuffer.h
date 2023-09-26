@@ -7,7 +7,7 @@ namespace LWEngine {
 	class OpenGLFramebuffer : public Framebuffer
 	{
 	public:
-		OpenGLFramebuffer(const FramebufferSpecification& spec);
+		OpenGLFramebuffer(const FbufferSpec& spec);
 		virtual ~OpenGLFramebuffer();
 
 		virtual void Bind() override;
@@ -15,15 +15,18 @@ namespace LWEngine {
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		void Recreate();
 
-		virtual uint32_t GetColorAttachmentRendererID() const override { return m_ColorAttachment; }
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { LWE_CORE_ASSERT(index < m_ColorAttachmentIds.size(), "ERROR::RENDERER::COLOR_INDEX_LESS_THAN_ATTACHMENT_IDS") return m_ColorAttachmentIds[index]; }
 
-		virtual const FramebufferSpecification& GetSpecification() const override { return m_Specification; }
+		virtual const FbufferSpec& GetSpecification() const override { return m_Specification; }
 
 	private:
 		uint32_t m_RendererID = 0;
-		uint32_t m_ColorAttachment = 0;
-		uint32_t m_DepthAttachment = 0;
-		FramebufferSpecification m_Specification;
+		FbufferSpec m_Specification;
 
+		std::vector<FbufferTexSpec> m_ColorAttachmentSpecs;
+		FbufferTexSpec m_DepthAttachmentSpec = FbufferTexFormat::None;
+
+		std::vector<uint32_t> m_ColorAttachmentIds;
+		uint32_t m_DepthAttachment = 0;
 	};
 }

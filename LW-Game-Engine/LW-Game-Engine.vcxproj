@@ -171,6 +171,7 @@
     <ClInclude Include="src\LWEngine\Math\Math.h" />
     <ClInclude Include="src\LWEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\LWEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\LWEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\LWEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\LWEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\LWEngine\Renderer\OrthographicCamera.h" />
@@ -629,6 +630,7 @@
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\LWEngine\Math\Math.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\LWEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\LWEngine\Renderer\OrthographicCamera.cpp" />

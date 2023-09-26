@@ -2,6 +2,7 @@
 
 #include <entt.hpp>
 #include "LWEngine/Core/Timestep.h"
+#include "LWEngine/Renderer/EditorCamera.h"
 
 namespace LWEngine {
 
@@ -16,7 +17,8 @@ namespace LWEngine {
 		Entity CloneEntity(Entity entity);
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
+		void OnUpdateRuntime(Timestep ts);
 		void OnResize(uint32_t width, uint32_t height);
 		uint32_t GetWidth() const { return m_ViewportWidth; }
 		uint32_t GetHeight() const { return m_ViewportHeight; }

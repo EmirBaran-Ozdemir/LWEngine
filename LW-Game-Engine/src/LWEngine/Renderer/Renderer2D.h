@@ -4,6 +4,7 @@
 #include "LWEngine/Renderer/Texture.h"
 #include "LWEngine/Renderer/SubTexture2D.h"
 #include "LWEngine/Renderer/Camera.h"
+#include "LWEngine/Renderer/EditorCamera.h"
 
 namespace LWEngine {
 
@@ -14,6 +15,7 @@ namespace LWEngine {
 		static void Shutdown();
 
 		static void BeginScene(const OrthographicCamera& camera);
+		static void BeginScene(const EditorCamera& camera);
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void EndScene();
 		static void Flush();

@@ -120,6 +120,16 @@ namespace LWEngine {
 		StartBatch();
 	}
 
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		LWE_PROFILE_FUNCTION();
+
+		s_Data.QuadTextureShader->Bind();
+		s_Data.QuadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
+
+		StartBatch();
+	}
+
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
 		LWE_PROFILE_FUNCTION();

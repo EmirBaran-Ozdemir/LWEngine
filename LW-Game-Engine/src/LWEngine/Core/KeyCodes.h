@@ -15,6 +15,7 @@ namespace LWEngine
 			Period = 46, /* . */
 			Slash = 47, /* / */
 
+			// Key::D0 - Key::D9 match their ascii equivalent (0-9)
 			D0 = 48, /* 0 */
 			D1 = 49, /* 1 */
 			D2 = 50, /* 2 */

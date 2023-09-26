@@ -36,6 +36,7 @@
 #include "LWEngine/Renderer/SubTexture2D.h"
 #include "LWEngine/Renderer/VertexArray.h"
 #include "LWEngine/Renderer/OrthographicCameraController.h"
+#include "LWEngine/Renderer/EditorCamera.h"
 
 //? MATH
 #include "LWEngine/Math/Math.h"
