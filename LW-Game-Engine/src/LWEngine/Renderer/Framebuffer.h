@@ -9,7 +9,8 @@ namespace LWEngine {
 
 		//? Color
 		RGBA8,
-		RGBA16F,
+		//RGBA16F,
+		RED_INT,
 
 		//? Depth/Stencil
 		DEPTH24STENCIL8,
@@ -54,6 +55,9 @@ namespace LWEngine {
 		virtual void Unbind() = 0;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
+		virtual int ReadPixel(uint32_t index, int x, int y, int height = 1, int width = 1) = 0;
+
+		virtual void ClearColorAttach(uint32_t index, int value) = 0;
 
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
 

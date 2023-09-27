@@ -57,13 +57,7 @@ namespace LWEngine {
 		m_TextureMap[{0.0f, 255.0f, 255.0f, 255.0f}] = m_TileChest;
 
 
-		m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
-		m_Particle.ColorEnd = { 0.5f,0.5f,0.0f,1.0f };
-		m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
-		m_Particle.LifeTime = 1.0f;
-		m_Particle.Position = { 0.0f, 0.0f };
-		m_Particle.Velocity = { 0.0f, 0.0f };
-		m_Particle.VelocityVariation = { 5.0f,1.0f };
+
 
 		m_CameraController.SetZoomLevel(10.0f);
 
@@ -120,15 +114,29 @@ namespace LWEngine {
 		//serializer.Serialize("assets/scenes/Empty.lwe");
 		//serializer.Deserialize("assets/scenes/Example.lwe");
 	#endif
+
 		FbufferSpec fbSpec;
-		fbSpec.Attachments = { FbufferTexFormat::RGBA8, FbufferTexFormat::Depth };
-		fbSpec.Width = 1280;
+		fbSpec.Attachments = { FbufferTexFormat::RGBA8,FbufferTexFormat::RED_INT, FbufferTexFormat::Depth };
+		fbSpec.Width = 1780;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 		m_ActiveScene = CreateRef<Scene>();
 		m_ScHiPanel.SetContext(m_ActiveScene);
 		m_WindowPanel.SetContext(m_ActiveScene);
 		m_EditorCamera = EditorCamera(30.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
+		auto& camComponent = m_CameraEntity.AddComponent<CameraComponent>();
+		m_CameraEntity.AddComponent<TransformComponent>();
+		camComponent.Primary = true;
+
+		m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
+		m_Particle.ColorEnd = { 0.5f,0.5f,0.0f,1.0f };
+		m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
+		m_Particle.LifeTime = 1.0f;
+		m_Particle.Position = { 0.0f, 0.0f };
+		m_Particle.Velocity = { 0.0f, 0.0f };
+		m_Particle.VelocityVariation = { 5.0f,1.0f };
 	}
 
 	void EditorLayer::OnDetach()
@@ -151,7 +159,7 @@ namespace LWEngine {
 		}
 
 		//! Update
-		if (m_ViewPortFocused && !ImGuizmo::IsUsing())
+		if (m_ViewPortHovered && !ImGuizmo::IsUsing())
 		{
 			m_EditorCamera.OnUpdate(ts);
 			m_CameraController.OnUpdate(ts);
@@ -165,14 +173,32 @@ namespace LWEngine {
 			m_Framebuffer->Bind();
 			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1.0f });
 			RenderCommand::Clear();
+
+			m_Framebuffer->ClearColorAttach(1,-1);
 		}
 
 
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
+		int mouseX, mouseY;
+		if (m_ViewPortHovered)
+		{
+			auto [mx, my] = ImGui::GetMousePos();
+			mx -= m_ViewportBounds[0].x;
+			my -= m_ViewportBounds[0].y;
+			my = m_ViewportSize.y - my;
+			glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+
+			mouseX = (int)mx;
+			mouseY = (int)my;
+
+			int pixelData = m_Framebuffer->ReadPixel(1,mouseX, mouseY);
+			LWE_CORE_TRACE("pixelData: {0}",pixelData);
+		}
 
 	#ifdef LWE_TEST
+		Renderer2D::BeginScene(m_CameraController.GetCamera());
+
 		auto playerPos = m_Player.GetPlayerPos();
 		Renderer2D::DrawQuad({ playerPos.x, playerPos.y, playerPos.z }, { 1.0f,1.0f }, m_CubeHead);
 
@@ -195,17 +221,17 @@ namespace LWEngine {
 		Renderer2D::EndScene();
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
-		if (Input::IsMouseButtonPressed(MouseCode::Button0))
+		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft) && m_ViewPortFocused)
 		{
-			auto [x, y] = Input::GetMousePosition();
-			auto width = m_ActiveScene.get()->GetWidth();
-			auto height = m_ActiveScene.get()->GetHeight();
+			auto [mx, my] = ImGui::GetMousePos();
+			mx -= m_ViewportBounds[0].x;
+			my -= m_ViewportBounds[0].y;
+			my = m_ViewportSize.y - my;
+			glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
 
-			auto bounds = m_CameraController.GetBounds();
-			auto pos = m_CameraController.GetCamera().GetPosition();
-			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-			m_Particle.Position = { x + pos.x, y + pos.y };
+			mouseX = (int)mx;
+			mouseY = (int)my;
+			m_Particle.Position = { mouseX, mouseY };
 			for (int i = 0; i < 5; i++)
 				m_ParticleSystem.Emit(m_Particle);
 		}
@@ -270,8 +296,6 @@ namespace LWEngine {
 
 		m_ScHiPanel.OnImGuiRender();
 
-
-
 		//. TOP MENU BAR - TEMPORARY
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
@@ -309,11 +333,17 @@ namespace LWEngine {
 			//m_ThemeMenu.Render();
 			//m_FontMenu.Render();
 			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
+			if (ImGui::Button("Play"))
+			{
+				//? Runtime Camera
+				auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+				const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+				const glm::mat4& cameraProjection = camera.GetProjection();
+				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+				m_ActiveScene->OnUpdateRuntime(ts);
+			}
 			ImGui::EndMainMenuBar();
 		}
-
-
-
 		m_WindowPanel.TopMenuBar(ts);
 
 	#ifdef LWE_TEST
@@ -335,6 +365,13 @@ namespace LWEngine {
 		ImGui::Begin("Viewport");
 		m_ViewPortFocused = ImGui::IsWindowFocused();
 		m_ViewPortHovered = ImGui::IsWindowHovered();
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+
+
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
 		m_WindowPanel.BottomMenuBar();
 
@@ -344,26 +381,20 @@ namespace LWEngine {
 		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
-
 		//. ImGuizmo
 		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
 		if (selectedEntity && m_GuizmoType != -1)
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
-			float windowWidth = (float)ImGui::GetWindowWidth();
-			float windowHeight = (float)ImGui::GetWindowHeight();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+
+			ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
 
 			//? Editor Camera
 			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
 			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
 
-			//? Runtime Camera
-			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-			//const glm::mat4& cameraProjection = camera.GetProjection();
-			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
 			//? EntityTransform
 			if (selectedEntity.HasComponent<TransformComponent>())

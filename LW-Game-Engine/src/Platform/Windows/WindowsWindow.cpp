@@ -55,7 +55,21 @@ namespace LWEngine {
 		{
 			LWE_PROFILE_SCOPE("glfwCreateWindow");
 
-			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr); //glfwGetPrimaryMonitor()
+			// Set the GLFW window hints for decoration (x and _) buttons
+			glfwWindowHint(GLFW_MAXIMIZED,true);
+
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+
+			if (!m_Window) {
+				LWE_CORE_ERROR("ERROR::GLFW::WINDOW_CREATION_FAILED");
+				glfwTerminate();
+				return;
+			}
+
+			//GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+			//const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+			//glfwSetWindowMonitor(m_Window, primaryMonitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+
 			++s_GLFWWindowCount;
 			m_Context = GraphicsContext::Create(m_Window);
 		}
@@ -88,24 +102,24 @@ namespace LWEngine {
 
 				switch (action)
 				{
-				case GLFW_PRESS:
-				{
-					KeyPressedEvent event(key, 0);
-					data.EventCallback(event);
-					break;
-				}
-				case GLFW_RELEASE:
-				{
-					KeyReleasedEvent event(key);
-					data.EventCallback(event);
-					break;
-				}
-				case GLFW_REPEAT:
-				{
-					KeyPressedEvent event(key, 1);
-					data.EventCallback(event);
-					break;
-				}
+					case GLFW_PRESS:
+					{
+						KeyPressedEvent event(key, 0);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_RELEASE:
+					{
+						KeyReleasedEvent event(key);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_REPEAT:
+					{
+						KeyPressedEvent event(key, 1);
+						data.EventCallback(event);
+						break;
+					}
 				}
 			});
 
@@ -124,18 +138,18 @@ namespace LWEngine {
 
 				switch (action)
 				{
-				case GLFW_PRESS:
-				{
-					MouseButtonPressedEvent event(button);
-					data.EventCallback(event);
-					break;
-				}
-				case GLFW_RELEASE:
-				{
-					MouseButtonReleasedEvent event(button);
-					data.EventCallback(event);
-					break;
-				}
+					case GLFW_PRESS:
+					{
+						MouseButtonPressedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_RELEASE:
+					{
+						MouseButtonReleasedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
 				}
 			});
 
