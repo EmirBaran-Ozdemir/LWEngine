@@ -10,6 +10,7 @@ namespace LWEngine {
 	{
 	public:
 		Entity() = default;
+		Entity(int handle, Scene* scene);
 		Entity(entt::entity handle, Scene* scene);
 		Entity(const Entity& other) = default;
 

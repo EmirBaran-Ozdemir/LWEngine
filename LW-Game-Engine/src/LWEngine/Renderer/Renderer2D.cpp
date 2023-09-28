@@ -16,6 +16,10 @@ namespace LWEngine {
 		glm::vec4 Color;
 		float TexIndex;
 		float TilingFactor;
+
+		//? Editor only
+		int EntityID;
+		//TODO Splite vertexes into two
 	};
 
 	struct Renderer2DData
@@ -58,6 +62,7 @@ namespace LWEngine {
 			{ShaderDataType::Float4, "a_Color"},
 			{ShaderDataType::Float, "a_TexIndex"},
 			{ShaderDataType::Float, "a_TilingFactor"},
+			{ShaderDataType::Int, "a_EntityID"},
 		});
 
 		s_Data.QuadVA->AddVertexBuffer(s_Data.QuadVB);
@@ -272,7 +277,7 @@ namespace LWEngine {
 
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		LWE_PROFILE_FUNCTION();
 
@@ -291,6 +296,7 @@ namespace LWEngine {
 			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
@@ -497,6 +503,11 @@ namespace LWEngine {
 		s_Data.QuadIndexCount += 6;
 		s_Data.Stats.QuadCount++;
 
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& component, int entityID)
+	{
+		DrawQuad(transform, component.Color, entityID);
 	}
 
 	void Renderer2D::ResetStats()

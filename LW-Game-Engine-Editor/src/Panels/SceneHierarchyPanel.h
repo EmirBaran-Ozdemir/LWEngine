@@ -12,7 +12,8 @@ namespace LWEngine {
 		SceneHierarchyPanel(const Ref<Scene>& context);
 		void OnImGuiRender();
 		void SetContext(const Ref<Scene>& context);
-		Entity GetSelectedEntity() const { return m_SelectionContext; }
+		Entity GetSelectedEntity() const { return m_SelectedEntity; }
+		void SetSelectedEntity(Entity entity) { m_SelectedEntity = entity; }
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
@@ -20,6 +21,6 @@ namespace LWEngine {
 		const std::string ComponentAddCheck();
 	private:
 		Ref<Scene> m_Context;
-		Entity m_SelectionContext;
+		Entity m_SelectedEntity;
 	};
 }

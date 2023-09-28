@@ -23,7 +23,7 @@ namespace LWEngine {
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
-		m_SelectionContext = {};
+		m_SelectedEntity = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -37,7 +37,7 @@ namespace LWEngine {
 			});
 
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			m_SelectionContext = {};
+			SetSelectedEntity(Entity());
 
 
 		if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
@@ -50,9 +50,9 @@ namespace LWEngine {
 		ImGui::End();
 
 		ImGui::Begin("Properties");
-		if (m_SelectionContext)
+		if (m_SelectedEntity)
 		{
-			DrawComponents(m_SelectionContext);
+			DrawComponents(m_SelectedEntity);
 
 		}
 		ImGui::End();
@@ -61,10 +61,10 @@ namespace LWEngine {
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
 		auto& tag = entity.GetComponent<TagComponent>().Tag;
-		ImGuiTreeNodeFlags flags = (m_SelectionContext == entity) * ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed;
+		ImGuiTreeNodeFlags flags = (m_SelectedEntity == entity) * ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 		if (ImGui::IsItemClicked())
-			m_SelectionContext = entity;
+			m_SelectedEntity = entity;
 
 		bool entityDeleted = false;
 		if (ImGui::BeginPopupContextItem())
@@ -86,8 +86,8 @@ namespace LWEngine {
 		if (entityDeleted)
 		{
 			m_Context->DestroyEntity(entity);
-			if (m_SelectionContext == entity)
-				m_SelectionContext = {};
+			if (m_SelectedEntity == entity)
+				m_SelectedEntity = {};
 		}
 
 	}
@@ -337,9 +337,9 @@ namespace LWEngine {
 	const std::string SceneHierarchyPanel::ComponentAddCheck()
 	{
 		T component;
-		if (!m_SelectionContext.HasComponent<T>())
+		if (!m_SelectedEntity.HasComponent<T>())
 		{
-			m_SelectionContext.AddComponent<T>();
+			m_SelectedEntity.AddComponent<T>();
 			static const std::string empty = "";
 			return empty;
 		}

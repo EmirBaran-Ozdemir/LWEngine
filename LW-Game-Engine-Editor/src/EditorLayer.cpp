@@ -174,7 +174,7 @@ namespace LWEngine {
 			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f, 1.0f });
 			RenderCommand::Clear();
 
-			m_Framebuffer->ClearColorAttach(1,-1);
+			m_Framebuffer->ClearColorAttach(1, -1);
 		}
 
 
@@ -192,8 +192,8 @@ namespace LWEngine {
 			mouseX = (int)mx;
 			mouseY = (int)my;
 
-			int pixelData = m_Framebuffer->ReadPixel(1,mouseX, mouseY);
-			LWE_CORE_TRACE("pixelData: {0}",pixelData);
+			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+			m_HoveredEntity = pixelData == -1 ? Entity() : Entity({ pixelData,m_ActiveScene.get() });
 		}
 
 	#ifdef LWE_TEST
@@ -382,7 +382,15 @@ namespace LWEngine {
 		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
 		//. ImGuizmo
-		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
+		Entity selectedEntity;
+		if (m_SelectedEntity)
+		{
+			selectedEntity = m_SelectedEntity;
+			m_ScHiPanel.SetSelectedEntity(m_SelectedEntity);
+		}
+		else
+			selectedEntity = m_ScHiPanel.GetSelectedEntity();
+
 		if (selectedEntity && m_GuizmoType != -1)
 		{
 			ImGuizmo::SetOrthographic(false);
@@ -435,7 +443,8 @@ namespace LWEngine {
 
 		m_CameraController.OnEvent(e);
 		m_EditorCamera.OnEvent(e);
-
+		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
+			m_SelectedEntity = m_HoveredEntity;
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 
