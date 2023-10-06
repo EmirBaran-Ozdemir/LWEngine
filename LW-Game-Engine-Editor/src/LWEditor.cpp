@@ -12,7 +12,7 @@ namespace LWEngine {
 	class LWEditor :public Application
 	{
 	public:
-		LWEditor()
+		LWEditor(ApplicationCommandLineArgs args)
 			: Application("LWEditor",1920,1080)
 		{
 			//std::cout << "Give full location of world.png file" << std::endl;
@@ -29,8 +29,8 @@ namespace LWEngine {
 	};
 
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new LWEditor();
+		return new LWEditor(args);
 	}
 }

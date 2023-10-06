@@ -108,6 +108,9 @@
     <ClInclude Include="src\LWEngine\Core\Random.h">
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Core\Timer.h">
+      <Filter>src\LWEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Core\Timestep.h">
       <Filter>src\LWEngine\Core</Filter>
     </ClInclude>
@@ -177,6 +180,9 @@
     <ClInclude Include="src\LWEngine\Renderer\Texture.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\LWEngine\Renderer\UniformBuffer.h">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\LWEngine\Renderer\VertexArray.h">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClInclude>
@@ -217,6 +223,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1550,6 +1559,9 @@
     <ClCompile Include="src\LWEngine\Renderer\Texture.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\LWEngine\Renderer\UniformBuffer.cpp">
+      <Filter>src\LWEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\LWEngine\Renderer\VertexArray.cpp">
       <Filter>src\LWEngine\Renderer</Filter>
     </ClCompile>
@@ -1584,6 +1596,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">

@@ -10,7 +10,8 @@
 
 namespace LWEngine {
 
-	Application::Application(const std::string& name, uint32_t width, uint32_t height)
+	Application::Application(const std::string& name, uint32_t width, uint32_t height, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
 		LWE_PROFILE_FUNCTION();
 

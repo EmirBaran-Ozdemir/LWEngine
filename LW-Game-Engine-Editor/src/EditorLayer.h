@@ -47,8 +47,10 @@ namespace LWEngine {
 		void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender(Timestep ts) override;
 		void OnEvent(Event& e) override;
+		
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);	
 		void NewScene();
 		void OpenScene();
 		void SaveSceneAs();
@@ -71,7 +73,6 @@ namespace LWEngine {
 		Entity m_CameraEntity;
 		Entity m_SecondCameraEntity;
 		Entity m_HoveredEntity;
-		Entity m_SelectedEntity;
 		bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;
@@ -79,8 +80,8 @@ namespace LWEngine {
 		const float sizeMultiplier = 0.01f;
 		//? Temp
 
-		bool m_ViewPortFocused = false;
-		bool m_ViewPortHovered = false;
+		bool m_ViewportFocused = false;
+		bool m_ViewportHovered = false;
 
 		OrthographicCameraController m_CameraController;
 		Player m_Player;

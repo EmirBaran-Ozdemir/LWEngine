@@ -121,6 +121,13 @@ namespace LWEngine {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 		m_ActiveScene = CreateRef<Scene>();
+		auto commandLineArgs = Application::Get().GetCommandLineArgs();
+		if (commandLineArgs.Count > 1)
+		{
+			auto sceneFilePath = commandLineArgs[1];
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(sceneFilePath);
+		}
 		m_ScHiPanel.SetContext(m_ActiveScene);
 		m_WindowPanel.SetContext(m_ActiveScene);
 		m_EditorCamera = EditorCamera(30.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
@@ -159,13 +166,9 @@ namespace LWEngine {
 		}
 
 		//! Update
-		if (m_ViewPortHovered && !ImGuizmo::IsUsing())
-		{
-			m_EditorCamera.OnUpdate(ts);
-			m_CameraController.OnUpdate(ts);
-			m_Player.OnUpdate(ts);
-		}
-
+		m_EditorCamera.OnUpdate(ts);
+		m_CameraController.OnUpdate(ts);
+		m_Player.OnUpdate(ts);
 		Renderer2D::ResetStats();
 
 		{
@@ -181,7 +184,7 @@ namespace LWEngine {
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
 		int mouseX, mouseY;
-		if (m_ViewPortHovered)
+		if (m_ViewportHovered)
 		{
 			auto [mx, my] = ImGui::GetMousePos();
 			mx -= m_ViewportBounds[0].x;
@@ -221,7 +224,7 @@ namespace LWEngine {
 		Renderer2D::EndScene();
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera()); //? PARTICLES
-		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft) && m_ViewPortFocused)
+		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft) && m_ViewportFocused)
 		{
 			auto [mx, my] = ImGui::GetMousePos();
 			mx -= m_ViewportBounds[0].x;
@@ -363,16 +366,15 @@ namespace LWEngine {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
-		m_ViewPortFocused = ImGui::IsWindowFocused();
-		m_ViewPortHovered = ImGui::IsWindowHovered();
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 		auto viewportOffset = ImGui::GetWindowPos();
 		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
 		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
-
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewPortFocused && !m_ViewPortHovered);
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 		m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
@@ -382,27 +384,17 @@ namespace LWEngine {
 		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
 		//. ImGuizmo
-		Entity selectedEntity;
-		if (m_SelectedEntity)
-		{
-			selectedEntity = m_SelectedEntity;
-			m_ScHiPanel.SetSelectedEntity(m_SelectedEntity);
-		}
-		else
-			selectedEntity = m_ScHiPanel.GetSelectedEntity();
+		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
 
-		if (selectedEntity && m_GuizmoType != -1)
+		if (selectedEntity && m_GuizmoType != -1 && !Input::IsKeyPressed(Key::LeftControl))
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
-
-
 			ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
 
 			//? Editor Camera
 			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
 			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
-
 
 			//? EntityTransform
 			if (selectedEntity.HasComponent<TransformComponent>())
@@ -410,7 +402,7 @@ namespace LWEngine {
 				auto& tc = selectedEntity.GetComponent<TransformComponent>();
 				glm::mat4 transform = tc.GetTransform();
 
-				bool snap = Input::IsKeyPressed(Key::LeftControl);
+				bool snap = Input::IsKeyPressed(Key::LeftShift);
 				float snapValue = 0.5f + (44.5f * (m_GuizmoType == ImGuizmo::OPERATION::ROTATE));
 				float snapValues[3] = { snapValue,snapValue,snapValue };
 
@@ -428,7 +420,6 @@ namespace LWEngine {
 					tc.Scale = scale;
 				}
 			}
-
 		}
 
 		ImGui::End(); // Viewport end
@@ -438,25 +429,23 @@ namespace LWEngine {
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		if (ImGuizmo::IsUsing())
+		if ((ImGuizmo::IsOver() || ImGuizmo::IsUsing()) && !Input::IsKeyPressed(Key::LeftControl))
 			return;
-
 		m_CameraController.OnEvent(e);
 		m_EditorCamera.OnEvent(e);
-		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
-			m_SelectedEntity = m_HoveredEntity;
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
-
+		dispatcher.Dispatch<MouseButtonPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
-		//. Shortcuts
-		if (ImGuizmo::IsUsing())
+		if (ImGuizmo::IsOver() || ImGuizmo::IsUsing())
 			return false;
 		if (e.GetRepeatCount() > 0)
 			return false;
 
+		//. Shortcuts
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 		bool alt = Input::IsKeyPressed(Key::LeftAlt) || Input::IsKeyPressed(Key::RightAlt);
@@ -490,31 +479,39 @@ namespace LWEngine {
 			//? Guizmo
 			case Key::D1:
 			{
-				if (control)
+				if (shift)
 					m_GuizmoType = -1;
 				break;
 			}
 			case Key::D2:
 			{
-				if (control)
+				if (shift)
 					m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
 				break;
 			}
 			case Key::D3:
 			{
-				if (control)
+				if (shift)
 					m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 			}
 			case Key::D4:
 			{
-				if (control)
+				if (shift)
 					m_GuizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 			}
 
 		}
-
+		return false;
+	}
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == Mouse::ButtonLeft)
+		{
+			if (m_ViewportHovered && !ImGuizmo::IsOver())
+				m_ScHiPanel.SetSelectedEntity(m_HoveredEntity);
+		}
 		return false;
 	}
 	void EditorLayer::NewScene()
@@ -525,25 +522,25 @@ namespace LWEngine {
 	}
 	void EditorLayer::OpenScene()
 	{
-		std::string filePath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
-		if (!filePath.empty())
+		std::string filepath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
+		if (!filepath.empty())
 		{
 			m_ActiveScene = CreateRef<Scene>();
 			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
 			m_ScHiPanel.SetContext(m_ActiveScene);
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(filePath);
+			serializer.Deserialize(filepath);
 		}
 	}
 	void EditorLayer::SaveSceneAs()
 	{
 		LWE_CLIENT_INFO("File saved");
-		std::string filePath = FileDialogs::SaveFile("LWEngine Scene (*.lwe)\0*.lwe\0");
-		if (!filePath.empty())
+		std::string filepath = FileDialogs::SaveFile("LWEngine Scene (*.lwe)\0*.lwe\0");
+		if (!filepath.empty())
 		{
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(filePath);
+			serializer.Serialize(filepath);
 		}
 	}
 }

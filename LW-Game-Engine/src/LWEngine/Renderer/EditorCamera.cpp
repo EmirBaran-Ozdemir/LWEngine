@@ -59,6 +59,13 @@ namespace LWEngine {
 
 	void EditorCamera::OnUpdate(Timestep ts)
 	{
+
+
+		UpdateView();
+	}
+
+	void EditorCamera::OnEvent(Event& e)
+	{
 		if (Input::IsKeyPressed(Key::LeftControl))
 		{
 			const glm::vec2& mouse{ Input::GetMouseX(), Input::GetMouseY() };
@@ -72,12 +79,6 @@ namespace LWEngine {
 			else if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle))
 				MouseZoom(delta.y);
 		}
-
-		UpdateView();
-	}
-
-	void EditorCamera::OnEvent(Event& e)
-	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseScrolledEvent>(LWE_BIND_EVENT_FN(EditorCamera::OnMouseScroll));
 	}

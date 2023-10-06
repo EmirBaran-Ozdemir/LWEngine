@@ -5,7 +5,9 @@
 .vs/
 bin/
 bin-int/
-
+LW-Game-Engine-Editor/assets/cache
+LW-Game-Engine/vendor/VulkanSDK
+LW-Game-Engine/vendor/SPIRV_Cross
 # VisualStudio
 .sln
 

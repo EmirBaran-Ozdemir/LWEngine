@@ -1,12 +1,12 @@
 #include "lwpch.h"
 #include "SceneSerializer.h"
 
+#include "LWEngine/Scene/Entity.h"
+#include "Components.h"
+
 #include <fstream>
 #define YAML_CPP_STATIC_DEFINE
 #include <yaml-cpp/yaml.h>
-
-#include "LWEngine/Scene/Entity.h"
-#include "Components.h"
 
 #define _KeyN << YAML::Key
 #define _ValN << YAML::Value
