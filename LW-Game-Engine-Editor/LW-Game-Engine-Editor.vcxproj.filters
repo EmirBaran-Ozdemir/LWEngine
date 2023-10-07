@@ -64,6 +64,7 @@
     <ClInclude Include="src\Theme\ImGuiFullDarkTheme.h">
       <Filter>Theme</Filter>
     </ClInclude>
+    <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
@@ -110,5 +111,6 @@
     <ClCompile Include="src\Theme\ImGuiFullDarkTheme.cpp">
       <Filter>Theme</Filter>
     </ClCompile>
+    <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
   </ItemGroup>
 </Project>

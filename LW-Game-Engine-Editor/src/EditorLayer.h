@@ -3,6 +3,7 @@
 #include "LWEngine.h"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/WindowPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 
 #include "Systems/ParticleSystem.h"
 #include "Systems/WorldGeneration.h"
@@ -97,6 +98,7 @@ namespace LWEngine {
 		int m_GuizmoType = -1;
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;
+		ContentBrowserPanel m_ContBrowPanel;
 		WindowPanel m_WindowPanel;
 
 	};

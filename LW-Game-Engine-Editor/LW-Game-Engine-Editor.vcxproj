@@ -143,6 +143,7 @@
     <ClInclude Include="src\Font\ImGuiOpenSansFont.h" />
     <ClInclude Include="src\Font\ImGuiPlusJakartaFont.h" />
     <ClInclude Include="src\Font\ImGuiRobotoFont.h" />
+    <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
     <ClInclude Include="src\Panels\FontMenu.h" />
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
     <ClInclude Include="src\Panels\ThemeMenu.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\Font\ImGuiPlusJakartaFont.cpp" />
     <ClCompile Include="src\Font\ImGuiRobotoFont.cpp" />
     <ClCompile Include="src\LWEditor.cpp" />
+    <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\FontMenu.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Panels\ThemeMenu.cpp" />

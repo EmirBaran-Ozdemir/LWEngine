@@ -298,6 +298,7 @@ namespace LWEngine {
 		style.WindowMinSize.x = minSizeX;
 
 		m_ScHiPanel.OnImGuiRender();
+		m_ContBrowPanel.OnImGuiRender();
 
 		//. TOP MENU BAR - TEMPORARY
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();

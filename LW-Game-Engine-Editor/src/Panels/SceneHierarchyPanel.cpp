@@ -53,7 +53,6 @@ namespace LWEngine {
 		if (m_SelectedEntity)
 		{
 			DrawComponents(m_SelectedEntity);
-
 		}
 		ImGui::End();
 	}
