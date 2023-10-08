@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "LWEngine/Scene/SceneCamera.h"
+#include "LWEngine/Renderer/Texture.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
@@ -45,9 +46,13 @@ namespace LWEngine {
 	struct SpriteRendererComponent
 	{
 		glm::vec4 Color{1.0f};
+		Ref<Texture2D> Texture;
+		float TilingFactor = 1.0f;
 		std::string name = "Sprite Renderer Component";
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
+		SpriteRendererComponent(const Ref<Texture2D> texture)
+			: Texture(texture) {}
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
 

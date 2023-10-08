@@ -1,25 +1,24 @@
 #pragma once
 #include <glad/glad.h>
+#include "Systems/FileSystem.h"
+#include "LWEngine/Renderer/Renderer2D.h"
 
 namespace LWEngine {
-	
+
 	class ContentBrowserPanel {
 
 	public:
 		ContentBrowserPanel();
-		~ContentBrowserPanel();
 
 		void OnImGuiRender();
 	private:
-		void DrawItems();
-		bool InitTextures(const char* filename, GLuint* out_texture);
-	private:
 		std::string m_CurrentDir;
 
-		GLuint m_FolderTexture = 0;
+		Ref<Texture2D> m_FolderIcon = 0;
 		char* m_FolderIconPath = "assets/icons/folder.png";
-		GLuint m_FileTexture = 0;
+		Ref<Texture2D> m_FileIcon = 0;
 		char* m_FileIconPath = "assets/icons/file.png";
 
+		FileSystem m_FSystem;
 	};
 }

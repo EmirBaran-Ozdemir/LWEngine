@@ -40,13 +40,13 @@
     <ClInclude Include="src\Panels\WindowPanel.h">
       <Filter>Panels</Filter>
     </ClInclude>
-    <ClInclude Include="src\Systems\ParticleSystem.h">
+    <ClInclude Include="src\Extras\ParticleSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\Systems\Player.h">
+    <ClInclude Include="src\Extras\Player.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\Systems\WorldGeneration.h">
+    <ClInclude Include="src\Extras\WorldGeneration.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\Theme\IImGuiTheme.h">
@@ -90,13 +90,13 @@
     <ClCompile Include="src\Panels\WindowPanel.cpp">
       <Filter>Panels</Filter>
     </ClCompile>
-    <ClCompile Include="src\Systems\ParticleSystem.cpp">
+    <ClCompile Include="src\Extras\ParticleSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\Systems\Player.cpp">
+    <ClCompile Include="src\Extras\Player.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\Systems\WorldGeneration.cpp">
+    <ClCompile Include="src\Extras\WorldGeneration.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\Theme\ImGuiBrightDarkTheme.cpp">
@@ -112,5 +112,7 @@
       <Filter>Theme</Filter>
     </ClCompile>
     <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
+    <ClCompile Include="src\Systems\FileSystem.h" />
+    <ClCompile Include="src\Systems\FileSystem.cpp" />
   </ItemGroup>
 </Project>

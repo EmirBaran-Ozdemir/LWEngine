@@ -368,7 +368,7 @@ namespace LWEngine {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
+		m_ViewportHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 		auto viewportOffset = ImGui::GetWindowPos();
@@ -383,6 +383,22 @@ namespace LWEngine {
 
 		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), { m_ViewportSize.x,m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const char* path = (const char*)payload->Data;
+				FileType type = m_FSystem.GetFileType(path);
+				if (type == FileType::lwe)
+					OpenScene(path);
+				if (type == FileType::png || type == FileType::jpg)
+				{
+					auto& component = m_HoveredEntity.GetComponent<SpriteRendererComponent>();
+					component.Texture = Texture2D::Create(path);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
 
 		//. ImGuizmo
 		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
@@ -406,7 +422,6 @@ namespace LWEngine {
 				bool snap = Input::IsKeyPressed(Key::LeftShift);
 				float snapValue = 0.5f + (44.5f * (m_GuizmoType == ImGuizmo::OPERATION::ROTATE));
 				float snapValues[3] = { snapValue,snapValue,snapValue };
-
 
 				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)m_GuizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
 
@@ -524,14 +539,18 @@ namespace LWEngine {
 	void EditorLayer::OpenScene()
 	{
 		std::string filepath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
-		if (!filepath.empty())
+		OpenScene(filepath);
+	}
+	void EditorLayer::OpenScene(const std::filesystem::path& path)
+	{
+		if (!path.empty())
 		{
 			m_ActiveScene = CreateRef<Scene>();
 			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
 			m_ScHiPanel.SetContext(m_ActiveScene);
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(filepath);
+			serializer.Deserialize(path.string());
 		}
 	}
 	void EditorLayer::SaveSceneAs()

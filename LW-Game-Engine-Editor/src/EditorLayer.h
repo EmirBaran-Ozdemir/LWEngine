@@ -5,9 +5,10 @@
 #include "Panels/WindowPanel.h"
 #include "Panels/ContentBrowserPanel.h"
 
-#include "Systems/ParticleSystem.h"
-#include "Systems/WorldGeneration.h"
-#include "Systems/Player.h"
+#include "Extras/ParticleSystem.h"
+#include "Extras/WorldGeneration.h"
+#include "Extras/Player.h"
+#include <Systems/FileSystem.h>
 
 namespace LWEngine {
 	struct vec4Hash
@@ -54,6 +55,7 @@ namespace LWEngine {
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);	
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 	private:
 		//? Temp
@@ -101,5 +103,7 @@ namespace LWEngine {
 		ContentBrowserPanel m_ContBrowPanel;
 		WindowPanel m_WindowPanel;
 
+		//. Systems
+		FileSystem m_FSystem;
 	};
 }

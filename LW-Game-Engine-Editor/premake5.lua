@@ -39,6 +39,11 @@ project "LW-Game-Engine-Editor"
 		runtime "Debug"
 		symbols "on"
 
+	postbuildcommands
+		{
+			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+		}
+
 	filter "configurations:Release"
 		defines "LWE_RELEASE"
 		runtime "Release"
