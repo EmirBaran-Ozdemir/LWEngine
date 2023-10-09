@@ -36,7 +36,7 @@ namespace LWEngine {
 				DrawEntityNode(entity);
 			});
 
-		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+		if (ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsWindowHovered())
 			SetSelectedEntity(Entity());
 
 
@@ -91,7 +91,7 @@ namespace LWEngine {
 
 	}
 
-	static void DrawVec3Control(const std::string& label, glm::vec3& values, float& dragSpeed, float resetValue = 0.0f, const float columnWidth = 50.0f)
+	static void DrawVec3Control(const std::string& label, glm::vec3& values, float& dragSpeed, float resetValue = 0.0f, const float columnWidth = 70.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		auto boldFont = io.Fonts->Fonts[ImGuiFontFamily::OpenSans + ImGuiFontWeight::Bold];
@@ -105,7 +105,7 @@ namespace LWEngine {
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0,0 });
 
 		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-		ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+		ImVec2 buttonSize = { lineHeight , lineHeight };
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.1f, 0.15f, 255.0f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.9f, 0.2f, 0.2f, 255.0f));
@@ -150,10 +150,7 @@ namespace LWEngine {
 		ImGui::SameLine();
 		ImGui::PopStyleColor(3);
 
-		if (ImGui::Button("Speed", ImVec2{ lineHeight + 20.0f, lineHeight }))
-			dragSpeed = 0.05f;
-		ImGui::SameLine();
-		ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f, "%.2f");
+		//ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f, "%.2f");
 
 		ImGui::Columns(1);
 		ImGui::PopID();
@@ -221,12 +218,38 @@ namespace LWEngine {
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [this](auto& component)
 			{
 				FileSystem fSystem;
-				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
-				ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 10.0f);
-				std::string componentName = {};
+				ImGui::Columns(2);
+				ImGui::SetColumnWidth(0, 100);
+				ImGui::SetColumnWidth(1, 300);
+				ImGui::Text("Color");
+				ImGui::NextColumn();
+				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x );
+				ImGui::ColorEdit4("##Color", glm::value_ptr(component.Color));
+
+				ImGui::NextColumn();
+				ImGui::Text("Tiling Factor");
+				ImGui::NextColumn();
+				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+				ImGui::DragFloat("##Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 10.0f);
+
+				ImGui::NextColumn();
+				ImGui::Text("Texture");
+				ImGui::NextColumn();
+				ImGui::SetNextItemWidth(300);
+				std::string texturePath = "No Texture";
 				if (component.Texture)
-					componentName = component.Texture->GetPath();
-				ImGui::Button(componentName.c_str(), ImVec2(200.0f, 0.0f));
+				{
+					texturePath = component.Texture->GetPath();
+					texturePath = fSystem.GetFileNameWithExtension(texturePath);
+				}
+				ImGui::Button(texturePath.c_str(), ImVec2(200.0f, 0.0f));
+				if (ImGui::BeginPopupContextItem())
+				{
+					if (ImGui::MenuItem("Delete Texture"))
+						component.Texture.reset();
+					ImGui::EndPopup();
+				}
+
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -240,6 +263,8 @@ namespace LWEngine {
 					}
 					ImGui::EndDragDropTarget();
 				}
+				ImGui::Columns(1);
+
 			});
 
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)

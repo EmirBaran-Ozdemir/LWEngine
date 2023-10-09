@@ -33,7 +33,9 @@ namespace LWEngine {
 
 	void WindowPanel::TopMenuBar(Timestep ts)
 	{
-
+		m_ThemeMenu.Render();
+		ImGui::SameLine();
+		m_FontMenu.Render();
 
 	}
 

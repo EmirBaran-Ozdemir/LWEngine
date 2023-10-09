@@ -92,6 +92,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Q /E /Y /I "$(SolutionDir)\LW-Game-Engine\vendor\VulkanSDK\Bin" "..\bin\Debug-windows-x86_64\LW-Game-Engine-Editor"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -139,6 +142,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\Extras\ParticleSystem.h" />
+    <ClInclude Include="src\Extras\Player.h" />
+    <ClInclude Include="src\Extras\WorldGeneration.h" />
     <ClInclude Include="src\Font\ImGuiFont.h" />
     <ClInclude Include="src\Font\ImGuiOpenSansFont.h" />
     <ClInclude Include="src\Font\ImGuiPlusJakartaFont.h" />
@@ -148,9 +154,7 @@
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
     <ClInclude Include="src\Panels\ThemeMenu.h" />
     <ClInclude Include="src\Panels\WindowPanel.h" />
-    <ClInclude Include="src\Extras\ParticleSystem.h" />
-    <ClInclude Include="src\Extras\Player.h" />
-    <ClInclude Include="src\Extras\WorldGeneration.h" />
+    <ClInclude Include="src\Systems\FileSystem.h" />
     <ClInclude Include="src\Theme\IImGuiTheme.h" />
     <ClInclude Include="src\Theme\ImGuiBrightDarkTheme.h" />
     <ClInclude Include="src\Theme\ImGuiDarkBlueTheme.h" />
@@ -159,20 +163,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\Extras\ParticleSystem.cpp" />
+    <ClCompile Include="src\Extras\Player.cpp" />
+    <ClCompile Include="src\Extras\WorldGeneration.cpp" />
     <ClCompile Include="src\Font\ImGuiOpenSansFont.cpp" />
     <ClCompile Include="src\Font\ImGuiPlusJakartaFont.cpp" />
     <ClCompile Include="src\Font\ImGuiRobotoFont.cpp" />
     <ClCompile Include="src\LWEditor.cpp" />
     <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
-    <ClCompile Include="src\Systems\FileSystem.cpp" />
-    <ClCompile Include="src\Systems\FileSystem.h" />
     <ClCompile Include="src\Panels\FontMenu.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Panels\ThemeMenu.cpp" />
     <ClCompile Include="src\Panels\WindowPanel.cpp" />
-    <ClCompile Include="src\Extras\ParticleSystem.cpp" />
-    <ClCompile Include="src\Extras\Player.cpp" />
-    <ClCompile Include="src\Extras\WorldGeneration.cpp" />
+    <ClCompile Include="src\Systems\FileSystem.cpp" />
     <ClCompile Include="src\Theme\ImGuiBrightDarkTheme.cpp" />
     <ClCompile Include="src\Theme\ImGuiDarkBlueTheme.cpp" />
     <ClCompile Include="src\Theme\ImGuiDarkGreenTheme.cpp" />

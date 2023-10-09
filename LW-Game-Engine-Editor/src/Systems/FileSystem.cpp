@@ -43,4 +43,12 @@ namespace LWEngine {
 		}
 		return dot + 1;
 	}
+
+	std::string FileSystem::GetFileNameWithExtension(const std::string& path) {
+		size_t found = path.find_last_of("/\\");
+		if (found != std::string::npos) {
+			return path.substr(found + 1);
+		}
+		return path;
+	}
 }

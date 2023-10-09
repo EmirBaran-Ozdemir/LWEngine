@@ -19,6 +19,6 @@ namespace LWEngine {
 		Ref<Texture2D> m_FileIcon = 0;
 		char* m_FileIconPath = "assets/icons/file.png";
 
-		FileSystem m_FSystem;
+		bool m_TextOnly = false;
 	};
 }

@@ -81,7 +81,9 @@ namespace LWEngine {
 		EditorCamera m_EditorCamera;
 
 		const float sizeMultiplier = 0.01f;
-		//? Temp
+		
+		int m_LoopCounter = 0;
+		std::string m_FPS = "";
 
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;

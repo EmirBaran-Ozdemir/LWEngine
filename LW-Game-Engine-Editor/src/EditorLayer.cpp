@@ -334,9 +334,7 @@ namespace LWEngine {
 				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 				ImGui::EndMenu();
 			}
-			//m_ThemeMenu.Render();
-			//m_FontMenu.Render();
-			ImGui::Text("%f fps", 1000 / ts.GetMiliseconds());
+
 			if (ImGui::Button("Play"))
 			{
 				//? Runtime Camera
@@ -346,9 +344,19 @@ namespace LWEngine {
 				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 				m_ActiveScene->OnUpdateRuntime(ts);
 			}
+			m_WindowPanel.TopMenuBar(ts);
+
+			m_LoopCounter++;
+			if (m_LoopCounter == 60) {
+				m_FPS = "FPS: " + std::to_string((int)(1000 / ts.GetMiliseconds())) ;
+				m_LoopCounter = 0;
+			}
+			ImGui::SameLine(ImGui::GetContentRegionMax().x - ImGui::CalcTextSize(m_FPS.c_str()).x - 20.0f);
+			ImGui::Text(m_FPS.c_str());
 			ImGui::EndMainMenuBar();
+
 		}
-		m_WindowPanel.TopMenuBar(ts);
+		ImGui::SameLine();
 
 	#ifdef LWE_TEST
 		ImGui::Begin("Settings");

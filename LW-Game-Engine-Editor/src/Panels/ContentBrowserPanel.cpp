@@ -44,18 +44,19 @@ namespace LWEngine {
 		ImGui::SameLine();
 		ImGui::Text("%s", m_CurrentDir.c_str());
 		ImGui::PopItemWidth();
-		ImGui::SameLine();
-
-		float sliderWidth = 250.0f;
-
-		float labelWidth = ImGui::CalcTextSize("Padding").x;
-		float labelXPos = ImGui::GetContentRegionMax().x - sliderWidth - labelWidth - ImGui::GetStyle().ItemSpacing.x - 80.0f;
-		ImGui::SetCursorPosX(labelXPos);
+		float paddingSilderWdt = ImGui::GetContentRegionAvail().x * 0.2f;
+		float paddingTxWdt = ImGui::CalcTextSize("Padding").x;
+		float onlyNamesTxWdt = ImGui::CalcTextSize("File names only").x;
+		float onlyNamesChBxSz = 40.0f;
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - onlyNamesTxWdt - onlyNamesChBxSz - paddingSilderWdt - paddingTxWdt - ImGui::GetStyle().ItemSpacing.x * 3);
+		ImGui::Text("File names only");
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - onlyNamesChBxSz - paddingSilderWdt - paddingTxWdt - ImGui::GetStyle().ItemSpacing.x * 2);
+		ImGui::Checkbox("##File names only", &m_TextOnly);
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - paddingSilderWdt - paddingTxWdt - ImGui::GetStyle().ItemSpacing.x);
 		ImGui::Text("Padding");
-		ImGui::SameLine();
-		ImGui::SetCursorPosX(labelXPos + labelWidth + ImGui::GetStyle().ItemSpacing.x);
-		ImGui::SliderFloat("##Padding", &padding, 32, 128);
-		ImGui::SetCursorPosX(0);
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - paddingSilderWdt);
+		ImGui::SetNextItemWidth(paddingSilderWdt);
+		ImGui::SliderFloat("##Padding", &padding, 32, 256, "%.3f");
 		ImGui::PopItemWidth();
 		ImGui::Columns(columnCount, 0, false);
 
@@ -68,12 +69,22 @@ namespace LWEngine {
 			std::string path = file.path().filename().string();
 
 			bool isDirectory = std::filesystem::is_directory(file);
-			Ref<Texture2D> icon = isDirectory ? m_FolderIcon : m_FileIcon;
 			ImGui::PushID(path.c_str());
 			float centerBegin = ImGui::GetCursorPosX() + (btnSize) * 0.5f;
 			ImGui::SetCursorPosX(centerBegin);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(50, 50), { 0, 1 }, { 1, 0 });
+			if (!m_TextOnly)
+			{
+				Ref<Texture2D> icon = isDirectory ? m_FolderIcon : m_FileIcon;
+				ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(50, 50), { 0, 1 }, { 1, 0 });
+			}
+			else
+			{
+				std::string type = isDirectory ? "DIR\n" : "FILE\n";
+				type = type + path;
+				ImGui::Button(type.c_str());
+			}
+
 			ImGui::PopStyleColor();
 
 			if (ImGui::BeginDragDropSource())
@@ -81,7 +92,7 @@ namespace LWEngine {
 				std::string tempString = relativePath.string();
 				const char* itemPath = tempString.c_str();
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, strlen(itemPath) + 1);
-
+				ImGui::TextUnformatted(itemPath);
 				ImGui::EndDragDropSource();
 			}
 
@@ -96,12 +107,14 @@ namespace LWEngine {
 					}
 				}
 			}
-			float textWidth = ImGui::CalcTextSize(path.c_str()).x;
-			auto textBegin = ImGui::GetCursorPosX() + ((btnSize + frame * 2 - textWidth) * 0.5f);
-			if (textBegin >= ImGui::GetCursorPosX())
-				ImGui::SetCursorPosX(textBegin);
-
-			ImGui::Text("%s", path.c_str());
+			if (!m_TextOnly)
+			{
+				float textWidth = ImGui::CalcTextSize(path.c_str()).x;
+				auto textBegin = ImGui::GetCursorPosX() + ((btnSize + frame * 2 - textWidth) * 0.5f);
+				if (textBegin >= ImGui::GetCursorPosX())
+					ImGui::SetCursorPosX(textBegin);
+				ImGui::Text("%s", path.c_str());
+			}
 			ImGui::NextColumn();
 			ImGui::PopID();
 		}
