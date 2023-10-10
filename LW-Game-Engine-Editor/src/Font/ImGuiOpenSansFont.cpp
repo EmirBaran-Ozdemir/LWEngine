@@ -10,10 +10,10 @@ namespace LWEngine {
 	void ImGuiOpenSansFont::Init()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Light.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Italic.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/opensans/OpenSans-Light.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/opensans/OpenSans-Regular.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/opensans/OpenSans-Bold.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/opensans/OpenSans-Italic.ttf", 17);
 	}
 	bool ImGuiOpenSansFont::IsValid()
 	{

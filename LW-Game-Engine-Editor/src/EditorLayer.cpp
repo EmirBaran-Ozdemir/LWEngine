@@ -348,7 +348,7 @@ namespace LWEngine {
 
 			m_LoopCounter++;
 			if (m_LoopCounter == 60) {
-				m_FPS = "FPS: " + std::to_string((int)(1000 / ts.GetMiliseconds())) ;
+				m_FPS = "FPS: " + std::to_string((int)(1000 / ts.GetMiliseconds()));
 				m_LoopCounter = 0;
 			}
 			ImGui::SameLine(ImGui::GetContentRegionMax().x - ImGui::CalcTextSize(m_FPS.c_str()).x - 20.0f);
@@ -401,8 +401,11 @@ namespace LWEngine {
 					OpenScene(path);
 				if (type == FileType::png || type == FileType::jpg)
 				{
-					auto& component = m_HoveredEntity.GetComponent<SpriteRendererComponent>();
-					component.Texture = Texture2D::Create(path);
+					if (m_HoveredEntity)
+					{
+						auto& component = m_HoveredEntity.GetComponent<SpriteRendererComponent>();
+						component.Texture = Texture2D::Create(path);
+					}
 				}
 			}
 			ImGui::EndDragDropTarget();

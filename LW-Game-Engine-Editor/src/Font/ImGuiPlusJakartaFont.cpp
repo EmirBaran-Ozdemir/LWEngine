@@ -10,10 +10,10 @@ namespace LWEngine {
 	void ImGuiPlusJakartaFont::Init()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Light.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Regular.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Bold.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/plusjakarta/PlusJakartaSans-Italic.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/plusjakarta/PlusJakartaSans-Light.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/plusjakarta/PlusJakartaSans-Regular.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/plusjakarta/PlusJakartaSans-Bold.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/plusjakarta/PlusJakartaSans-Italic.ttf", 17);
 	}
 	bool ImGuiPlusJakartaFont::IsValid()
 	{

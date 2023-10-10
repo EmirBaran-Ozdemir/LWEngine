@@ -15,9 +15,9 @@ namespace LWEngine {
 		std::string m_CurrentDir;
 
 		Ref<Texture2D> m_FolderIcon = 0;
-		char* m_FolderIconPath = "assets/icons/folder.png";
+		char* m_FolderIconPath = "resources/icons/folder.png";
 		Ref<Texture2D> m_FileIcon = 0;
-		char* m_FileIconPath = "assets/icons/file.png";
+		char* m_FileIconPath = "resources/icons/file.png";
 
 		bool m_TextOnly = false;
 	};

@@ -10,10 +10,10 @@ namespace LWEngine {
 	void ImGuiRobotoFont::Init()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Light.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Regular.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Bold.ttf", 17);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto/Roboto-Italic.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/roboto/Roboto-Light.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/roboto/Roboto-Regular.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/roboto/Roboto-Bold.ttf", 17);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/roboto/Roboto-Italic.ttf", 17);
 	}
 	bool ImGuiRobotoFont::IsValid()
 	{
