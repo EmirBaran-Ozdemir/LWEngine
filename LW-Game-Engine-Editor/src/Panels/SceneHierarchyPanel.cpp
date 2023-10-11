@@ -102,7 +102,7 @@ namespace LWEngine {
 		ImGui::Text(label.c_str());
 		ImGui::NextColumn();
 		ImGui::PushMultiItemsWidths(4, ImGui::CalcItemWidth());
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0,0 });
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0.2f,0 });
 
 		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 		ImVec2 buttonSize = { lineHeight , lineHeight };
@@ -115,7 +115,7 @@ namespace LWEngine {
 			values.x = resetValue;
 		ImGui::PopFont();
 		ImGui::SameLine();
-		ImGui::PopStyleVar();
+
 
 		ImGui::DragFloat("##X", &values.x, dragSpeed, 0.0f, 0.0f, " %.2f");
 		ImGui::PopItemWidth();
@@ -149,8 +149,10 @@ namespace LWEngine {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 		ImGui::PopStyleColor(3);
-
-		//ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f, "%.2f");
+		ImGui::PopStyleVar();
+		
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 2.0f);
+		ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f, "%.2f");
 
 		ImGui::Columns(1);
 		ImGui::PopID();

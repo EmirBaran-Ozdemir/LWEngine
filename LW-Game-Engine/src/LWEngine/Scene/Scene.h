@@ -6,6 +6,13 @@
 
 namespace LWEngine {
 
+	enum class SceneState {
+		Play,
+		Edit,
+		Pause,
+		Simulate
+	};
+
 	class Entity;
 	class Scene
 	{

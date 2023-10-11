@@ -5,7 +5,7 @@ namespace LWEngine {
 
 	FileSystem::FileSystem()
 	{
-		extension_map = {
+		m_ExtensionMap = {
 			{ "txt",	txt },
 			{ "hlsl",	hlsl },
 			{ "glsl",	glsl },
@@ -24,14 +24,14 @@ namespace LWEngine {
 
 	FileType FileSystem::GetFileType(const char* str)
 	{
-		std::string file_extension = GetExtension(str);
-		auto it = extension_map.find(file_extension);
+		std::string fileExtension = GetExtension(str);
+		auto it = m_ExtensionMap.find(fileExtension);
 
-		if (it != extension_map.end()) {
+		if (it != m_ExtensionMap.end()) {
 			return it->second;
 		}
 		else {
-			return unknown;
+			return FileType::unknown;
 		}
 	}
 

@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "ImGuizmo.h"
+#include <imgui/imgui_internal.h>
 
 namespace LWEngine {
 	EditorLayer::EditorLayer(std::string& path)
@@ -18,6 +19,9 @@ namespace LWEngine {
 	void EditorLayer::OnAttach()
 	{
 		LWE_PROFILE_FUNCTION();
+		m_IconPlay = Texture2D::Create("resources/icons/PlayButton.png");
+		m_IconStop = Texture2D::Create("resources/icons/StopButton.png");
+		m_IconPause = Texture2D::Create("resources/icons/PauseButton.png");
 
 
 		//. DEFINING NULL & ERROR TEXTURES
@@ -166,8 +170,6 @@ namespace LWEngine {
 		}
 
 		//! Update
-		m_EditorCamera.OnUpdate(ts);
-		m_CameraController.OnUpdate(ts);
 		m_Player.OnUpdate(ts);
 		Renderer2D::ResetStats();
 
@@ -180,8 +182,29 @@ namespace LWEngine {
 			m_Framebuffer->ClearColorAttach(1, -1);
 		}
 
+		switch (m_SceneState)
+		{
+			case SceneState::Edit:
+			{
+				if (m_ViewportFocused)
+					m_CameraController.OnUpdate(ts);
+				m_EditorCamera.OnUpdate(ts);
+				m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+				break;
+			}
+			case SceneState::Play:
+			{
+				m_ActiveScene->OnUpdateRuntime(ts);
+				break;
+			}
+			case SceneState::Pause:
+			{
 
-		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+				break;
+			}
+		}
+
+		//m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
 		int mouseX, mouseY;
 		if (m_ViewportHovered)
@@ -335,15 +358,14 @@ namespace LWEngine {
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::Button("Play"))
-			{
-				//? Runtime Camera
-				auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-				const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-				const glm::mat4& cameraProjection = camera.GetProjection();
-				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-				m_ActiveScene->OnUpdateRuntime(ts);
-			}
+
+			////? Runtime Camera
+			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+			//const glm::mat4& cameraProjection = camera.GetProjection();
+			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+			//m_ActiveScene->OnUpdateRuntime(ts);
+
 			m_WindowPanel.TopMenuBar(ts);
 
 			m_LoopCounter++;
@@ -374,7 +396,10 @@ namespace LWEngine {
 	#endif
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
-		ImGui::Begin("Viewport");
+		ImGuiWindowClass window_class;
+		window_class.DockNodeFlagsOverrideSet = ImGuiDockNodeFlags_NoTabBar;
+		ImGui::SetNextWindowClass(&window_class);
+		ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
@@ -412,9 +437,9 @@ namespace LWEngine {
 		}
 
 		//. ImGuizmo
-		Entity selectedEntity = m_ScHiPanel.GetSelectedEntity();
+		m_SelectedEntity = m_ScHiPanel.GetSelectedEntity();
 
-		if (selectedEntity && m_GuizmoType != -1 && !Input::IsKeyPressed(Key::LeftControl))
+		if (m_SelectedEntity && m_GuizmoType != -1 && !Input::IsKeyPressed(Key::LeftControl) && m_SceneState == SceneState::Edit)
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
@@ -425,9 +450,9 @@ namespace LWEngine {
 			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
 
 			//? EntityTransform
-			if (selectedEntity.HasComponent<TransformComponent>())
+			if (m_SelectedEntity.HasComponent<TransformComponent>())
 			{
-				auto& tc = selectedEntity.GetComponent<TransformComponent>();
+				auto& tc = m_SelectedEntity.GetComponent<TransformComponent>();
 				glm::mat4 transform = tc.GetTransform();
 
 				bool snap = Input::IsKeyPressed(Key::LeftShift);
@@ -448,10 +473,77 @@ namespace LWEngine {
 				}
 			}
 		}
-
+		if (m_NoEntitySelected)
+		{
+			ImGui::OpenPopup("No Entity Selected");
+		}
+		ImGui::SetNextWindowSize(ImVec2(400.0f, 100.0f));
+		if (ImGui::BeginPopupModal("No Entity Selected", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar))
+		{
+			//ImGui::PushStyleVar()
+			ImGui::SetCursorPosY(ImGui::GetContentRegionMax().y / 4);
+			float textSize = ImGui::CalcTextSize("You need to choose an entity to clone").x;
+			ImGui::SetCursorPosX((ImGui::GetContentRegionMax().x - textSize) / 2);
+			ImGui::Text("You need to choose an entity to clone");
+			ImGui::SetCursorPosY(ImGui::GetContentRegionMax().y / 2);
+			textSize = ImGui::CalcTextSize("Close").x;
+			ImGui::SetCursorPosX((ImGui::GetContentRegionAvail().x - textSize) / 2);
+			if (ImGui::Button("Close"))
+			{
+				m_NoEntitySelected = false;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		UI_Toolbar();
 		ImGui::End(); // Viewport end
 		ImGui::PopStyleVar(); // WindowPadding
 		ImGui::End(); // Dockwindow end
+	}
+
+	void EditorLayer::UI_Toolbar()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		ImGui::SetNextWindowSize(ImVec2(100.0f, 50.0f));
+		ImVec2 screenSize = ImGui::GetWindowSize();
+		ImVec2 screenPos = ImGui::GetWindowPos();
+		ImVec2 toolbarPos = ImVec2((screenSize.x / 2 - 50.0f) + screenPos.x, screenPos.y);
+		ImGui::SetNextWindowPos(toolbarPos);
+		ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		switch (m_SceneState)
+		{
+			case SceneState::Edit:
+			{
+				ImGui::SetCursorPos(ImVec2(35.0f, 9.5f));
+				if (ImGui::ImageButton((ImTextureID)m_IconPlay->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+					OnScenePlay();
+				break;
+			}
+			case SceneState::Play:
+			{
+				ImGui::SetCursorPos(ImVec2(15.5f, 9.5f));
+				if (ImGui::ImageButton((ImTextureID)m_IconStop->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+					OnSceneStop();
+				ImGui::SameLine();
+				ImGui::SetCursorPos(ImVec2(54.5f, 9.5f));
+				if (ImGui::ImageButton((ImTextureID)m_IconPause->GetRendererID(), ImVec2(25.0f, 25.0f), { 0,1 }, { 1,0 }))
+					OnScenePause();
+				break;
+			}
+			case SceneState::Pause:
+			{
+				ImGui::SetCursorPos(ImVec2(15.5f, 9.5f));
+				if (ImGui::ImageButton((ImTextureID)m_IconPlay->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+					OnScenePlay();
+				ImGui::SameLine();
+				ImGui::SetCursorPos(ImVec2(54.5f, 9.5f));
+				if (ImGui::ImageButton((ImTextureID)m_IconStop->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+					OnSceneStop();
+				break;
+			}
+		}
+
+		ImGui::End(); //Dockwindow end
 	}
 
 	void EditorLayer::OnEvent(Event& e)
@@ -503,6 +595,21 @@ namespace LWEngine {
 				break;
 			}
 
+			//? EditorFunctions
+			case Key::D:
+			{
+				if (control)
+				{
+					if (m_SelectedEntity)
+					{
+						Entity newEntity = m_ActiveScene->CloneEntity(m_SelectedEntity);
+						m_SelectedEntity = newEntity;
+					}
+					else
+						m_NoEntitySelected = true;
+				}
+				break;
+			}
 			//? Guizmo
 			case Key::D1:
 			{
@@ -573,5 +680,20 @@ namespace LWEngine {
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
 		}
+	}
+
+	void EditorLayer::OnScenePlay()
+	{
+		m_SceneState = SceneState::Play;
+	}
+
+	void EditorLayer::OnSceneStop()
+	{
+		m_SceneState = SceneState::Edit;
+	}
+
+	void EditorLayer::OnScenePause()
+	{
+		m_SceneState = SceneState::Pause;
 	}
 }

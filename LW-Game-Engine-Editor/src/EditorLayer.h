@@ -49,20 +49,31 @@ namespace LWEngine {
 		void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender(Timestep ts) override;
 		void OnEvent(Event& e) override;
-		
+
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
-		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);	
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
+
+		void OnScenePlay();
+		void OnSceneStop();
+		void OnScenePause();
+		void OnSceneSimulate();
+		//? UI
+		void UI_Toolbar();
 	private:
 		//? Temp
 		ShaderLibrary m_ShaderLib;
 		Ref<Shader> m_Shader;
 		Ref<VertexArray> m_SquareVA;
 		Ref<Texture2D>  m_TextureNull, m_TextureError, m_Background, m_IndustrialTilemap, m_CubeHead;
+
+		Ref<Texture2D> m_IconPlay;
+		Ref<Texture2D> m_IconStop;
+		Ref<Texture2D> m_IconPause;
 
 		Ref<SubTexture2D>  m_SubTextureNull, m_SubTextureError;
 		Ref<SubTexture2D>  m_TileDirtTop, m_TileDirtCenter, m_TileDirtLeftCenter, m_TileDirtRightCenter, m_TileDirtMid;
@@ -71,17 +82,20 @@ namespace LWEngine {
 
 		Ref<Framebuffer> m_Framebuffer;
 
-		Ref<Scene> m_ActiveScene;	
+		Ref<Scene> m_ActiveScene;
+		SceneState m_SceneState = SceneState::Edit;
+
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCameraEntity;
 		Entity m_HoveredEntity;
+		Entity m_SelectedEntity;
 		bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;
 
 		const float sizeMultiplier = 0.01f;
-		
+
 		int m_LoopCounter = 0;
 		std::string m_FPS = "";
 
@@ -98,8 +112,8 @@ namespace LWEngine {
 		ParticleProperties m_Particle;
 		WorldGeneration m_World;
 		std::unordered_map<glm::vec4, Ref<SubTexture2D>, vec4Hash, vec4Equal> m_TextureMap;
-		
 		int m_GuizmoType = -1;
+
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;
 		ContentBrowserPanel m_ContBrowPanel;
@@ -107,5 +121,8 @@ namespace LWEngine {
 
 		//. Systems
 		FileSystem m_FSystem;
+
+		//. ImGui Errors
+		bool m_NoEntitySelected = false;
 	};
 }

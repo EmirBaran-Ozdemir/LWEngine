@@ -29,7 +29,7 @@ namespace LWEngine {
 		FileType GetFileType(const char* str);
 		std::string GetFileNameWithExtension(const std::string& path);
 	private:
-		std::unordered_map<std::string, FileType> extension_map;
+		std::unordered_map<std::string, FileType> m_ExtensionMap;
 
 		std::string GetExtension(const char* str);
 	};
