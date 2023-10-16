@@ -53,17 +53,24 @@ namespace LWEngine {
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+
+		//? Scene
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
+		void SaveScene();
+		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
 		void OnScenePlay();
 		void OnSceneStop();
 		void OnScenePause();
 		void OnSceneSimulate();
+
 		//? UI
 		void UI_Toolbar();
+
+		
 	private:
 		//? Temp
 		ShaderLibrary m_ShaderLib;
@@ -81,7 +88,7 @@ namespace LWEngine {
 		Ref<SubTexture2D>  m_TileChest;
 
 		Ref<Framebuffer> m_Framebuffer;
-
+		Ref<Scene> m_EditorScene;
 		Ref<Scene> m_ActiveScene;
 		SceneState m_SceneState = SceneState::Edit;
 
@@ -113,6 +120,8 @@ namespace LWEngine {
 		WorldGeneration m_World;
 		std::unordered_map<glm::vec4, Ref<SubTexture2D>, vec4Hash, vec4Equal> m_TextureMap;
 		int m_GuizmoType = -1;
+
+		std::filesystem::path m_EditorScenePath;
 
 		//. Panels
 		SceneHierarchyPanel m_ScHiPanel;

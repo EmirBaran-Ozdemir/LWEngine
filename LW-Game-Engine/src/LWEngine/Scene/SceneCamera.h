@@ -25,7 +25,7 @@ namespace LWEngine {
 		float GetPerspectiveNearClip() const { return m_PerspectiveNear; }
 		void SetPerspectiveNearClip(float nearClip) { m_PerspectiveNear = nearClip; RecalculateProjection(); }
 		float GetPerspectiveFarClip() const { return m_PerspectiveFar; }
-		void SetPerspectiveFarClip(float farCliip) { m_PerspectiveFar = farCliip;  RecalculateProjection(); }
+		void SetPerspectiveFarClip(float farClip) { m_PerspectiveFar = farClip;  RecalculateProjection(); }
 		
 		//. Orthographic
 		float GetOrthographicSize() const { return m_OrthographicSize; }
@@ -33,7 +33,7 @@ namespace LWEngine {
 		float GetOrthographicNearClip() const { return m_OrthographicNear; }
 		void SetOrthographicNearClip(float nearClip) { m_OrthographicNear = nearClip; RecalculateProjection(); }
 		float GetOrthographicFarClip() const { return m_OrthographicFar; }
-		void SetOrthographicFarClip(float farCliip) { m_OrthographicFar = farCliip;  RecalculateProjection(); }
+		void SetOrthographicFarClip(float farClip) { m_OrthographicFar = farClip;  RecalculateProjection(); }
 
 
 

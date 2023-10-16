@@ -340,6 +340,8 @@ namespace LWEngine {
 					OpenScene();
 				ImGui::Separator();
 				if (ImGui::MenuItem("Save", "CTRL+S"))
+					SaveScene();
+				if (ImGui::MenuItem("Save", "CTRL+SFIFT+S"))
 					SaveSceneAs();
 
 				if (ImGui::MenuItem("Exit", "Alt+F4", false))
@@ -357,14 +359,6 @@ namespace LWEngine {
 				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 				ImGui::EndMenu();
 			}
-
-
-			////? Runtime Camera
-			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-			//const glm::mat4& cameraProjection = camera.GetProjection();
-			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-			//m_ActiveScene->OnUpdateRuntime(ts);
 
 			m_WindowPanel.TopMenuBar(ts);
 
@@ -409,7 +403,7 @@ namespace LWEngine {
 		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
-		m_WindowPanel.BottomMenuBar();
+		//m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { availContentRegion.x, availContentRegion.y };
@@ -473,14 +467,11 @@ namespace LWEngine {
 				}
 			}
 		}
-		if (m_NoEntitySelected)
-		{
-			ImGui::OpenPopup("No Entity Selected");
-		}
+		if (m_NoEntitySelected)	ImGui::OpenPopup("NoEntitySelected");
+
 		ImGui::SetNextWindowSize(ImVec2(400.0f, 100.0f));
-		if (ImGui::BeginPopupModal("No Entity Selected", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar))
+		if (ImGui::BeginPopupModal("NoEntitySelected", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar))
 		{
-			//ImGui::PushStyleVar()
 			ImGui::SetCursorPosY(ImGui::GetContentRegionMax().y / 4);
 			float textSize = ImGui::CalcTextSize("You need to choose an entity to clone").x;
 			ImGui::SetCursorPosX((ImGui::GetContentRegionMax().x - textSize) / 2);
@@ -557,6 +548,7 @@ namespace LWEngine {
 		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
+	
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
 		if (ImGuizmo::IsOver() || ImGuizmo::IsUsing())
@@ -585,6 +577,8 @@ namespace LWEngine {
 			case Key::S:
 			{
 				if (control)
+					SaveScene();
+				else if (control && shift)
 					SaveSceneAs();
 				break;
 			}
@@ -639,6 +633,7 @@ namespace LWEngine {
 		}
 		return false;
 	}
+	
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
 	{
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
@@ -648,38 +643,66 @@ namespace LWEngine {
 		}
 		return false;
 	}
+	
 	void EditorLayer::NewScene()
 	{
 		m_ActiveScene = CreateRef<Scene>();
 		m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_ScHiPanel.SetContext(m_ActiveScene);
 	}
+	
 	void EditorLayer::OpenScene()
 	{
 		std::string filepath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
 		OpenScene(filepath);
 	}
+	
 	void EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
-		if (!path.empty())
-		{
-			m_ActiveScene = CreateRef<Scene>();
-			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		if (m_SceneState != SceneState::Edit)
+			OnSceneStop();
 
-			m_ScHiPanel.SetContext(m_ActiveScene);
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(path.string());
+		if (path.extension().string() != ".lwe")
+		{
+			LWE_CLIENT_WARN("Could not load {0} - not a scene file", path.filename().string());
+			return;
+		}
+
+		Ref<Scene> newScene = CreateRef<Scene>();
+		SceneSerializer serializer(newScene);
+		if (serializer.Deserialize(path.string()))
+		{
+			m_EditorScene = newScene;
+			m_ScHiPanel.SetContext(m_EditorScene);
+
+			m_ActiveScene = m_EditorScene;
+			m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_EditorScenePath = path;
 		}
 	}
+
+	void EditorLayer::SaveScene()
+	{
+		if (!m_EditorScenePath.empty())
+			SerializeScene(m_ActiveScene, m_EditorScenePath);
+		else
+			SaveSceneAs();
+	}
+	
 	void EditorLayer::SaveSceneAs()
 	{
-		LWE_CLIENT_INFO("File saved");
 		std::string filepath = FileDialogs::SaveFile("LWEngine Scene (*.lwe)\0*.lwe\0");
 		if (!filepath.empty())
 		{
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(filepath);
+			SerializeScene(m_ActiveScene, filepath);
+			m_EditorScenePath = filepath;
 		}
+	}
+
+	void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& path)
+	{
+		SceneSerializer serializer(scene);
+		serializer.Serialize(path.string());
 	}
 
 	void EditorLayer::OnScenePlay()

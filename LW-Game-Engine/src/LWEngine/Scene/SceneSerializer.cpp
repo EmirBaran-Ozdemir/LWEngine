@@ -137,7 +137,7 @@ namespace LWEngine {
 
 		if (entity.HasComponent<Rigidbody2DComponent>())
 		{
-			out _Key("RigidBody2DComponent");
+			out _Key("Rigidbody2DComponent");
 			out _BeginMap;
 			auto& rb2DComp = entity.GetComponent<Rigidbody2DComponent>();
 			out _KeyVal("BodyType", Utils::RigidBodyTypeToString(rb2DComp.Type));
