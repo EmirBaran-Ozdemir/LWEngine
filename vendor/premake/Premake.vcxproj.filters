@@ -13,6 +13,9 @@
     <Filter Include="..\LW-Game-Engine\vendor">
       <UniqueIdentifier>{DA52B20A-C677-018B-EFC2-E61ADB4600A9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="..\LW-Game-Engine\vendor\Box2D">
+      <UniqueIdentifier>{68384BEF-545E-1556-3DA4-9A2129693A22}</UniqueIdentifier>
+    </Filter>
     <Filter Include="..\LW-Game-Engine\vendor\GLFW">
       <UniqueIdentifier>{59E6F4D0-C5FE-DBFA-8EAB-6B94FA827094}</UniqueIdentifier>
     </Filter>
@@ -41,6 +44,9 @@
     </None>
     <None Include="..\..\LW-Game-Engine\premake5.lua">
       <Filter>..\LW-Game-Engine</Filter>
+    </None>
+    <None Include="..\..\LW-Game-Engine\vendor\Box2D\premake5.lua">
+      <Filter>..\LW-Game-Engine\vendor\Box2D</Filter>
     </None>
     <None Include="..\..\LW-Game-Engine\vendor\GLFW\premake5.lua">
       <Filter>..\LW-Game-Engine\vendor\GLFW</Filter>

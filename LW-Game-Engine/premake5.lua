@@ -35,6 +35,7 @@ project "LW-Game-Engine"
 		"src",
 		"vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Box2D}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
@@ -49,6 +50,7 @@ project "LW-Game-Engine"
 	links
 	{
 		"GLFW",
+		"Box2D",
 		"Glad",
 		"ImGui",
 		"yaml-cpp",

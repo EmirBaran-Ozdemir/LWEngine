@@ -150,7 +150,7 @@ namespace LWEngine {
 		ImGui::SameLine();
 		ImGui::PopStyleColor(3);
 		ImGui::PopStyleVar();
-		
+
 		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 2.0f);
 		ImGui::DragFloat("##Speed", &dragSpeed, 0.01f, 0.01f, 1.0f, "%.2f");
 
@@ -183,39 +183,62 @@ namespace LWEngine {
 		static std::string component = "";
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			if (ImGui::MenuItem("Camera"))
+			if (!m_SelectedEntity.HasComponent<CameraComponent>())
 			{
-				component = ComponentAddCheck<CameraComponent>();
-				ImGui::CloseCurrentPopup();
+				if (ImGui::MenuItem("Camera"))
+				{
+					component = ComponentAddCheck<CameraComponent>();
+					ImGui::CloseCurrentPopup();
+				}
 			}
-			if (ImGui::MenuItem("Sprite Renderer"))
+			if (!m_SelectedEntity.HasComponent<SpriteRendererComponent>())
 			{
-				component = ComponentAddCheck<SpriteRendererComponent>();
-				ImGui::CloseCurrentPopup();
+				if (ImGui::MenuItem("Sprite Renderer"))
+				{
+					component = ComponentAddCheck<SpriteRendererComponent>();
+					ImGui::CloseCurrentPopup();
+				}
 			}
-			if (ImGui::MenuItem("Transform"))
+			if (!m_SelectedEntity.HasComponent<TransformComponent>())
 			{
-				component = ComponentAddCheck<TransformComponent>();
-				ImGui::CloseCurrentPopup();
+				if (ImGui::MenuItem("Transform"))
+				{
+					component = ComponentAddCheck<TransformComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+			}
+			if (!m_SelectedEntity.HasComponent<Rigidbody2DComponent>())
+			{
+				if (ImGui::MenuItem("Rigidbody"))
+				{
+					component = ComponentAddCheck<Rigidbody2DComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+			}
+			if (!m_SelectedEntity.HasComponent<BoxCollider2DComponent>())
+			{
+				if (ImGui::MenuItem("BoxCollider"))
+				{
+					component = ComponentAddCheck<BoxCollider2DComponent>();
+					ImGui::CloseCurrentPopup();
+				}
 			}
 
 			ImGui::EndPopup();
 		}
 		ImGui::PopItemWidth();
-		if (!component.empty())
-		{
-			ImGui::OpenPopup("Component Exists");
-		}
-		if (ImGui::BeginPopupModal("Component Exists", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			ImGui::Text("Failed to add component: %s", component.c_str());
-			if (ImGui::Button("Close"))
+
+		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
 			{
-				ImGui::CloseCurrentPopup();
-				component = "";
-			}
-			ImGui::EndPopup();
-		}
+				static float positionDragSpeed = 0.01f;
+				static float rotationDragSpeed = 1.0f;
+				static float scaleDragSpeed = 0.03f;
+				DrawVec3Control("Position", component.Translation, positionDragSpeed);
+				glm::vec3 rotation = glm::degrees(component.Rotation);
+				DrawVec3Control("Rotation", rotation, rotationDragSpeed);
+				component.Rotation = glm::radians(rotation);
+				DrawVec3Control("Scale", component.Scale, scaleDragSpeed);
+			});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [this](auto& component)
 			{
@@ -225,7 +248,7 @@ namespace LWEngine {
 				ImGui::SetColumnWidth(1, 300);
 				ImGui::Text("Color");
 				ImGui::NextColumn();
-				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x );
+				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
 				ImGui::ColorEdit4("##Color", glm::value_ptr(component.Color));
 
 				ImGui::NextColumn();
@@ -269,16 +292,40 @@ namespace LWEngine {
 
 			});
 
-		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
+		DrawComponent<Rigidbody2DComponent>("Rigidbody", entity, [](auto& component)
 			{
-				static float positionDragSpeed = 0.01f;
-				static float rotationDragSpeed = 1.0f;
-				static float scaleDragSpeed = 0.03f;
-				DrawVec3Control("Position", component.Translation, positionDragSpeed);
-				glm::vec3 rotation = glm::degrees(component.Rotation);
-				DrawVec3Control("Rotation", rotation, rotationDragSpeed);
-				component.Rotation = glm::radians(rotation);
-				DrawVec3Control("Scale", component.Scale, scaleDragSpeed);
+				const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic" };
+				int typeCount = sizeof(bodyTypeStrings) / sizeof(bodyTypeStrings[0]);
+				int bodyTypeId = (int)component.Type;
+				const char* currentBodyTypeString = bodyTypeStrings[bodyTypeId];
+
+				if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
+				{
+					for (int i = 0; i < typeCount; i++)
+					{
+						bool isSelected = i == bodyTypeId;
+
+						if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
+						{
+							currentBodyTypeString = bodyTypeStrings[i];
+							component.Type = (Rigidbody2DComponent::BodyType)i;
+						}
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::Checkbox("Fixed Rotation", &component.FixedRotation);
+			});
+
+		DrawComponent<BoxCollider2DComponent>("Box Collider", entity, [](auto& component)
+			{
+				ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
+				ImGui::DragFloat2("Size", glm::value_ptr(component.Size));
+				ImGui::DragFloat("Density", &component.Density, 0.01f, 0.01f, 1.0f);
+				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.01f, 1.0f);
+				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.01f, 1.0f);
+				ImGui::DragFloat("Restitution", &component.RestitutionThreshold, 0.01f, 0.01f);
 			});
 
 		DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
@@ -355,8 +402,8 @@ namespace LWEngine {
 		}
 		else
 		{
-			LWE_CORE_WARN("Warning: This entity already has the {0}!", component.name);
-			return component.name;
+			LWE_CORE_WARN("Warning: This entity already has the {0}!", component.Name);
+			return component.Name;
 		}
 	}
 }

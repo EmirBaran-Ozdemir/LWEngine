@@ -1,65 +1,59 @@
-Scene: NewScene
+Scene: Name
 Entities:
-  - Entity: 1
+  - Entity: 293480
     TagComponent:
-      Tag: NewCamera
+      Tag: Floor
     TransformComponent:
-      Translation: [1.0, 2.0, 3.0]
-      Rotation: [0.0, 0.0, 0.0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 1.04719755
-        PerspectiveNear: 0.1
-        PerspectiveFar: 2000
-        OrthographicSize: 15
-        OrthographicNear: -2
-        OrthographicFar: 2
-      Primary: true
-      FixedAspectRatio: true
-  - Entity: 2
+      Translation: [0, -7.21999979, 0]
+      Rotation: [0, 0, 0]
+      Scale: [41.6199989, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    RigidBody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 293480
     TagComponent:
-      Tag: NewLeft
+      Tag: Drop
     TransformComponent:
-      Translation: [-0.5, 0, 0.5]
-      Rotation: [0.0, -1.57079637, 0.0]
+      Translation: [0, -2.16545868, 0]
+      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [1, 0, 0, 1]
-  - Entity: 3
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    RigidBody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 293480
     TagComponent:
-      Tag: NewRight
+      Tag: Camera
     TransformComponent:
-      Translation: [0.5, 0, 0.5]
-      Rotation: [0.0, 1.57079637, 0.0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0, 0.2, 0.8, 1]
-  - Entity: 4
-    TagComponent:
-      Tag: NewCamera2
-    TransformComponent:
-      Translation: [0.0, 3.0, 5.0]
-      Rotation: [0.0, 0.0, 0.0]
+      Translation: [0, 0, 19.0200005]
+      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
       Camera:
         ProjectionType: 0
         PerspectiveFOV: 0.785398185
-        PerspectiveNear: 0.01
+        PerspectiveNear: 0.00999999978
         PerspectiveFar: 1000
         OrthographicSize: 10
         OrthographicNear: -1
         OrthographicFar: 1
-      Primary: false
+      Primary: true
       FixedAspectRatio: false
-  - Entity: 5
-    TagComponent:
-      Tag: NewTop
-    TransformComponent:
-      Translation: [0, -0.5, 0]
-      Rotation: [0.0, 0.0, 0.0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.8, 0.4, 0, 1]

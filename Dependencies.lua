@@ -12,6 +12,7 @@ IncludeDir["entt"] = "%{wks.location}/LW-Game-Engine/vendor/entt/include"
 IncludeDir["shaderc"] = "%{wks.location}/LW-Game-Engine/vendor/shaderc/include"
 IncludeDir["better_enums"] = "%{wks.location}/LW-Game-Engine/vendor/better_enums"
 IncludeDir["SPIRV_Cross"] = "%{wks.location}/LW-Game-Engine/vendor/SPIRV-Cross"
+IncludeDir["Box2D"] = "%{wks.location}/LW-Game-Engine/vendor/Box2D/include"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}

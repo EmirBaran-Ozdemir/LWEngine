@@ -13,7 +13,7 @@ namespace LWEngine {
 	struct TagComponent
 	{
 		std::string Tag;
-		std::string name = "Tag Component";
+		std::string Name = "Tag Component";
 		TagComponent() = default;
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& Tag)
@@ -26,7 +26,7 @@ namespace LWEngine {
 		glm::vec3 Translation = { 0.0f,0.0f,0.0f };
 		glm::vec3 Rotation = { 0.0f,0.0f,0.0f };
 		glm::vec3 Scale = { 1.0f,1.0f,1.0f };
-		std::string name = "Transform Component";
+		std::string Name = "Transform Component";
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
 		TransformComponent(const glm::vec3& translation)
@@ -48,7 +48,7 @@ namespace LWEngine {
 		glm::vec4 Color{1.0f};
 		Ref<Texture2D> Texture;
 		float TilingFactor = 1.0f;
-		std::string name = "Sprite Renderer Component";
+		std::string Name = "Sprite Renderer Component";
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const Ref<Texture2D> texture)
@@ -63,7 +63,7 @@ namespace LWEngine {
 		SceneCamera Camera;
 		bool Primary = false;
 		bool FixedAspectRatio = false;
-		std::string name = "Camera Component";
+		std::string Name = "Camera Component";
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
 	};
@@ -89,6 +89,38 @@ namespace LWEngine {
 		}
 
 	};
+
+	struct Rigidbody2DComponent
+	{
+		enum class BodyType { Static = 0, Dynamic, Kinematic};
+		BodyType Type = BodyType::Static;
+		bool FixedRotation = false;
+		std::string Name = "Rigidbody2D Component";
+
+		void* RuntimeBody = nullptr;
+
+		Rigidbody2DComponent() = default;
+		Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
+	};
+
+	struct BoxCollider2DComponent
+	{
+		std::string Name = "BoxCollider2D Component";
+		glm::vec2 Offset = { 0.0f,0.0f };
+		glm::vec2 Size = { 0.5f,0.5f };
+
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+
+		void* RuntimeFixture = nullptr;
+
+		BoxCollider2DComponent() = default;
+		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+	};
+
+
 
 	template<typename... Component>
 	struct ComponentGroup

@@ -22,6 +22,36 @@
 
 namespace LWEngine {
 
+	namespace Utils {
+		static std::string RigidBodyTypeToString(Rigidbody2DComponent::BodyType type)
+		{
+			switch (type)
+			{
+				case Rigidbody2DComponent::BodyType::Static:	return "Static";
+				case Rigidbody2DComponent::BodyType::Dynamic:	return "Dynamic";
+				case Rigidbody2DComponent::BodyType::Kinematic:	return "Kinematic";
+			}
+			LWE_CORE_ASSERT(false, "ERROR::CONVERSION::UNKNOWN_BODY_TYPE");
+			return "UNKNOWN";
+		}
+		static Rigidbody2DComponent::BodyType StringToRigidBodyType(const std::string& typeString)
+		{
+			if (typeString == "Static")		return Rigidbody2DComponent::BodyType::Static;
+			else if (typeString == "Dynamic")		return Rigidbody2DComponent::BodyType::Dynamic;
+			else if (typeString == "Kinematic")		return Rigidbody2DComponent::BodyType::Kinematic;
+
+			LWE_CORE_ASSERT(false, "ERROR::CONVERSION::UNKNOWN_BODY_TYPE");
+			return Rigidbody2DComponent::BodyType::Static;
+		}
+	}
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec2& v)
+	{
+		out _Flow;
+		out _BeginSeq << v.x << v.y _EndSeq;
+		return out;
+	}
+
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
 		out _Flow;
@@ -71,7 +101,7 @@ namespace LWEngine {
 		{
 			out _Key("CameraComponent");
 			out _BeginMap;
-			
+
 			auto& cameraComp = entity.GetComponent<CameraComponent>();
 			auto& camera = cameraComp.Camera;
 
@@ -98,6 +128,34 @@ namespace LWEngine {
 			out _BeginMap;
 			auto& spriteRendererComp = entity.GetComponent<SpriteRendererComponent>();
 			out _KeyVal("Color", spriteRendererComp.Color);
+			if (spriteRendererComp.Texture)
+			{
+				out _KeyVal("TextureLocation", spriteRendererComp.Texture->GetPath());
+			}
+			out _EndMap;
+		}
+
+		if (entity.HasComponent<Rigidbody2DComponent>())
+		{
+			out _Key("RigidBody2DComponent");
+			out _BeginMap;
+			auto& rb2DComp = entity.GetComponent<Rigidbody2DComponent>();
+			out _KeyVal("BodyType", Utils::RigidBodyTypeToString(rb2DComp.Type));
+			out _KeyVal("FixedRotation", rb2DComp.FixedRotation);
+			out _EndMap;
+		}
+
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			out _Key("BoxCollider2DComponent");
+			out _BeginMap;
+			auto& bc2DComp = entity.GetComponent<BoxCollider2DComponent>();
+			out _KeyVal("Offset", bc2DComp.Offset);
+			out _KeyVal("Size", bc2DComp.Size);
+			out _KeyVal("Density", bc2DComp.Density);
+			out _KeyVal("Friction", bc2DComp.Friction);
+			out _KeyVal("Restitution", bc2DComp.Restitution);
+			out _KeyVal("RestitutionThreshold", bc2DComp.RestitutionThreshold);
 			out _EndMap;
 		}
 		out _EndMap;
@@ -128,7 +186,7 @@ namespace LWEngine {
 	{
 		LWE_CORE_ASSERT(false, "NOT::IMPLEMENTED");
 	}
-	
+
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
 		YAML::Node data = YAML::LoadFile(filepath);
@@ -150,18 +208,18 @@ namespace LWEngine {
 				if (tagComp)
 					name = tagComp["Tag"].as<std::string>();
 				LWE_CORE_TRACE("Deserializing entity with ID = {0}, name = {1}", uuid, name);
-				
+
 				Entity deserializedEntity = m_Scene->CreateEntity(name);
 
 				auto transformComp = entity["TransformComponent"];
 				if (transformComp)
 				{
-					auto& entityTC = deserializedEntity.AddComponent<TransformComponent>();
+					auto& entityTC = deserializedEntity.GetComponent<TransformComponent>();
 					entityTC.Translation = transformComp["Translation"].as<glm::vec3>();
 					entityTC.Rotation = transformComp["Rotation"].as<glm::vec3>();
 					entityTC.Scale = transformComp["Scale"].as<glm::vec3>();
 				}
-				
+
 				auto cameraComp = entity["CameraComponent"];
 				if (cameraComp)
 				{
@@ -186,12 +244,35 @@ namespace LWEngine {
 				{
 					auto& entitySRC = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					entitySRC.Color = spriteRendererComp["Color"].as<glm::vec4>();
+					if(spriteRendererComp["TextureLocation"])
+						entitySRC.Texture = Texture2D::Create(spriteRendererComp["TextureLocation"].as<std::string>());
+				}
+
+				auto rigidBodyComp = entity["Rigidbody2DComponent"];
+				if (rigidBodyComp)
+				{
+					auto& entityRBC = deserializedEntity.AddComponent<Rigidbody2DComponent>();
+					entityRBC.Type = Utils::StringToRigidBodyType(rigidBodyComp["BodyType"].as<std::string>());
+					entityRBC.FixedRotation = rigidBodyComp["FixedRotation"].as<bool>();
+				}
+
+				auto boxCollider2DComponent = entity["BoxCollider2DComponent"];
+				if (boxCollider2DComponent)
+				{
+					auto& entityBCC = deserializedEntity.AddComponent<BoxCollider2DComponent>();
+					entityBCC.Offset = boxCollider2DComponent["Offset"].as<glm::vec2>();
+					entityBCC.Size = boxCollider2DComponent["Size"].as<glm::vec2>();
+
+					entityBCC.Density = boxCollider2DComponent["Density"].as<float>();
+					entityBCC.Friction = boxCollider2DComponent["Friction"].as<float>();
+					entityBCC.Restitution = boxCollider2DComponent["Restitution"].as<float>();
+					entityBCC.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
 				}
 			}
 		}
 		return true;
 	}
-	
+
 	bool SceneSerializer::DeserializeRuntime(const std::string& filepath)
 	{
 		LWE_CORE_ASSERT(false, "NOT::IMPLEMENTED");
@@ -200,6 +281,26 @@ namespace LWEngine {
 }
 
 namespace YAML {
+	template<>
+	struct convert<glm::vec2>
+	{
+		static Node encode(const glm::vec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+		static bool decode(const Node& node, glm::vec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
 	template<>
 	struct convert<glm::vec3>
 	{
@@ -212,7 +313,7 @@ namespace YAML {
 			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
-		static bool decode(const Node& node,glm::vec3& rhs)
+		static bool decode(const Node& node, glm::vec3& rhs)
 		{
 			if (!node.IsSequence() || node.size() != 3)
 				return false;

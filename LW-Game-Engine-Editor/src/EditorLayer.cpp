@@ -138,7 +138,7 @@ namespace LWEngine {
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
 		auto& camComponent = m_CameraEntity.AddComponent<CameraComponent>();
-		m_CameraEntity.AddComponent<TransformComponent>();
+		//m_CameraEntity.AddComponent<TransformComponent>();
 		camComponent.Primary = true;
 
 		m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
@@ -684,16 +684,19 @@ namespace LWEngine {
 
 	void EditorLayer::OnScenePlay()
 	{
+		m_ActiveScene->OnRuntimeStart();
 		m_SceneState = SceneState::Play;
 	}
 
 	void EditorLayer::OnSceneStop()
 	{
+		m_ActiveScene->OnRuntimeStop();
 		m_SceneState = SceneState::Edit;
 	}
 
 	void EditorLayer::OnScenePause()
 	{
+		//m_ActiveScene->OnRuntimePause();
 		m_SceneState = SceneState::Pause;
 	}
 }

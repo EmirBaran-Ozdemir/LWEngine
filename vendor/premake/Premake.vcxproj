@@ -80,6 +80,7 @@
     <None Include="..\..\ExampleGame\premake5.lua" />
     <None Include="..\..\LW-Game-Engine-Editor\premake5.lua" />
     <None Include="..\..\LW-Game-Engine\premake5.lua" />
+    <None Include="..\..\LW-Game-Engine\vendor\Box2D\premake5.lua" />
     <None Include="..\..\LW-Game-Engine\vendor\GLFW\premake5.lua" />
     <None Include="..\..\LW-Game-Engine\vendor\Glad\premake5.lua" />
     <None Include="..\..\LW-Game-Engine\vendor\imgui\premake5.lua" />

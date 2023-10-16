@@ -4,6 +4,8 @@
 #include "LWEngine/Core/Timestep.h"
 #include "LWEngine/Renderer/EditorCamera.h"
 
+class b2World;
+
 namespace LWEngine {
 
 	enum class SceneState {
@@ -24,6 +26,10 @@ namespace LWEngine {
 		Entity CloneEntity(Entity entity);
 		void DestroyEntity(Entity entity);
 
+		void OnRuntimeStart();
+		void OnRuntimeStop();
+		void OnRuntimePause();
+
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnUpdateRuntime(Timestep ts);
 		void OnResize(uint32_t width, uint32_t height);
@@ -37,6 +43,9 @@ namespace LWEngine {
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+
+		b2World* m_BoxWorld = nullptr;
+
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
