@@ -1,6 +1,324 @@
 Scene: Name
 Entities:
-  - Entity: 293480
+  - Entity: 5372715367297037686
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-13.2295322, 14.4470177, -0.0192407854]
+      Rotation: [-0.0132042896, 0.0101205474, -2.82017517]
+      Scale: [0.999803543, 0.999780357, 0.999981105]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 5319990668151516095
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-17.2759914, 14.7754984, -0.0360405371]
+      Rotation: [-0.0132041872, 0.0101204291, -2.82017517]
+      Scale: [0.999816716, 0.999800324, 0.999985039]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 31542068060682846
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-21.0145168, 14.1611671, -0.0660045296]
+      Rotation: [-0.0132041145, 0.0101203648, -2.82017517]
+      Scale: [0.999827027, 0.999815106, 0.999988079]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 13768756798979177939
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-26.7684364, 15.6638184, -0.073610425]
+      Rotation: [-0.0132040065, 0.0101202857, -2.82017517]
+      Scale: [0.99984014, 0.999833882, 0.999991894]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 10310079383154023047
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-22.7126293, 21.1423035, 0.0345658287]
+      Rotation: [-0.0132038798, 0.0101201814, -2.82017517]
+      Scale: [0.999857366, 0.99985826, 0.999996781]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 15486272670308183772
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-19.466732, 20.8924007, 0.0482596159]
+      Rotation: [-0.0132038137, 0.010120132, -2.82017517]
+      Scale: [0.999866188, 0.999870479, 0.999999225]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 16312044759740302376
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-27.7422543, 21.1102886, 0.00675559696]
+      Rotation: [-0.0132036665, 0.0101200519, -2.82017517]
+      Scale: [0.999879479, 0.999888659, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 4539849700419605528
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-22.2460556, 16.9170303, -0.0293375626]
+      Rotation: [-0.0132033918, 0.0101198442, -2.82017517]
+      Scale: [0.999908864, 0.999919355, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 5238023505464379445
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-25.0596352, 16.2043381, -0.0558236837]
+      Rotation: [-0.0132031413, 0.0101196198, -2.82017517]
+      Scale: [0.999938548, 0.999946535, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 11026222522777450364
+    TagComponent:
+      Tag: Wall
+    TransformComponent:
+      Translation: [0.989498794, 4.93402672, 0]
+      Rotation: [0, 0, -0.197920337]
+      Scale: [1, 14.3612747, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 6421223838252272815
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-18.1228676, 18.0403576, 0]
+      Rotation: [0, 0, 2.92925644]
+      Scale: [0.999998569, 0.999998569, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 12917879043469288683
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-10.5938406, 15.324605, 0.0088747777]
+      Rotation: [-0.0132043967, 0.010120701, -2.82017517]
+      Scale: [0.999788702, 0.999758899, 0.999976754]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 9542180866294303361
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-25.7816067, 18.3716927, -0.0256618373]
+      Rotation: [-0.0132030547, 0.0101195425, -2.82017517]
+      Scale: [0.999948621, 0.999955833, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 1103999526640793995
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-14.6625614, 17.294363, 0]
+      Rotation: [0, 0, 2.92925644]
+      Scale: [0.999998569, 0.999998569, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 16058712253718556338
+    TagComponent:
+      Tag: Floor
+    TransformComponent:
+      Translation: [0.125389099, -2.93611765, 0.0524215698]
+      Rotation: [0, 0, -0.197869554]
+      Scale: [79.2897568, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 14897027256770064461
+    TagComponent:
+      Tag: Drop
+    TransformComponent:
+      Translation: [-23.3756657, 19.1727867, 0]
+      Rotation: [0, 0, 2.92925644]
+      Scale: [0.999998569, 0.999998569, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TextureLocation: assets\textures\level-components\awesomeface.png
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.730000019
+      RestitutionThreshold: 1.23000002
+  - Entity: 9288148610519643375
     TagComponent:
       Tag: Camera
     TransformComponent:
@@ -18,42 +336,3 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
-  - Entity: 293480
-    TagComponent:
-      Tag: Drop
-    TransformComponent:
-      Translation: [-14.6083355, 20.3364983, 0]
-      Rotation: [0, 0, 0.214556977]
-      Scale: [0.999998569, 0.999998569, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      TextureLocation: assets\textures\level-components\awesomeface.png
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [0.5, 0.5]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0.730000019
-      RestitutionThreshold: 1.23000002
-  - Entity: 293480
-    TagComponent:
-      Tag: Floor
-    TransformComponent:
-      Translation: [0.00999999978, -2.75, 0]
-      Rotation: [0, 0, -0.197869554]
-      Scale: [79.2897568, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [0.5, 0.5]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5

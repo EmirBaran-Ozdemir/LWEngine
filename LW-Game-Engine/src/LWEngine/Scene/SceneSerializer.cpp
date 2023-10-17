@@ -76,7 +76,7 @@ namespace LWEngine {
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		out _BeginMap;
-		out _KeyVal("Entity", "293480");
+		out _KeyVal("Entity", entity.GetUUID());
 		if (entity.HasComponent<TagComponent>())
 		{
 			out _Key("TagComponent");
@@ -209,7 +209,7 @@ namespace LWEngine {
 					name = tagComp["Tag"].as<std::string>();
 				LWE_CORE_TRACE("Deserializing entity with ID = {0}, name = {1}", uuid, name);
 
-				Entity deserializedEntity = m_Scene->CreateEntity(name);
+				Entity deserializedEntity = m_Scene->CreateEntityWithUUID(uuid, name);
 
 				auto transformComp = entity["TransformComponent"];
 				if (transformComp)
@@ -244,7 +244,7 @@ namespace LWEngine {
 				{
 					auto& entitySRC = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					entitySRC.Color = spriteRendererComp["Color"].as<glm::vec4>();
-					if(spriteRendererComp["TextureLocation"])
+					if (spriteRendererComp["TextureLocation"])
 						entitySRC.Texture = Texture2D::Create(spriteRendererComp["TextureLocation"].as<std::string>());
 				}
 

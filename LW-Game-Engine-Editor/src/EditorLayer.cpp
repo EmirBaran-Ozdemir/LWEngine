@@ -402,7 +402,7 @@ namespace LWEngine {
 		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
 		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
 		//m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
@@ -507,14 +507,20 @@ namespace LWEngine {
 			{
 				ImGui::SetCursorPos(ImVec2(35.0f, 9.5f));
 				if (ImGui::ImageButton((ImTextureID)m_IconPlay->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+				{
+					m_EditorScene = m_ActiveScene;
 					OnScenePlay();
+				}
 				break;
 			}
 			case SceneState::Play:
 			{
 				ImGui::SetCursorPos(ImVec2(15.5f, 9.5f));
 				if (ImGui::ImageButton((ImTextureID)m_IconStop->GetRendererID(), ImVec2(25.0f, 25.0f), { 0, 1 }, { 1, 0 }))
+				{
+					m_ActiveScene = m_EditorScene;
 					OnSceneStop();
+				}
 				ImGui::SameLine();
 				ImGui::SetCursorPos(ImVec2(54.5f, 9.5f));
 				if (ImGui::ImageButton((ImTextureID)m_IconPause->GetRendererID(), ImVec2(25.0f, 25.0f), { 0,1 }, { 1,0 }))
@@ -539,7 +545,7 @@ namespace LWEngine {
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		if ((ImGuizmo::IsOver() || ImGuizmo::IsUsing()) && !Input::IsKeyPressed(Key::LeftControl))
+		if ((ImGuizmo::IsOver() || ImGuizmo::IsUsing()) && !Input::IsKeyPressed(Key::LeftControl) && !m_ViewportHovered)
 			return;
 		m_CameraController.OnEvent(e);
 		m_EditorCamera.OnEvent(e);
@@ -548,7 +554,7 @@ namespace LWEngine {
 		dispatcher.Dispatch<KeyPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
-	
+
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
 		if (ImGuizmo::IsOver() || ImGuizmo::IsUsing())
@@ -604,6 +610,15 @@ namespace LWEngine {
 				}
 				break;
 			}
+			case Key::Delete:
+			{
+				if (m_SelectedEntity)
+				{
+					m_ActiveScene->DestroyEntity(m_SelectedEntity);
+					m_SelectedEntity = {};
+
+				}
+			}
 			//? Guizmo
 			case Key::D1:
 			{
@@ -633,7 +648,7 @@ namespace LWEngine {
 		}
 		return false;
 	}
-	
+
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
 	{
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
@@ -643,20 +658,20 @@ namespace LWEngine {
 		}
 		return false;
 	}
-	
+
 	void EditorLayer::NewScene()
 	{
 		m_ActiveScene = CreateRef<Scene>();
 		m_ActiveScene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_ScHiPanel.SetContext(m_ActiveScene);
 	}
-	
+
 	void EditorLayer::OpenScene()
 	{
 		std::string filepath = FileDialogs::OpenFile("LWEngine Scene (*.lwe)\0*.lwe\0");
 		OpenScene(filepath);
 	}
-	
+
 	void EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
 		if (m_SceneState != SceneState::Edit)
@@ -688,7 +703,7 @@ namespace LWEngine {
 		else
 			SaveSceneAs();
 	}
-	
+
 	void EditorLayer::SaveSceneAs()
 	{
 		std::string filepath = FileDialogs::SaveFile("LWEngine Scene (*.lwe)\0*.lwe\0");

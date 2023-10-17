@@ -1,8 +1,10 @@
 #pragma once
 
-#include <entt.hpp>
+#include "LWEngine/Core/UUID.h"
 #include "LWEngine/Core/Timestep.h"
 #include "LWEngine/Renderer/EditorCamera.h"
+
+#include <entt.hpp>
 
 class b2World;
 
@@ -23,6 +25,7 @@ namespace LWEngine {
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		Entity CloneEntity(Entity entity);
 		void DestroyEntity(Entity entity);
 

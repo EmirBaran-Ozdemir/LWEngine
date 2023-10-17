@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Scene.h"
+#include "LWEngine/Scene/Scene.h"
+#include "LWEngine/Core/UUID.h"
+#include "LWEngine/Scene/Components.h"
+
 #include <entt.hpp>
-#include "Components.h"
 
 namespace LWEngine {
 
@@ -49,6 +51,8 @@ namespace LWEngine {
 		{
 			return m_Scene->m_Registry.any_of<T>(m_EntityHandle);
 		}
+
+		UUID GetUUID() { return GetComponent<IDComponent>().ID; }
 
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator entt::entity() const { return m_EntityHandle; }

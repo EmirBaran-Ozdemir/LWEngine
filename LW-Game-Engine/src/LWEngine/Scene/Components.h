@@ -1,14 +1,24 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include "LWEngine/Scene/SceneCamera.h"
 #include "LWEngine/Renderer/Texture.h"
+#include "LWEngine/Core/UUID.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
 namespace LWEngine {
+
+	struct IDComponent
+	{
+		UUID ID;
+
+		IDComponent() = default;
+		IDComponent(const IDComponent&) = default;
+
+	};
 
 	struct TagComponent
 	{
@@ -130,5 +140,6 @@ namespace LWEngine {
 	using AllComponents =
 		ComponentGroup < TransformComponent, SpriteRendererComponent,
 		CameraComponent,
+		Rigidbody2DComponent, BoxCollider2DComponent,
 		NativeScriptComponent>;
 }

@@ -2,10 +2,11 @@
 #include "LWEngine/Scene/Scene.h"
 
 #include "LWEngine/Scene/Components.h"
-#include "LWEngine/Renderer/Renderer2D.h"
-#include <glm/glm.hpp>
 #include "LWEngine/Scene/Entity.h"
 #include "LWEngine/Scene/ScriptableEntity.h"
+#include "LWEngine/Renderer/Renderer2D.h"
+
+#include <glm/glm.hpp>
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
@@ -57,7 +58,13 @@ namespace LWEngine {
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
+		return CreateEntityWithUUID(UUID(), name);
+	}
+
+	Entity Scene::CreateEntityWithUUID( UUID uuid, const std::string& name)
+	{
 		Entity entity = { m_Registry.create() ,this };
+		entity.AddComponent<IDComponent>(uuid);
 		entity.AddComponent<TransformComponent>();
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
@@ -249,6 +256,11 @@ namespace LWEngine {
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{
 		static_assert(sizeof(T) == 0);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<IDComponent>(Entity entity, IDComponent& component)
+	{
 	}
 
 	template<>

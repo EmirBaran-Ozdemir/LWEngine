@@ -162,6 +162,7 @@
     <ClInclude Include="src\LWEngine\Core\Random.h" />
     <ClInclude Include="src\LWEngine\Core\Timer.h" />
     <ClInclude Include="src\LWEngine\Core\Timestep.h" />
+    <ClInclude Include="src\LWEngine\Core\UUID.h" />
     <ClInclude Include="src\LWEngine\Core\Window.h" />
     <ClInclude Include="src\LWEngine\Dev\Instrumentor.h" />
     <ClInclude Include="src\LWEngine\Events\ApplicationEvent.h" />
@@ -628,6 +629,7 @@
     <ClCompile Include="src\LWEngine\Core\LayerStack.cpp" />
     <ClCompile Include="src\LWEngine\Core\Log.cpp" />
     <ClCompile Include="src\LWEngine\Core\Random.cpp" />
+    <ClCompile Include="src\LWEngine\Core\UUID.cpp" />
     <ClCompile Include="src\LWEngine\Core\Window.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\LWEngine\ImGui\ImGuiLayer.cpp" />
