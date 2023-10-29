@@ -24,8 +24,8 @@ namespace LWEngine {
 		m_IconPause = Texture2D::Create("resources/icons/PauseButton.png");
 
 
-		//. DEFINING NULL & ERROR TEXTURES
 	#ifdef LWE_TEST
+		//. DEFINING NULL & ERROR TEXTURES
 		m_TextureNull = Texture2D::Create(1, 1);
 		uint32_t NullTextureData = 0x00ffffff;
 		m_TextureNull->SetData(&NullTextureData, sizeof(NullTextureData));
@@ -115,8 +115,7 @@ namespace LWEngine {
 		m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
 		SceneSerializer serializer(m_ActiveScene);
-		//serializer.Serialize("assets/scenes/Empty.lwe");
-		//serializer.Deserialize("assets/scenes/Example.lwe");
+
 	#endif
 
 		FbufferSpec fbSpec;
@@ -138,7 +137,6 @@ namespace LWEngine {
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
 		auto& camComponent = m_CameraEntity.AddComponent<CameraComponent>();
-		//m_CameraEntity.AddComponent<TransformComponent>();
 		camComponent.Primary = true;
 
 		m_Particle.ColorBegin = { 1.0f,0.0f,0.0f,1.0f };
@@ -204,16 +202,14 @@ namespace LWEngine {
 			}
 		}
 
-		//m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
-
-		int mouseX, mouseY;
+		int mouseX;
+		int mouseY;
 		if (m_ViewportHovered)
 		{
 			auto [mx, my] = ImGui::GetMousePos();
 			mx -= m_ViewportBounds[0].x;
 			my -= m_ViewportBounds[0].y;
 			my = m_ViewportSize.y - my;
-			glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
 
 			mouseX = (int)mx;
 			mouseY = (int)my;
@@ -403,7 +399,6 @@ namespace LWEngine {
 		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
-		//m_WindowPanel.BottomMenuBar();
 
 		ImVec2 availContentRegion = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { availContentRegion.x, availContentRegion.y };
@@ -457,7 +452,9 @@ namespace LWEngine {
 
 				if (ImGuizmo::IsUsing())
 				{
-					glm::vec3 translation, rotation, scale;
+					glm::vec3 translation;
+					glm::vec3 rotation;
+					glm::vec3 scale;
 					Math::DecomposeTransform(transform, translation, rotation, scale);
 					glm::vec3 deltaRotation = rotation - tc.Rotation;
 
@@ -470,7 +467,7 @@ namespace LWEngine {
 		if (m_NoEntitySelected)	ImGui::OpenPopup("NoEntitySelected");
 
 		ImGui::SetNextWindowSize(ImVec2(400.0f, 100.0f));
-		if (ImGui::BeginPopupModal("NoEntitySelected", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar))
+		if (ImGui::BeginPopupModal("NoEntitySelected", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar))
 		{
 			ImGui::SetCursorPosY(ImGui::GetContentRegionMax().y / 4);
 			float textSize = ImGui::CalcTextSize("You need to choose an entity to clone").x;
@@ -555,7 +552,7 @@ namespace LWEngine {
 		dispatcher.Dispatch<MouseButtonPressedEvent>(LWE_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 
-	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	bool EditorLayer::OnKeyPressed(const KeyPressedEvent& e)
 	{
 		if (ImGuizmo::IsOver() || ImGuizmo::IsUsing())
 			return false;
@@ -649,7 +646,7 @@ namespace LWEngine {
 		return false;
 	}
 
-	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	bool EditorLayer::OnMouseButtonPressed(const MouseButtonPressedEvent& e)
 	{
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
 		{
@@ -734,7 +731,7 @@ namespace LWEngine {
 
 	void EditorLayer::OnScenePause()
 	{
-		//m_ActiveScene->OnRuntimePause();
+		m_ActiveScene->OnRuntimePause();
 		m_SceneState = SceneState::Pause;
 	}
 }

@@ -19,7 +19,7 @@ namespace LWEngine {
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
 		template <typename T>
-		const std::string ComponentAddCheck();
+		std::string ComponentAddCheck();
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectedEntity;

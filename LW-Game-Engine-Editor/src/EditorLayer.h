@@ -15,13 +15,11 @@ namespace LWEngine {
 	{
 		std::size_t operator()(const glm::vec4& vec) const
 		{
-			// Convert the vector to four integers and hash them
 			std::size_t h1 = std::hash<float>{}(vec.x);
 			std::size_t h2 = std::hash<float>{}(vec.y);
 			std::size_t h3 = std::hash<float>{}(vec.z);
 			std::size_t h4 = std::hash<float>{}(vec.w);
 
-			// Combine the hashes
 			return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3);
 		}
 	};
@@ -30,7 +28,6 @@ namespace LWEngine {
 	{
 		bool operator()(const glm::vec4& lhs, const glm::vec4& rhs) const
 		{
-			// Compare each component of the vectors
 			return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
 		}
 	};
@@ -39,20 +36,20 @@ namespace LWEngine {
 	class EditorLayer : public Layer
 	{
 	public:
-		EditorLayer(std::string& path);
-		virtual ~EditorLayer() = default;
+		explicit EditorLayer(std::string& path);
+		~EditorLayer() final = default;
 
-		virtual void OnAttach() override;
-		virtual void OnDetach() override;
+		void OnAttach() override;
+		void OnDetach() override;
 
 
 		void OnUpdate(Timestep ts) override;
-		virtual void OnImGuiRender(Timestep ts) override;
+		void OnImGuiRender(Timestep ts) override;
 		void OnEvent(Event& e) override;
 
 	private:
-		bool OnKeyPressed(KeyPressedEvent& e);
-		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+		bool OnKeyPressed(const KeyPressedEvent& e);
+		bool OnMouseButtonPressed(const MouseButtonPressedEvent& e);
 
 		//? Scene
 		void NewScene();
@@ -70,7 +67,7 @@ namespace LWEngine {
 		//? UI
 		void UI_Toolbar();
 
-		
+
 	private:
 		//? Temp
 		ShaderLibrary m_ShaderLib;

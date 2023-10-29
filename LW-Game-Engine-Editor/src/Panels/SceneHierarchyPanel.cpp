@@ -40,7 +40,7 @@ namespace LWEngine {
 			SetSelectedEntity(Entity());
 
 
-		if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
+		if (ImGui::BeginPopupContextWindow(nullptr, 1 | ImGuiPopupFlags_NoOpenOverItems))
 		{
 			if (ImGui::MenuItem("Create Entity"))
 				m_Context->CreateEntity("New Entity");
@@ -59,7 +59,7 @@ namespace LWEngine {
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
-		auto& tag = entity.GetComponent<TagComponent>().Tag;
+		auto const& tag = entity.GetComponent<TagComponent>().Tag;
 		ImGuiTreeNodeFlags flags = (m_SelectedEntity == entity) * ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 		if (ImGui::IsItemClicked())
@@ -77,8 +77,7 @@ namespace LWEngine {
 		if (opened)
 		{
 			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-			bool opened = ImGui::TreeNodeEx((void*)384093, flags, tag.c_str());
-			if (opened)
+			if (bool opened = ImGui::TreeNodeEx((void*)384093, flags, tag.c_str()))
 				ImGui::TreePop();
 			ImGui::TreePop();
 		}
@@ -296,10 +295,9 @@ namespace LWEngine {
 			{
 				const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic" };
 				int typeCount = sizeof(bodyTypeStrings) / sizeof(bodyTypeStrings[0]);
-				int bodyTypeId = (int)component.Type;
-				const char* currentBodyTypeString = bodyTypeStrings[bodyTypeId];
+				auto bodyTypeId = (int)component.Type;
 
-				if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
+				if (const char* currentBodyTypeString = bodyTypeStrings[bodyTypeId]; ImGui::BeginCombo("Body Type", currentBodyTypeString))
 				{
 					for (int i = 0; i < typeCount; i++)
 					{
@@ -336,10 +334,9 @@ namespace LWEngine {
 
 				const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
 
-				int projectionTypeId = (int)camera.GetProjectionType();
-				const char* currentProjectionTypeString = projectionTypeStrings[projectionTypeId];
+				auto projectionTypeId = (int)camera.GetProjectionType();
 
-				if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
+				if (const char* currentProjectionTypeString = projectionTypeStrings[projectionTypeId]; ImGui::BeginCombo("Projection", currentProjectionTypeString))
 				{
 					for (int i = 0; i < 2; i++)
 					{
@@ -358,31 +355,26 @@ namespace LWEngine {
 
 				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
 				{
-					float perspectiveFOV = glm::degrees(camera.GetPerspectiveVerticalFOV());
-					if (ImGui::DragFloat("FOV", &perspectiveFOV))
+					if (float perspectiveFOV = glm::degrees(camera.GetPerspectiveVerticalFOV()); ImGui::DragFloat("FOV", &perspectiveFOV))
 						camera.SetPerspectiveVerticalFOV(glm::radians(perspectiveFOV));
 
-					float perspectiveNear = camera.GetPerspectiveNearClip();
-					if (ImGui::DragFloat("Near", &perspectiveNear))
+					if (float perspectiveNear = camera.GetPerspectiveNearClip(); ImGui::DragFloat("Near", &perspectiveNear))
 						camera.SetPerspectiveNearClip(perspectiveNear);
 
-					float perspectiveFar = camera.GetPerspectiveFarClip();
-					if (ImGui::DragFloat("Far", &perspectiveFar))
+					
+					if (float perspectiveFar = camera.GetPerspectiveFarClip(); ImGui::DragFloat("Far", &perspectiveFar))
 						camera.SetPerspectiveFarClip(perspectiveFar);
 				}
 
 				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
 				{
-					float orthoSize = camera.GetOrthographicSize();
-					if (ImGui::DragFloat("Size", &orthoSize))
+					if (float orthoSize = camera.GetOrthographicSize(); ImGui::DragFloat("Size", &orthoSize))
 						camera.SetOrthographicSize(orthoSize);
 
-					float orthoNear = camera.GetOrthographicNearClip();
-					if (ImGui::DragFloat("Near", &orthoNear))
+					if (float orthoNear = camera.GetOrthographicNearClip(); ImGui::DragFloat("Near", &orthoNear))
 						camera.SetOrthographicNearClip(orthoNear);
 
-					float orthoFar = camera.GetOrthographicFarClip();
-					if (ImGui::DragFloat("Far", &orthoFar))
+					if (float orthoFar = camera.GetOrthographicFarClip(); ImGui::DragFloat("Far", &orthoFar))
 						camera.SetOrthographicFarClip(orthoFar);
 
 					ImGui::Checkbox("Fixed aspect ratio", &component.FixedAspectRatio);
@@ -391,7 +383,7 @@ namespace LWEngine {
 	}
 
 	template <typename T>
-	const std::string SceneHierarchyPanel::ComponentAddCheck()
+	std::string SceneHierarchyPanel::ComponentAddCheck()
 	{
 		T component;
 		if (!m_SelectedEntity.HasComponent<T>())
